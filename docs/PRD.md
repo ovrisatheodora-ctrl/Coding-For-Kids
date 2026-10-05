@@ -1,147 +1,25 @@
-PRODUCT REQUIREMENTS DOCUMENT
+# CODING FOR KIDS — PRODUCT REQUIREMENTS DOCUMENT
 
-PRODUCT NAME
-Coding for Kids
+## PRODUCT
+CODING FOR KIDS
 
-TAGLINE
-Learn to Code. Play. Create. Have Fun!
+## TAGLINE
+Learn. Play. Create. Have Fun!
 
-PRODUCT TYPE
-AI-Based Interactive Educational Website
+## PRODUCT CONCEPT
+CODING FOR KIDS is an interactive coding-learning platform for elementary students Grade 1–6. It combines coding education, interactive activities, coding games, creative projects, gamification, AI learning assistance, and progress tracking.
 
-COMPETITION CATEGORY
-General Category — Individual Website Development Competition
+The core loop is:
+LEARN → TRY → PLAY → GET FEEDBACK → IMPROVE
 
-PROJECT CONTEXT
-A website development competition that challenges participants to design and build an educational website using Artificial Intelligence (AI) as a development assistance tool.
+The primary design principle is:
+ACTIVITY > TEXT
+Children should quickly move from explanation into doing.
 
-The website theme is “Coding for Kids” for elementary school students (SD), with a focus on innovation in education.
-
-The product must be informative, creative, interactive, and applicable in addressing educational challenges in the technology era.
-
-
-==================================================
-1. PRODUCT OVERVIEW
-==================================================
-
-Coding for Kids is an AI-based interactive learning platform designed to introduce coding concepts to elementary school students from Grade 1 to Grade 6.
-
-The platform combines:
-
-- Interactive coding lessons
-- Educational quizzes
-- Real educational games
-- Creative coding activities
-- AI-powered learning assistance
-- Progress tracking
-- XP and stars
-- Badges and achievements
-- Creative projects
-
-The platform is designed around the principle:
-
-LEARN → TRY → PLAY → SOLVE → WIN → CREATE
-
-The goal is not simply to teach children coding theory.
-
-The goal is to make children EXPERIENCE coding through learning, playing, solving problems, and creating.
-
-
-==================================================
-2. BACKGROUND
-==================================================
-
-Technology is becoming an increasingly important part of children's education.
-
-Coding can help children develop:
-
-- Logical thinking
-- Problem-solving skills
-- Creativity
-- Computational thinking
-- Structured thinking
-- Decision-making skills
-
-However, coding education for elementary students can feel difficult or boring when presented through long explanations, complicated terminology, or traditional exercises.
-
-Coding for Kids addresses this problem by transforming coding education into an interactive and playful experience.
-
-Instead of only reading:
-
-“What is an algorithm?”
-
-children can:
-
-1. Learn what an algorithm is.
-2. See a visual example.
-3. Try a simple activity.
-4. Answer a short quiz.
-5. Apply the concept in a game.
-6. Receive feedback.
-7. Earn rewards.
-8. Continue to the next challenge.
-
-This creates a learning experience that is both educational and engaging.
-
-
-==================================================
-3. PROBLEM STATEMENT
-==================================================
-
-The product addresses the following educational challenges:
-
-1. Coding can feel difficult for elementary school students.
-
-2. Traditional learning materials can contain too much text.
-
-3. Children may lose interest when learning is mostly theoretical.
-
-4. Children need opportunities to apply concepts instead of only answering questions.
-
-5. Students may need guidance when they encounter difficulties.
-
-6. Learning experiences are often not sufficiently personalized for different age groups.
-
-7. Children need opportunities to express creativity through technology.
-
-8. Educational games are often confused with simple quizzes rather than actual gameplay.
-
-
-==================================================
-4. PRODUCT GOALS
-==================================================
-
-### Main Goal
-
-To create an interactive AI-based coding learning platform that makes coding accessible, enjoyable, creative, and applicable for elementary school students.
-
-### Specific Goals
-
-The platform should:
-
-1. Introduce coding concepts in an age-appropriate way.
-2. Develop logical thinking.
-3. Develop problem-solving skills.
-4. Encourage creativity.
-5. Make coding learning enjoyable.
-6. Allow students to learn through interactive activities.
-7. Allow students to apply concepts through actual games.
-8. Provide AI-assisted learning support.
-9. Encourage students to learn through trial and error.
-10. Introduce children to creating their own coding projects.
-
-
-==================================================
-5. TARGET USERS
-==================================================
-
-Primary users:
-
-Elementary school students from Grade 1 to Grade 6.
-
-### Grade 1–2
-Profile:
-Little Explorers
+## TARGET USERS
+### Grade 1–2 — Little Explorers
+Learning balance:
+70% activity / 30% material
 
 Learning characteristics:
 - Highly visual
@@ -151,15 +29,12 @@ Learning characteristics:
 - More gameplay
 - Less reading
 
-Learning ratio:
+Learning flow:
+SEE → TRY → PLAY → FEEDBACK
 
-70% activity
-30% material
-
-
-### Grade 3–4
-Profile:
-Junior Coders
+### Grade 3–4 — Junior Coders
+Learning balance:
+60% activity / 40% material
 
 Learning characteristics:
 - Short explanations
@@ -169,15 +44,13 @@ Learning characteristics:
 - Quizzes
 - Simple coding challenges
 
-Learning ratio:
+Learning flow:
+SHORT MATERIAL → EXAMPLE → ACTIVITY → GAME
 
-60% activity
-40% material
+### Grade 5–6 — Code Adventurers
 
-
-### Grade 5–6
-Profile:
-Code Adventurers
+Learning balance:
+50% activity / 50% material
 
 Learning characteristics:
 - More detailed concepts
@@ -187,122 +60,205 @@ Learning characteristics:
 - More complex games
 - Creative projects
 
-Learning ratio:
-
-50% activity
-50% material
-
+Learning flow:
+MATERIAL → EXAMPLE → PRACTICE → CHALLENGE → PROJECT
 
 IMPORTANT:
+All three learning categories remain available to every grade.
 
-Grade selection must NOT lock students out of any main topic.
-
-All students can access all three main categories.
-
-The selected grade only changes:
-
+Grade selection only changes:
 - Difficulty
-- Language complexity
-- Number of challenges
-- Activity complexity
 - Explanation depth
+- Language complexity
+- Activity complexity
 - Game complexity
 
-
-==================================================
-6. CORE LEARNING CATEGORIES
-==================================================
-
+# CORE CURRICULUM
 The platform contains exactly three main learning categories:
-
 1. LOGIC & ALGORITHMS
 2. BASIC CODING
 3. CREATIVE CODING & PROJECTS
 
-
-==================================================
-7. CATEGORY 1 — LOGIC & ALGORITHMS
-==================================================
-
+# 01 — LOGIC & ALGORITHMS
 Purpose:
-
 Introduce computational thinking, patterns, instructions, algorithms, decisions, loops, and debugging.
 
-### Grade 1–2
+## Grade 1–2
+- Mengenal Pola
+- Color, shape and picture patterns
+- Tebak Pola
+- Susun Pola
+- Urutan & Instruksi
+- Sequence and simple directions
+- Bantu Robot
+- Mana yang Benar
 
-1. Recognizing Patterns
-2. Sequence & Instructions
+## Grade 3–4
+- Algoritma dalam Kehidupan
+- Algorithms as steps for solving problems
+- Examples such as making bread and washing hands
+- Susun Algoritmanya
+- Percabangan & Pengambilan Keputusan
+- IF → THEN
+- Conditions
+- Pilih Jalan
+- Choose the Right Decision
 
-### Grade 3–4
+## Grade 5–6
+- Perulangan / Loop
+- Repeat commands
+- Efficiency
+- Loop Challenge
+- Debugging & Problem Solving
+- Temukan Bug
 
-3. Algorithms in Everyday Life
-4. Branching & Decision Making
-
-### Grade 5–6
-
-5. Loops
-6. Debugging & Problem Solving
-
-
-==================================================
-8. CATEGORY 2 — BASIC CODING
-==================================================
-
+# 02 — BASIC CODING
 Purpose:
-
 Introduce basic programming concepts through visual and interactive activities.
 
-### Grade 1–2
+## Grade 1–2
+- Mengenal Coding
+- Coding means giving instructions to a computer
+- Beri Perintah
+- Give the Character a Command
+- Arah & Gerakan
+- Up, down, left, right
+- Robot Maze
 
-1. What is Coding?
-2. Directions & Movement
+## Grade 3–4
+- Sequence / Urutan Perintah
+- Arranging code blocks
+- Susun Kode
+- Event / Pemicu
+- When an event happens, an action occurs
+- Trigger Challenge
 
-### Grade 3–4
+## Grade 5–6
+- If / Else
+- Conditions and branching
+- Coding Decision
+- Debugging Coding
+- Run
+- Observe
+- Locate bug
+- Fix
+- Rerun
+- Fix the Code
 
-3. Sequence / Command Order
-4. Events / Triggers
-
-### Grade 5–6
-
-5. If / Else
-6. Coding Debugging
-
-
-==================================================
-9. CATEGORY 3 — CREATIVE CODING & PROJECTS
-==================================================
-
+# 03 — CREATIVE CODING & PROJECTS
 Purpose:
-
 Allow children to use coding concepts creatively.
 
-### Grade 1–2
+## Grade 1–2
+- Membuat Karakter
+- Shape
+- Colors
+- Clothes
+- Expression
+- Name
+- Create Your Character
+- Gerakan & Suara
+- Movement
+- Simple animation
+- Sound
+- Make It Move
 
-1. Create a Character
-2. Movement & Sound
+## Grade 3–4
+- Cerita Interaktif
+- Character
+- Plot
+- Choices
+- Consequences
+- Create Your Story
+- Membuat Mini Game
+- Character
+- Object
+- Goal
+- Rules
+- Challenge
+- Mini Game Builder
 
-### Grade 3–4
+## Grade 5–6
+- Skor & Variabel Sederhana
+- Variables as stored information
+- Score
+- Win/lose
+- Score Challenge
+- Proyek Coding / Create Your Own Game
+- Idea
+- Character
+- World
+- Objects
+- Rules
+- Logic
+- Score
+- Testing
+- Debugging
+- Publishing
+- Final Game Creator badge
 
-3. Interactive Stories
-4. Build a Mini Game
+# LEARNING EXPERIENCE
+Every lesson contains:
+1. Short material
+2. Visual explanation
+3. Example
+4. Interactive activity
+5. Knowledge check
+6. Feedback
+7. Reward
 
-### Grade 5–6
+The learning experience should prioritize:
+ACTIVITY > TEXT
 
-5. Score & Simple Variables
-6. Coding Project / Create Your Own Game
+Interactive activities include:
+- Drag & drop
+- Step ordering
+- Code-block ordering
+- Matching
+- Path selection
+- Character movement
+- Pattern completion
+- Object selection
+- Debugging
+- Decision making
+- Puzzle
+- Maze
 
+# LESSON DETAIL
+When a student selects a category, they arrive at a Lesson Detail Page.
+The page contains:
+- Lesson title
+- Short description
+- Illustration
+- Grade selection
+- Language selection
 
-==================================================
-10. LEARNING EXPERIENCE
-==================================================
+Grade options:
+- Grade 1–2 — Little Explorers
+- Grade 3–4 — Junior Coders
+- Grade 5–6 — Code Adventurers
 
-Every learning topic follows:
+Languages:
+- Bahasa Indonesia
+- English
 
+Default language:
+Bahasa Indonesia
+After selecting grade and language, students choose between:
+## PELAJARI MATERI
+Learn the concept, explore examples, and test your understanding.
+
+## MAIN GAME
+Put your coding skills into action through fun challenges and game levels.
+The two experiences must be clearly separated.
+
+# LEARNING MODE
+Learning Mode follows:
 SHORT MATERIAL
 ↓
 VISUAL EXAMPLE
 ↓
-TRY IT
+INTERACTIVE ACTIVITY
 ↓
 QUIZ
 ↓
@@ -310,78 +266,10 @@ FEEDBACK
 ↓
 REWARD
 
+The system should avoid large blocks of text.
 
-The platform must avoid large blocks of text.
-
-The main principle is:
-
-ACTIVITY > TEXT
-
-
-==================================================
-11. LESSON DETAIL STRUCTURE
-==================================================
-
-When a user selects a learning category, they should NOT immediately enter the lesson.
-
-They first arrive at a Lesson Detail Page.
-
-The page contains:
-
-- Lesson title
-- Short description
-- Illustration
-- Grade selection
-- Language selection
-
-Then two major choices:
-
-### LEARN
-
-“Learn the concept, explore examples, and test your understanding.”
-
-### PLAY GAME
-
-“Put your coding skills into action through fun challenges and game levels.”
-
-These two experiences must be clearly separated.
-
-
-==================================================
-12. LEARNING MODE
-==================================================
-
-The Learning Mode contains:
-
-1. Short explanation
-2. Visual example
-3. Interactive practice
-4. Quiz
-5. Feedback
-6. Reward
-
-Interactive activities can include:
-
-- Drag and drop
-- Matching
-- Sorting
-- Sequencing
-- Puzzle
-- Maze
-- Interactive examples
-- Coding blocks
-
-
-==================================================
-13. QUIZ SYSTEM
-==================================================
-
-The quiz is used to evaluate understanding.
-
-The quiz is NOT the main game.
-
+# QUIZ SYSTEM
 Quiz formats include:
-
 - Multiple choice
 - True / False
 - Matching
@@ -389,361 +277,36 @@ Quiz formats include:
 - Sorting
 - Sequence arrangement
 
-Correct answer:
+The quiz is NOT the main game.
 
-“Great job!”
+Correct answer:
+GREAT JOB!
 
 Reward:
-
 +10 XP
 +1 Star
 
 Incorrect answer:
-
-“Almost! Try again.”
+Almost! Try again.
 
 The system should provide a hint before revealing the solution.
 
-
-==================================================
-14. GAME SYSTEM
-==================================================
-
-The games must feel like REAL GAMES.
-
-They must not simply be quizzes with colorful graphics.
-
-Each game should contain:
-
-- Player
-- Character
-- Goal
-- Actions
-- Obstacles
-- Challenge
-- Score
-- Progress
-- Feedback
-- Win state
-- Lose state
-- Retry
-- Reward
-
-Core game structure:
-
-GOAL
-→ ACTION
-→ CHALLENGE
-→ FEEDBACK
-→ REWARD
-
-
-==================================================
-15. LOGIC & ALGORITHMS GAMES
-==================================================
-
-### Pattern Adventure
-
-A puzzle adventure based on recognizing patterns.
-
-Players encounter:
-
-- Color patterns
-- Shape patterns
-- Image patterns
-
-The correct pattern opens the path.
-
-
-### Robot Delivery
-
-The player controls a robot.
-
-Goal:
-
-Deliver a package to the destination.
-
-Commands:
-
-- Move
-- Left
-- Right
-- Back
-
-The robot physically moves according to the commands.
-
-Obstacles include:
-
-- Walls
-- Rocks
-- Wrong paths
-
-
-### Algorithm Quest
-
-Players help a character complete a mission by arranging steps in the correct order.
-
-Example:
-
-Making breakfast.
-
-After arranging the steps, the character performs the sequence.
-
-
-### Decision Forest
-
-Players enter a forest with multiple paths.
-
-They must make decisions using conditions.
-
-Example:
-
-IF it is raining
-→ take the umbrella path
-
-ELSE
-→ take the sunny path
-
-
-### Loop Runner
-
-An endless-runner-inspired game.
-
-Players use loops such as:
-
-REPEAT 5 TIMES
-→ MOVE
-
-The character avoids obstacles.
-
-Performance is based on:
-
-- Speed
-- Commands used
-- Efficiency
-
-
-### Bug Hunter
-
-Players become Bug Hunters.
-
-They inspect broken code and identify the incorrect command.
-
-After fixing the code:
-
-RUN CODE
-
-The robot then completes the task.
-
-
-==================================================
-16. BASIC CODING GAMES
-==================================================
-
-### Code the Robot
-
-Give commands to a robot to collect an object.
-
-### Robot Maze
-
-Guide a robot through a maze using movement commands.
-
-### Code Block Factory
-
-Arrange coding blocks to activate machines.
-
-### Event Hero
-
-Connect events to actions.
-
-Example:
-
-WHEN SPACE PRESSED
-→ JUMP
-
-### IF/ELSE Adventure
-
-Use conditions to make decisions in a dungeon.
-
-### Code Rescue
-
-Find and fix broken robot code.
-
-
-==================================================
-17. CREATIVE CODING GAMES
-==================================================
-
-### Character Creator
-
-Create a custom character.
-
-Customization includes:
-
-- Body
-- Color
-- Clothing
-- Face
-- Accessories
-
-
-### Make It Move
-
-Create a mini performance using:
-
-- Move
-- Jump
-- Turn
-- Say
-- Play Sound
-
-
-### Story Quest
-
-Create and play an interactive story.
-
-Users choose:
-
-- Character
-- Background
-- Dialogue
-- Actions
-- Choices
-
-
-### Mini Game Builder
-
-Build a simple mini game using:
-
-- Character
-- World
-- Object
-- Goal
-- Rules
-- Obstacles
-- Score
-
-
-### Score Master
-
-Create and test a scoring system.
-
-Example:
-
-Collect coin
-→ +10
-
-Hit obstacle
-→ -5
-
-Reach goal
-→ +50
-
-
-### Game Creator
-
-The final creative project.
-
-Process:
-
-IDEA
-↓
-CHARACTER
-↓
-WORLD
-↓
-OBJECTS
-↓
-RULES
-↓
-CONTROLS
-↓
-SCORE
-↓
-TEST
-↓
-DEBUG
-↓
-PUBLISH
-
-Reward:
-
-GAME CREATOR BADGE
-
-
-==================================================
-18. AI TUTOR
-==================================================
-
-AI Tutor is a core feature of the platform.
-
-Name:
-
-ASK AI 🤖
-
-The AI acts as a friendly coding coach.
-
-The AI should not immediately provide answers.
-
-Assistance levels:
-
-1. Small Hint
-2. Concept Explanation
-3. Similar Example
-4. Full Explanation / Solution
-
-The AI should:
-
-- Use child-friendly language
-- Encourage students
-- Explain mistakes
-- Give hints
-- Encourage retrying
-- Avoid making the child completely dependent on AI
-
-The AI should help children THINK rather than simply provide answers.
-
-
-==================================================
-19. GAMIFICATION
-==================================================
-
-The platform uses:
-
+# CODING ADVENTURE
+Create a dedicated game hub.
+Title: CODING ADVENTURE
+Subtitle: Complete levels, collect stars, and become a Coding Hero!
+
+The Game Hub contains:
 - XP
 - Stars
-- Progress
 - Badges
-- High Scores
-- Completed Lessons
-- Completed Games
+- Progress
+- Game map
+- Levels
+- Challenges
+- High scores
 
-Badges:
-
-Pattern Finder
-Robot Explorer
-Problem Solver
-Junior Coder
-Bug Hunter
-Creative Coder
-Game Creator
-
-Rewards should recognize:
-
-- Completion
-- Effort
-- Retry
-- Problem solving
-- Efficiency
-- Creativity
-
-
-==================================================
-20. GAME PROGRESSION
-==================================================
-
-Game levels follow a progression system:
-
+Progression:
 START
 ↓
 LEVEL 1
@@ -761,27 +324,138 @@ FINISH
 The next level unlocks after completing the previous level.
 
 Performance:
-
 ⭐ Completed
 ⭐⭐ Good
 ⭐⭐⭐ Excellent
 
+# GAME SYSTEM
+Games must feel like real interactive games.
+They must NOT simply be quizzes with colorful graphics.
+Every game should contain:
+PLAYER
++
+GOAL
++
+ACTION
++
+OBSTACLE
++
+CHALLENGE
++
+SCORE
++
+WIN / LOSE
++
+REWARD
 
-==================================================
-21. LANGUAGE SYSTEM
-==================================================
+# LOGIC & ALGORITHMS GAMES
+1. Pattern Adventure
+2. Robot Delivery
+3. Algorithm Quest
+4. Decision Forest
+5. Loop Runner
+6. Bug Hunter
 
+# BASIC CODING GAMES
+7. Code the Robot
+8. Robot Maze
+9. Code Block Factory
+10. Event Hero
+11. IF/ELSE Adventure
+12. Code Rescue
+
+# CREATIVE CODING GAMES
+13. Character Creator
+14. Make It Move
+15. Story Quest
+16. Mini Game Builder
+17. Score Master
+18. Game Creator
+
+# ROBOT DELIVERY
+Robot Delivery is a real interactive game.
+The player controls a robot on a visible grid/map.
+The player can select:
+- Move Forward
+- Turn Left
+- Turn Right
+
+The robot physically moves according to the selected commands.
+The map contains:
+- Robot
+- Start
+- Package
+- Destination
+- Obstacles
+- Wrong paths
+
+Success: DELIVERY COMPLETE!
+Failure: OOPS!
+The player can:
+- Try Again
+- Ask AI
+
+# AI TUTOR
+The platform contains a floating:
+ASK AI 🤖
+The AI Tutor acts as a friendly coding coach.
+The AI must not immediately reveal the answer.
+
+Assistance levels:
+1. Small Clue
+2. Concept Explanation
+3. Similar Example
+4. Full Solution + Explanation
+
+The AI should:
+- Use child-friendly language
+- Encourage thinking
+- Explain mistakes
+- Give hints
+- Encourage retrying
+- Avoid making students dependent on AI
+
+# GAMIFICATION
+Use:
+- XP
+- Stars
+- Progress
+- Badges
+- High Scores
+- Completed Lessons
+- Completed Games
+- Rewards
+
+Badges:
+- Pattern Finder
+- Robot Explorer
+- Problem Solver
+- Junior Coder
+- Bug Hunter
+- Creative Coder
+- Game Creator
+
+Rewards should recognize:
+- Completion
+- Effort
+- Retry
+- Problem solving
+- Efficiency
+- Creativity
+- Debugging
+- Challenge completion
+
+Progress should persist locally using localStorage.
+
+# LANGUAGE
 Languages:
-
 - Bahasa Indonesia
 - English
 
 Default:
-
 Bahasa Indonesia
 
-Changing the language should update:
-
+Changing language should update:
 - Lesson titles
 - Descriptions
 - Instructions
@@ -791,159 +465,55 @@ Changing the language should update:
 - Feedback
 - AI Tutor
 
+# HOMEPAGE
+Homepage structure:
+NAVBAR
+↓
+HERO
+↓
+ANIMATED TEXT RIBBON
+↓
+LESSONS
+↓
+TESTIMONIALS
+↓
+CTA
+↓
+FOOTER
 
-==================================================
-22. VISUAL DESIGN
-==================================================
-
-Design direction:
-
-NEO-BRUTALISM + PLAYFUL EDUCATIONAL DESIGN
-
-The visual language should include:
-
-- Thick black borders
-- Offset black shadows
-- Chunky rounded cards
-- Bold typography
-- Playful illustrations
-- Hand-drawn elements
-- Colorful sections
-- Playful animations
-- Large buttons
-
-The website should feel like:
-
-EDUCATIONAL PLATFORM
-+
-GAME PLATFORM
-+
-CREATIVE PLAYGROUND
-
-
-==================================================
-23. COLOR PALETTE
-==================================================
-
-Primary colors:
-
-Coral:
-#FF524D
-
-Orange:
-#FF8637
-
-Yellow:
-#FFDE5A
-
-Green:
-#31B54C
-
-Turquoise:
-#11C9B7
-
-Blue:
-#43B4FB
-
-Purple:
-#A192F7
-
-Pink:
-#FF80CF
-
-Background:
-
-Warm cream / off-white
-
-Typography and outlines:
-
-Black / very dark navy
-
-
-==================================================
-24. BACKGROUND DESIGN
-==================================================
-
-Use a warm cream background with decorative pastel stripes.
-
-Decorative elements include:
-
-- Horizontal light blue stripes
-- Pale yellow stripes
-- Pastel stars
-- Sparkles
-- Doodles
-- Arrows
-- Coding symbols
-- Cursor icons
-- Geometric shapes
-
-The stripes should appear as short background sections and decorative elements.
-
-They should not interfere with readability.
-
-
-==================================================
-25. HOMEPAGE
-==================================================
-
-The homepage contains:
-
-1. Navbar
-2. Hero
-3. Animated TextLoop
-4. Lessons
-5. Testimonials
-6. CTA
-7. Footer
-
-
-==================================================
-26. NAVIGATION
-==================================================
-
-Navbar:
-
-Logo:
-
-CODING
-FOR KIDS ⭐
+# NAVIGATION
+Logo: CODING FOR KIDS ⭐
 
 Navigation:
-
 Home
 Lessons
 Games
 About
 
 CTA:
-
 Start Learning →
 
-
-==================================================
-27. HERO
-==================================================
-
-Main headline:
-
+# HERO
+Headline:
 LEARN TO
 CODE.
 PLAY. CREATE.
 HAVE FUN!
 
-Subtitle:
+Color treatment:
+CODE → Coral
+PLAY → Blue
+CREATE → Green
+HAVE FUN → Yellow
 
-“Learn coding for elementary students through games, interactive activities, and creative challenges.”
+Description:
+Belajar coding untuk anak SD melalui permainan, aktivitas interaktif, dan tantangan kreatif.
 
 Buttons:
-
-Start Learning →
-
-Explore Lessons
+START LEARNING →
+EXPLORE LESSONS
 
 Right side:
-
 Friendly coding robot mascot with:
 
 - Laptop
@@ -952,178 +522,124 @@ Friendly coding robot mascot with:
 - Coding screen
 - Colorful decorations
 
+# LESSON CARDS
+Exactly three:
+01 — LOGIC & ALGORITHMS
+02 — BASIC CODING
+03 — CREATIVE CODING & PROJECTS
 
-==================================================
-28. HERO ANIMATION
-==================================================
+Clicking a lesson card opens a dedicated lesson page rather than a modal.
 
-Hero headline animation:
-
-- Word-by-word reveal
-- Stagger
-- Slight bounce
-- Subtle floating
-- Small rotation
-
-Mascot animation:
-
-- Floating
-- Blinking
-- Waving
-- Slight movement
-
-Animations should remain subtle and readable.
-
-
-==================================================
-29. TEXT LOOP
-==================================================
-
-Under the Hero, display:
-
-LEARN ✦ PLAY ✦ CODE ✦ CREATE ✦ DISCOVER ✦ SOLVE ✦ HAVE FUN
-
-Use React Bits TextLoop with GSAP.
-
-The TextLoop should:
-
-- Move continuously
-- Pause on hover
-- Follow a playful wave
-- Be responsive
-- Support reduced motion
-
-
-==================================================
-30. LESSONS SECTION
-==================================================
-
-Title:
-
-LESSONS IN THIS COLLECTION
-
-Subtitle:
-
-“Explore coding through fun activities, challenges, and creative projects.”
-
-Three cards:
-
-01
-LOGIC & ALGORITHMS
-
-02
-BASIC CODING
-
-03
-CREATIVE CODING & PROJECTS
-
-
-==================================================
-31. TESTIMONIALS
-==================================================
-
-Section title:
-
+# TESTIMONIALS
+Section:
 WHAT THEY SAY
 
-Three cards:
-
 Student:
-
 “Learning coding is no longer boring because there are so many games!”
-
 — Student, Grade 5
 
-
 Parent:
-
 “My child became more interested in learning logic because the lessons feel like playing.”
-
 — Parent
 
-
 Teacher:
-
 “The lessons help students understand coding concepts without making them feel overwhelmed by theory.”
-
 — Teacher
 
-
-==================================================
-32. CALL TO ACTION
-==================================================
-
+# CTA
 Headline:
-
 READY TO START YOUR CODING ADVENTURE?
 
 Description:
-
-“Choose a lesson, play the games, and become a Junior Coder!”
+Choose a lesson, play the games, and become a Junior Coder!
 
 Button:
-
 START LEARNING →
 
-
-==================================================
-33. FOOTER
-==================================================
-
+# FOOTER
 CODING FOR KIDS ⭐
 
 Learn. Play. Create. Have Fun!
 
 Links:
-
 Home
 Lessons
 Games
 About
 
 Languages:
-
 Bahasa Indonesia
 English
 
 Copyright:
-
 © 2026 Coding for Kids
 
+# RESPONSIVE DESIGN
 
-==================================================
-34. RESPONSIVE DESIGN
-==================================================
-
-The website must work on:
-
+The product must work on:
 - Desktop
 - Tablet
 - Mobile
 
 Desktop:
-
 - Two-column hero
 - Three lesson cards in one row
+- Three testimonial cards
 
 Tablet:
-
 - Flexible grid
 
 Mobile:
-
 - Single-column layout
 - Mascot below hero
 - One card per row
-- Hamburger menu
 - Touch-friendly buttons
 - Responsive games
+- Mobile-friendly navigation
 
+Mobile must not simply be a compressed desktop layout.
 
-==================================================
-35. USER FLOW
-==================================================
+# ACCESSIBILITY
+Support:
+- Keyboard-friendly interactions
+- High contrast
+- Large interaction targets
+- Readable typography
+- Responsive layouts
+- prefers-reduced-motion
+- Accessible buttons
+- Clear feedback states
 
+# TECHNICAL ARCHITECTURE
+Use:
+React
+JavaScript
+CSS
+GSAP where appropriate
+React Bits components where useful
+
+Recommended structure:
+src/
+├── components/
+├── pages/
+├── lessons/
+├── games/
+├── data/
+├── styles/
+└── assets/
+
+Use reusable components and data-driven lesson structures.
+
+Separate:
+- Lesson data
+- Curriculum data
+- Game data
+- Badge data
+- Grade data
+
+Use localStorage for local progress persistence.
+
+# USER FLOW
 HOME
 ↓
 HERO
@@ -1172,33 +688,24 @@ WIN / LOSE
 ↓
 REWARD
 
-
-==================================================
-36. SUCCESS CRITERIA
-==================================================
-
+# SUCCESS CRITERIA
 The product is successful if:
-
 1. Children can understand basic coding concepts.
 2. Children can learn according to their grade level.
-3. Children can complete quizzes.
-4. Children can apply concepts through real games.
-5. Children can receive meaningful feedback.
-6. Children can use AI Tutor.
-7. Children can earn rewards.
-8. Children can create simple coding projects.
-9. The interface is easy for elementary students.
-10. The website is visually engaging.
-11. The website works responsively.
-12. Learning and gaming are clearly separated.
+3. Children can complete interactive activities.
+4. Children can complete quizzes.
+5. Children can apply concepts through real games.
+6. Children can receive meaningful feedback.
+7. Children can use AI Tutor.
+8. Children can earn rewards.
+9. Children can create simple coding projects.
+10. The interface is easy for elementary students.
+11. The website is visually engaging.
+12. The website works responsively.
+13. Learning and gaming are clearly separated.
 
-
-==================================================
-37. PRODUCT VALUE
-==================================================
-
+# PRODUCT VALUE
 Coding for Kids combines:
-
 CODING EDUCATION
 +
 INTERACTIVE LEARNING
@@ -1211,18 +718,12 @@ CREATIVE PROJECTS
 +
 GAMIFICATION
 
-The key value proposition is:
-
+Key value proposition:
 “Children do not simply learn about coding.
 They learn coding by experiencing it.”
 
-
-==================================================
-38. CORE PRODUCT PRINCIPLE
-==================================================
-
-The entire product must follow:
-
+# CORE PRODUCT PRINCIPLE
+The entire product follows:
 LEARN
 ↓
 TRY
@@ -1236,9 +737,7 @@ WIN
 CREATE
 
 The website should make children feel:
-
 “I am playing a game.”
 
 while actually helping them:
-
 “learn how to think like a programmer.”
