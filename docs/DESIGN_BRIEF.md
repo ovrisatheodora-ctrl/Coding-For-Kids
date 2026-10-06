@@ -1,7 +1,7 @@
 # CODING FOR KIDS — DESIGN BRIEF
 
 ## PRIMARY VISUAL REFERENCE
-The provided reference screenshot is the PRIMARY VISUAL DESIGN REFERENCE for the Coding for Kids website.
+Follow the visual rules in this document (neo-brutalism, palette, borders, shadows) for the Coding for Kids website.
 Do NOT interpret the reference loosely.
 
 The website must reproduce its:
@@ -94,39 +94,41 @@ box-shadow: 3px 3px 0 #111111;
 
 # COLOR PALETTE
 
-Use these colors consistently.
+Use these colors consistently throughout the entire website.
 
-CORAL:
-#FF524D
+BLOSSOM:
+#FFD1F3
 
-ORANGE:
-#FF8637
+SUMMER SKY:
+#CCF6FF
 
-YELLOW:
-#FFDE5A
-
-GREEN:
-#31B54C
-
-TURQUOISE:
-#11C9B7
-
-BLUE:
-#43B4FB
-
-PURPLE:
-#A192F7
-
-PINK:
-#FF80CF
+SOUR APPLE:
+#C7EF8E
 
 PRIMARY OUTLINE:
 #111111
 
 BACKGROUND:
-Warm cream / soft off-white.
+Warm cream / soft off-white
+#FFFDF5
+
+The three pastel colors — **Blossom, Summer Sky, and Sour Apple** — are the primary accent colors of the Coding for Kids design system.
+
+Use them consistently for:
+
+- Hero sections
+- Lesson cards
+- Buttons
+- Badges
+- Illustrations
+- Decorative elements
+- Section accents
+- Interactive states
+
+Maintain strong contrast using the Primary Outline #111111 for borders, shadows, and important text.
 
 Do not introduce unrelated bright colors.
+
 
 # BACKGROUND
 The entire website uses a warm cream background.
@@ -184,7 +186,7 @@ Start Learning →
 Home uses a yellow rounded pill.
 
 Start Learning uses:
-#A192F7
+#FFD1F3
 
 The navbar should visually match the reference screenshot.
 
@@ -322,7 +324,7 @@ LEARN ✦ PLAY ✦ CODE ✦ CREATE ✦ DISCOVER ✦ SOLVE ✦ HAVE FUN
 
 Ribbon:
 
-#A192F7
+#FFD1F3
 
 Text:
 
@@ -399,7 +401,7 @@ LOGIC & ALGORITHMS
 
 Background:
 
-#FFDE5A
+#C7EF8E
 
 CARD 02:
 
@@ -407,7 +409,7 @@ BASIC CODING
 
 Background:
 
-#43B4FB
+#CCF6FF
 
 CARD 03:
 
@@ -415,7 +417,7 @@ CREATIVE CODING & PROJECTS
 
 Background:
 
-#FF80CF
+#FFD1F3
 
 Each card contains:
 

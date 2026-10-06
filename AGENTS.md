@@ -8,8 +8,8 @@ Technology. Flow: LEARN > TRY > PLAY > SOLVE > WIN > CREATE.
 ## Read first (source of truth)
 - docs/PRD.md: functional requirements and curriculum (do not remove topics)
 - docs/DESIGN_BRIEF.md: visual rules and homepage composition
-- docs/reference/: primary visual reference screenshot
 If they conflict: PRD wins for functionality, DESIGN_BRIEF wins for visuals.
+- docs/PHASES.md: current phase and checklist
 
 ## Stack
 - React (Vite) + JavaScript, React Router
@@ -32,9 +32,8 @@ src/components, src/pages, src/lessons (data), src/games,
 src/data (lessons + i18n), src/styles, src/assets, api/
 
 ## Design tokens
-Coral #FF524D, Orange #FF8637, Yellow #FFDE5A, Green #31B54C,
-Turquoise #11C9B7, Blue #43B4FB, Purple #A192F7, Pink #FF80CF,
-outline #111111, warm cream background.
+Blossom #FFD1F3, Summer Sky #CCF6FF, Sour Apple #C7EF8E,
+outline #111111, warm cream background #FFFDF5.
 Cards/buttons: 3px solid border, 7px hard offset shadow, no blur.
 Hover: translate(-2px,-2px). Active: translate(2px,2px), shadow 3px.
 
@@ -53,7 +52,21 @@ Hover: translate(-2px,-2px). Active: translate(2px,2px), shadow 3px.
   the full answer first, and falls back to static hints if the API fails.
 - Git: small commits (feat:, fix:, docs:, style:, refactor:). Never force
   push or rewrite history.
-- After each phase: `npm run build` must pass, then summarize changes.
+- After each phase: `npm run build` must pass, then summarize changes
+  and update docs/PHASES.md.
+
+## Competition rules (M-ONE Coding Competition, Kategori Umum)
+- Deadline submit: 15 Oct 2026, 15.30 WIB. Aim to be deployed by 14 Oct.
+- Everything is created after 5 Oct 2026, 09.30 WIB.
+- Repo stays public. Never force push or fake commit dates.
+- Every prompt is logged in docs/PROMPT_LOG.md (raw, with timestamp).
+- Deployed site must run without errors. A working feature beats an
+  unfinished one.
+
+## Scope rule
+Build shared game engines (robot grid, block sorting, pattern, choice)
+and make each game a data entry. Polish 4-6 games fully first.
+List all 18 games in data; mark unfinished ones as "coming soon".
 
 ## Do not
 - Copy code or templates from other projects
