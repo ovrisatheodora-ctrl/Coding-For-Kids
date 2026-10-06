@@ -1,0 +1,50 @@
+/* ===== Animated Ribbon ===== */
+.ribbon-wrapper {
+  background: var(--blossom);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  overflow: hidden;
+  padding: 0;
+  cursor: default;
+}
+
+.ribbon-track {
+  display: flex;
+  will-change: transform;
+}
+
+.ribbon-content {
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ribbon-item {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--outline);
+  padding: 0 12px;
+  gap: 12px;
+}
+
+.ribbon-sep {
+  color: var(--sour-apple);
+  font-size: 0.9rem;
+  margin-left: 12px;
+}
+
+/* Reduce motion: just show static */
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+}

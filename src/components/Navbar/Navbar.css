@@ -1,0 +1,216 @@
+/* ===== Navbar ===== */
+.navbar-wrapper {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1100px;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.navbar-wrapper.scrolled {
+  top: 10px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: var(--radius-nav);
+  box-shadow: var(--shadow-nav);
+  padding: 10px 20px;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--outline);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.navbar-logo-text {
+  white-space: nowrap;
+}
+
+.navbar-logo-star {
+  font-size: 1.1rem;
+}
+
+/* Nav links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* sebelumnya 4px */
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 18px;
+  border-radius: 100px;
+  border: 2px solid transparent; /* supaya ukuran tidak loncat saat active */
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--outline);
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+.navbar-link.active {
+  background: var(--sour-apple);
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 var(--outline);
+}
+
+/* Right side */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.lang-toggle {
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 2px solid var(--outline);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  background: white;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 2px 2px 0 var(--outline);
+}
+
+.lang-toggle:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--outline);
+}
+
+.navbar-cta {
+  padding: 5px 12px;
+  min-width: 0;
+  width: auto;
+  font-size: 0.82rem;
+  border-radius: 100px;
+  border: 2px solid var(--outline);
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 var(--outline);
+}
+
+.navbar-cta:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--outline);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  cursor: pointer;
+  background: none;
+  border: 2px solid var(--outline);
+  border-radius: 8px;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--outline);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+  background: var(--cream);
+  border: var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-card);
+  margin-top: 10px;
+  padding: 16px;
+}
+
+.mobile-menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-link {
+  display: block;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--outline);
+  transition: background 0.15s ease;
+}
+
+.mobile-link:hover, .mobile-link.active {
+  background: var(--sour-apple);
+}
+
+.mobile-cta {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 20px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .navbar-wrapper {
+    width: calc(100% - 32px);
+    top: 10px;
+  }
+
+  .navbar-links,
+  .navbar-right .navbar-cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-right {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 8px 14px;
+  }
+
+  .navbar-logo {
+    font-size: 0.85rem;
+  }
+}
