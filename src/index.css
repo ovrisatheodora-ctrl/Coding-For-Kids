@@ -1,14 +1,28 @@
-* {
-  box-sizing: border-box;
+/* ===== Base CSS (replaced by global.css; kept minimal) ===== */
+/* global.css is imported in App.jsx — this file kept for Vite entry */
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  background: var(--blossom, #FFD1F3);
+  color: var(--outline, #111111);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  z-index: 9999;
+  transition: top 0.2s ease;
+  border: 2px solid var(--outline, #111111);
 }
 
-html,
-body,
-#root {
-  margin: 0;
-  min-height: 100%;
+.skip-link:focus {
+  top: 16px;
 }
 
-body {
-  font-family: Arial, sans-serif;
+/* Spinning keyframe for loader */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
