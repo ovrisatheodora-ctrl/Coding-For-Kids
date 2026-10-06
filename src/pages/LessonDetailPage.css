@@ -1,0 +1,288 @@
+/* ===== LessonDetailPage ===== */
+.lesson-detail-page {
+  padding-top: 80px;
+}
+
+/* Banner */
+.ld-banner {
+  background: var(--card-color, var(--sour-apple));
+  border-bottom: var(--border);
+  padding: 60px 24px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ld-banner-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.ld-banner-text {
+  flex: 1;
+}
+
+.ld-banner-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.ld-banner-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  color: var(--outline);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.ld-banner-desc {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.65);
+  max-width: 480px;
+}
+
+.ld-banner-deco {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 2rem;
+  font-weight: 900;
+  color: rgba(0,0,0,0.2);
+}
+
+.ld-deco-star { animation: float 3s ease-in-out infinite; display: block; }
+.ld-deco-plus { animation: spin-slow 8s linear infinite; display: block; }
+.ld-deco-spark { animation: float 4s ease-in-out infinite; animation-delay: 0.5s; display: block; }
+
+/* Body */
+.ld-body {
+  padding-top: 48px;
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ld-section {}
+
+.ld-section-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--outline);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+/* Grade cards */
+.ld-grade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.ld-grade-card {
+  background: var(--grade-color, #fff);
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 20px 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: var(--font-body);
+}
+
+.ld-grade-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.ld-grade-card.selected {
+  outline: 3px solid var(--outline);
+  outline-offset: 2px;
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.ld-grade-icon {
+  font-size: 2rem;
+}
+
+.ld-grade-label {
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--outline);
+  text-align: center;
+}
+
+.ld-grade-sublabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.55);
+  text-align: center;
+}
+
+.ld-grade-check {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--sour-apple);
+  color: var(--outline);
+  font-size: 0.8rem;
+  font-weight: 900;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--outline);
+  box-shadow: 2px 2px 0 var(--outline);
+}
+
+/* Language buttons */
+.ld-lang-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.ld-lang-grid {
+  display: flex;
+  gap: 12px;
+}
+
+.ld-lang-btn {
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: var(--border);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: white;
+  box-shadow: 3px 3px 0 var(--outline);
+  transition: all 0.12s ease;
+}
+
+.ld-lang-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--outline);
+}
+
+.ld-lang-btn.selected {
+  background: var(--sour-apple);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--outline);
+}
+
+/* Path cards */
+.ld-paths {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.ld-path-card {
+  border: var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-card);
+}
+
+.ld-path-card--learn {
+  background: var(--cream-dark);
+}
+
+.ld-path-card--game {
+  background: var(--blossom);
+  color: var(--outline);
+}
+
+.ld-path-card--game .ld-path-title,
+.ld-path-card--game .ld-path-desc {
+  color: var(--outline);
+}
+
+.ld-path-card--game .ld-path-desc {
+  color: rgba(17,17,17,0.75);
+}
+
+.ld-path-icon {
+  font-size: 2.8rem;
+}
+
+.ld-path-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  color: var(--outline);
+  letter-spacing: -0.01em;
+}
+
+.ld-path-desc {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(0,0,0,0.65);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.ld-path-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .ld-grade-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ld-grade-card {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    padding: 16px 20px;
+  }
+
+  .ld-paths {
+    grid-template-columns: 1fr;
+  }
+
+  .ld-banner-deco {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ld-lang-grid {
+    flex-direction: column;
+  }
+
+  .ld-lang-btn {
+    text-align: center;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .ld-deco-star, .ld-deco-plus, .ld-deco-spark { animation: none !important; }
+}
