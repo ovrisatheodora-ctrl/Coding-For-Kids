@@ -1,0 +1,223 @@
+/* ===== Lessons Section ===== */
+.lessons-section {
+  position: relative;
+}
+
+.lessons-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.lessons-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.lessons-deco-arrow {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--blossom);
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.lessons-title {
+  text-align: center;
+}
+
+.lessons-deco-star {
+  font-size: 1.6rem;
+  color: var(--blossom);
+  display: inline-block;
+}
+
+/* ── Cards grid ── */
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ── Individual card ── */
+.lesson-card {
+  background: var(--card-color, #fff);
+  border-radius: 20px;
+  border: var(--border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  /* Scroll reveal */
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.lesson-card.visible {
+  animation: slide-up 0.5s ease forwards;
+}
+
+.lesson-card:nth-child(2).visible { animation-delay: 0.1s; }
+.lesson-card:nth-child(3).visible { animation-delay: 0.2s; }
+
+.lesson-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.lesson-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-active);
+}
+
+/* Top row */
+.lesson-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lesson-card-number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: var(--outline);
+  opacity: 0.25;
+  line-height: 1;
+}
+
+.lesson-card-star {
+  font-size: 1.3rem;
+  animation: spin-slow 8s linear infinite;
+  display: inline-block;
+}
+
+/* Illustration */
+.lesson-card-illustration {
+  border-radius: 14px;
+  border: 2px solid var(--outline);
+  background: rgba(255,255,255,0.5);
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--outline);
+  aspect-ratio: 6 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-illustration {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+/* Body */
+.lesson-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lesson-card-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.lesson-card-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--outline);
+}
+
+.lesson-card-desc {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+  line-height: 1.5;
+}
+
+/* Tags */
+.lesson-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.lesson-tag {
+  display: inline-block;
+  background: rgba(0,0,0,0.1);
+  border: 1.5px solid rgba(0,0,0,0.25);
+  border-radius: 100px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--outline);
+}
+
+/* Level */
+.lesson-card-level {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.6);
+  margin-top: 4px;
+}
+
+.level-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--outline);
+  opacity: 0.4;
+}
+
+/* Explore button */
+.lesson-card-btn {
+  background: var(--outline);
+  color: white;
+  font-size: 0.9rem;
+  padding: 11px 22px;
+  justify-content: center;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  border-color: transparent;
+  width: 100%;
+}
+
+.lesson-card-btn:hover {
+  background: #222;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .lessons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .lessons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lessons-heading-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .lessons-deco-arrow {
+    display: none;
+  }
+}

@@ -1,0 +1,211 @@
+/* ===== Testimonials ===== */
+.testimonials-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.testimonials-header .section-title {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+}
+
+.testimonials-deco {
+  display: inline-block;
+  color: var(--summer-sky);
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  -webkit-text-stroke: 1px var(--outline);
+}
+
+.testimonials-deco--left {
+  align-self: flex-start;
+  color: var(--blossom);
+  transform: rotate(-15deg);
+}
+
+.testimonials-deco--right {
+  align-self: flex-end;
+  color: var(--sour-apple);
+  transform: rotate(12deg);
+}
+
+/* --- 3 kolom vertikal --- */
+.testimonials-columns {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  max-height: 740px;
+  overflow: hidden;
+  padding: 0 10px; /* ruang untuk bayangan kartu */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+}
+
+.testimonials-column {
+  flex: 0 1 340px;
+  min-width: 0;
+}
+
+.testimonials-column--md,
+.testimonials-column--lg {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .testimonials-column--md {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials-column--lg {
+    display: block;
+  }
+}
+
+.testimonials-column-track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: testimonials-scroll var(--duration, 12s) linear infinite;
+}
+
+@keyframes testimonials-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -25%, 0); } /* -100% / COPIES (4) */
+}
+
+.testimonial-stars svg {
+  width: 15px;
+  height: 15px;
+  fill: #FFC933; /* kuning, kelihatan di semua warna kartu */
+  stroke: var(--outline);
+  stroke-width: 1.3px;
+}
+
+.testimonials-column-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 24px; /* sama dengan gap supaya loop mulus */
+}
+
+/* --- Kartu --- */
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 24px;
+  border: 3px solid var(--outline);
+  border-radius: 16px;
+  background: var(--card-color, var(--cream));
+  box-shadow: 6px 6px 0 var(--outline);
+}
+
+.testimonial-quote {
+  color: var(--outline);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar {
+  display: block;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--outline);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--cream);
+}
+
+.testimonial-author {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.testimonial-name {
+  color: var(--outline);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.testimonial-role {
+  color: var(--outline);
+  font-size: 0.76rem;
+  font-weight: 700;
+  opacity: 0.72;
+}
+
+.testimonial-stars {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  align-self: flex-end;
+  padding-bottom: 2px;
+}
+
+@media (max-width: 600px) {
+  .testimonials-section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .testimonials-header {
+    gap: 12px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .testimonials-deco {
+    font-size: 1.6rem;
+  }
+
+  .testimonials-columns {
+    max-height: 620px;
+  }
+
+  .testimonials-column {
+    flex-basis: min(86vw, 360px);
+  }
+
+  .testimonial-card {
+    padding: 18px;
+  }
+
+  .testimonial-quote {
+    font-size: 0.9rem;
+  }
+
+  .testimonial-avatar {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .testimonial-stars svg {
+    width: 13px;
+    height: 13px;
+  }
+}

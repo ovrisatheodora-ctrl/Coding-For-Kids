@@ -1,0 +1,93 @@
+/* ===== CTA Section ===== */
+.cta-section {
+  background: var(--sour-apple);
+  border-top: var(--border);
+  border-bottom: var(--border);
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--outline);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cta-headline-line {
+  display: block;
+}
+
+.cta-description {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  color: rgba(0,0,0,0.7);
+  max-width: 480px;
+}
+
+.cta-btn {
+  font-size: 1.1rem;
+  padding: 16px 44px;
+  background: var(--outline);
+  color: white;
+  border-color: transparent;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+  margin-top: 8px;
+}
+
+.cta-btn:hover {
+  background: #222;
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+}
+
+/* ── Decorations ── */
+.cta-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cta-deco-item {
+  position: absolute;
+  font-weight: 900;
+  font-size: 2rem;
+  opacity: 0.2;
+  user-select: none;
+}
+
+.cta-deco-item--star1 { top: 10%; left: 5%;  animation: float 3s ease-in-out infinite; }
+.cta-deco-item--star2 { top: 15%; right: 8%; font-size: 1.4rem; animation: spin-slow 6s linear infinite; }
+.cta-deco-item--star3 { bottom: 15%; left: 12%; animation: float 4s ease-in-out infinite; animation-delay: 0.5s; }
+.cta-deco-item--plus1 { top: 40%; right: 5%; font-size: 2.8rem; animation: spin-slow 10s linear infinite; }
+.cta-deco-item--plus2 { bottom: 20%; right: 15%; animation: spin-slow 8s linear infinite; }
+.cta-deco-item--arrow { top: 60%; left: 4%; font-size: 2.2rem; animation: float 2.5s ease-in-out infinite; }
+.cta-deco-item--code  { bottom: 10%; right: 6%; font-family: monospace; font-size: 1.6rem; animation: float 3.5s ease-in-out infinite; animation-delay: 1s; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .cta-section {
+    padding: 60px 24px;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .cta-deco-item { animation: none !important; }
+}
