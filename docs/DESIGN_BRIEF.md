@@ -105,6 +105,9 @@ SUMMER SKY:
 SOUR APPLE:
 #C7EF8E
 
+BANANA:
+#FFE45C
+
 PRIMARY OUTLINE:
 #111111
 
@@ -112,7 +115,7 @@ BACKGROUND:
 Warm cream / soft off-white
 #FFFDF5
 
-The three pastel colors — **Blossom, Summer Sky, and Sour Apple** — are the primary accent colors of the Coding for Kids design system.
+The pastel colors — **Blossom, Summer Sky, and Sour Apple** — are the primary accent colors. **Banana** is the yellow accent for stars and primary learning buttons.
 
 Use them consistently for:
 
@@ -186,7 +189,7 @@ Start Learning →
 Home uses a yellow rounded pill.
 
 Start Learning uses:
-#FFD1F3
+#FFE45C
 
 The navbar should visually match the reference screenshot.
 
