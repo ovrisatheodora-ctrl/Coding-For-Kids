@@ -13,3 +13,5 @@ Status: Complete
 - [x] Run the production build and targeted lint.
 
 Scope note: Game Mode, game content, and the AI Tutor backend remain outside Phase 3.
+
+If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.

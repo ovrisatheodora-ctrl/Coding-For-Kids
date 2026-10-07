@@ -38,6 +38,8 @@ const i18n = {
         'Jelajahi coding lewat aktivitas seru, tantangan, dan proyek kreatif.',
       exploreBtn: 'Lihat Pelajaran →',
       levels: 'Kelas 1–6',
+      levelLabel: 'Level:',
+      levelAriaLabel: 'Level {level} dari 4',
     },
     // Lesson cards
     lessonCards: [
@@ -157,6 +159,13 @@ const i18n = {
     lessonDetail: {
       breadcrumbHome: 'Beranda',
       breadcrumbLessons: 'Pelajaran',
+      backToLessons: 'Kembali ke Pelajaran',
+      topicCount: (count) => `${count} Topik`,
+      descriptions: {
+        'logic-algorithms': 'Belajar berpikir seperti programmer — pola, urutan, keputusan, dan debugging.',
+        'basic-coding': 'Mulai perjalananmu di dunia coding — beri perintah, susun kode, kendalikan karakter!',
+        'creative-coding': 'Gunakan coding untuk berkreasi — buat karakter, cerita, dan game-mu sendiri!',
+      },
       chooseLevelTitle: 'PILIH LEVEL BELAJARMU',
       grades: [
         { key: '1-2', label: 'Kelas 1–2', sublabel: 'Little Explorers', icon: '🌟', color: '#C7EF8E' },
@@ -260,6 +269,8 @@ const i18n = {
         'Explore coding through fun activities, challenges, and creative projects.',
       exploreBtn: 'Explore Lesson →',
       levels: 'Grades 1–6',
+      levelLabel: 'Level:',
+      levelAriaLabel: 'Level {level} of 4',
     },
     lessonCards: [
       {
@@ -373,6 +384,13 @@ const i18n = {
     lessonDetail: {
       breadcrumbHome: 'Home',
       breadcrumbLessons: 'Lessons',
+      backToLessons: 'Back to Lessons',
+      topicCount: (count) => `${count} ${count === 1 ? 'Topic' : 'Topics'}`,
+      descriptions: {
+        'logic-algorithms': 'Learn to think like a programmer — patterns, sequences, decisions, and debugging.',
+        'basic-coding': 'Start your coding journey — give commands, arrange code, and control characters!',
+        'creative-coding': 'Use coding to create — make your own characters, stories, and games!',
+      },
       chooseLevelTitle: 'CHOOSE YOUR LEARNING LEVEL',
       grades: [
         { key: '1-2', label: 'Grade 1–2', sublabel: 'Little Explorers', icon: '🌟', color: '#C7EF8E' },

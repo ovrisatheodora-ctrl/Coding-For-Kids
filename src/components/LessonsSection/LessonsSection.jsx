@@ -2,14 +2,17 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LessonsSection.css';
 import playfulIdeaCube from '../../assets/Playful_Pink_Idea_Cube.png';
-import kawaiiRobot from '../../assets/Kawaii_Cat_Designing_a_Star.png';
-import kawaiiCat from '../../assets/Kawaii_Robot_and_Pastel_Signpost.png';
+import kawaiiRobot from '../../assets/Kawaii_Robot_and_Pastel_Signpost.png';
+import kawaiiCat from '../../assets/Kawaii_Cat_Designing_a_Star.png';
 
 const ILLUSTRATIONS = [playfulIdeaCube, kawaiiRobot, kawaiiCat];
+const CARD_COLORS = ['#FFE98B', '#9BD0FF', '#F7A8CE'];
+const CARD_LEVELS = [2, 2, 2];
 
-function LessonCard({ card, exploreLabel, levelsLabel, index }) {
+function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, visible = false }) {
   const navigate = useNavigate();
   const illustration = ILLUSTRATIONS[index];
+  const level = CARD_LEVELS[index];
 
   const handleExplore = () => {
     navigate(`/lessons/${card.id}`);
@@ -17,34 +20,34 @@ function LessonCard({ card, exploreLabel, levelsLabel, index }) {
 
   return (
     <article
-      className="lesson-card card"
-      style={{ '--card-color': card.color }}
+      className={`lesson-card card${visible ? ' visible' : ''}`}
+      style={{ '--card-color': CARD_COLORS[index] }}
       tabIndex={0}
       role="button"
       aria-label={`Lesson ${card.number}: ${card.title}`}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleExplore()}
     >
-      <div className="lesson-card-top">
-        <span className="lesson-card-number">{card.number}</span>
-        <span className="lesson-card-star" aria-hidden="true">★</span>
-      </div>
-
-      <div className="lesson-card-illustration">
-        <img className="card-illustration" src={illustration} alt="" aria-hidden="true" />
-      </div>
+      <span className="lesson-card-number">{card.number}</span>
+      <span className="lesson-card-star" aria-hidden="true">★</span>
+      <img className="card-illustration" src={illustration} alt="" aria-hidden="true" />
 
       <div className="lesson-card-body">
-        <div className="lesson-card-icon">{card.icon}</div>
         <h3 className="lesson-card-title">{card.title}</h3>
         <p className="lesson-card-desc">{card.description}</p>
-        <div className="lesson-card-tags">
-          {card.tags.map((tag) => (
-            <span key={tag} className="lesson-tag">{tag}</span>
-          ))}
-        </div>
         <div className="lesson-card-level">
-          <span className="level-dot" />
-          {levelsLabel}
+          <span>{levelLabel}</span>
+          <span
+            className="lesson-card-level-dots"
+            role="img"
+            aria-label={levelAriaLabel.replace('{level}', level)}
+          >
+            {[0, 1, 2, 3].map((dot) => (
+              <span
+                key={dot}
+                className={`lesson-card-level-dot${dot < level ? ' is-active' : ''}`}
+              />
+            ))}
+          </span>
         </div>
       </div>
 
@@ -100,7 +103,8 @@ function LessonsSection({ t }) {
             key={card.id}
             card={card}
             exploreLabel={ls.exploreBtn}
-            levelsLabel={ls.levels}
+            levelLabel={ls.levelLabel}
+            levelAriaLabel={ls.levelAriaLabel}
             index={i}
           />
         ))}
@@ -110,3 +114,4 @@ function LessonsSection({ t }) {
 }
 
 export default LessonsSection;
+export { LessonCard };

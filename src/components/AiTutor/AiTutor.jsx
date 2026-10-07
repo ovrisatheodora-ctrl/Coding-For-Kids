@@ -1,5 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
+import aiMascot from '../../assets/Maskot AI.png';
 import './AiTutor.css';
+
+const FAB_POSITION_KEY = 'cfk_ai_tutor_position';
+const FAB_EDGE_GAP = 12;
+
+function clampFabPosition(x, y, width, height, fabSize) {
+  return {
+    x: Math.max(FAB_EDGE_GAP, Math.min(x, width - fabSize - FAB_EDGE_GAP)),
+    y: Math.max(FAB_EDGE_GAP, Math.min(y, height - fabSize - FAB_EDGE_GAP)),
+  };
+}
 
 // Static hint fallbacks (used when API is unavailable)
 const STATIC_HINTS = {
@@ -32,7 +43,86 @@ function AiTutor({ t, currentContext = null }) {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const fabRef = useRef(null);
+  const positionRef = useRef(null);
+  const dragRef = useRef(null);
+  const suppressClickRef = useRef(false);
+  const [fabPosition, setFabPosition] = useState(null);
+  const [isDraggingFab, setIsDraggingFab] = useState(false);
   const lang = t === t ? 'id' : 'en'; // detect lang from t object
+
+  const updateFabPosition = (x, y) => {
+    const fabSize = fabRef.current?.offsetWidth || 176;
+    const nextPosition = clampFabPosition(
+      x,
+      y,
+      window.innerWidth,
+      window.innerHeight,
+      fabSize,
+    );
+    positionRef.current = nextPosition;
+    setFabPosition(nextPosition);
+    return nextPosition;
+  };
+
+  const saveFabPosition = (position) => {
+    try {
+      localStorage.setItem(FAB_POSITION_KEY, JSON.stringify(position));
+    } catch (error) {
+      console.error('Unable to save the AI Tutor button position.', error);
+    }
+  };
+
+  useEffect(() => {
+    const fabSize = fabRef.current?.offsetWidth || 176;
+    let initialPosition;
+
+    try {
+      const savedPosition = localStorage.getItem(FAB_POSITION_KEY);
+      if (savedPosition) {
+        const parsedPosition = JSON.parse(savedPosition);
+        if (
+          Number.isFinite(parsedPosition?.x) &&
+          Number.isFinite(parsedPosition?.y)
+        ) {
+          initialPosition = clampFabPosition(
+            parsedPosition.x,
+            parsedPosition.y,
+            window.innerWidth,
+            window.innerHeight,
+            fabSize,
+          );
+        } else {
+          console.error('Stored AI Tutor button position is invalid.');
+        }
+      }
+    } catch (error) {
+      console.error('Unable to read the AI Tutor button position.', error);
+    }
+
+    if (!initialPosition) {
+      initialPosition = clampFabPosition(
+        window.innerWidth - fabSize - 28,
+        window.innerHeight - fabSize - 28,
+        window.innerWidth,
+        window.innerHeight,
+        fabSize,
+      );
+    }
+
+    positionRef.current = initialPosition;
+    setFabPosition(initialPosition);
+
+    const handleResize = () => {
+      const position = positionRef.current;
+      if (!position) return;
+      const resizedPosition = updateFabPosition(position.x, position.y);
+      saveFabPosition(resizedPosition);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -110,22 +200,103 @@ function AiTutor({ t, currentContext = null }) {
     setInput(userMsg);
   };
 
+  const handleFabPointerDown = (event) => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      origin: positionRef.current,
+      moved: false,
+    };
+  };
+
+  const handleFabPointerMove = (event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(deltaX, deltaY) < 5) return;
+
+    drag.moved = true;
+    setIsDraggingFab(true);
+    updateFabPosition(drag.origin.x + deltaX, drag.origin.y + deltaY);
+  };
+
+  const handleFabPointerUp = (event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    setIsDraggingFab(false);
+
+    if (drag.moved) {
+      suppressClickRef.current = true;
+      saveFabPosition(positionRef.current);
+      window.setTimeout(() => {
+        suppressClickRef.current = false;
+      }, 0);
+    }
+  };
+
+  const handleFabKeyDown = (event) => {
+    const directions = {
+      ArrowUp: [0, -16],
+      ArrowDown: [0, 16],
+      ArrowLeft: [-16, 0],
+      ArrowRight: [16, 0],
+    };
+    const direction = directions[event.key];
+    if (!direction || !positionRef.current) return;
+
+    event.preventDefault();
+    const nextPosition = updateFabPosition(
+      positionRef.current.x + direction[0],
+      positionRef.current.y + direction[1],
+    );
+    saveFabPosition(nextPosition);
+  };
+
   return (
     <>
       {/* Floating button */}
       <button
-        className={`ai-tutor-fab${open ? ' open' : ''}`}
-        onClick={() => setOpen(!open)}
+        ref={fabRef}
+        className={`ai-tutor-fab${open ? ' open' : ''}${isDraggingFab ? ' dragging' : ''}`}
+        style={fabPosition ? { left: fabPosition.x, top: fabPosition.y } : undefined}
+        onClick={() => {
+          if (suppressClickRef.current) {
+            suppressClickRef.current = false;
+            return;
+          }
+          setOpen((previous) => !previous);
+        }}
+        onPointerDown={handleFabPointerDown}
+        onPointerMove={handleFabPointerMove}
+        onPointerUp={handleFabPointerUp}
+        onPointerCancel={handleFabPointerUp}
+        onKeyDown={handleFabKeyDown}
         aria-label={ai.btnLabel}
         aria-expanded={open}
+        title={ai.btnLabel}
+        disabled={!fabPosition}
       >
-        <span className="ai-tutor-fab-icon">🤖</span>
-        <span className="ai-tutor-fab-label">{open ? '✕' : ai.btnLabel}</span>
+        <img src={aiMascot} alt="" aria-hidden="true" draggable="false" />
       </button>
 
       {/* Panel */}
       {open && (
-        <div className="ai-tutor-panel" role="dialog" aria-label={ai.title}>
+        <div
+          className="ai-tutor-panel"
+          role="dialog"
+          aria-label={ai.title}
+          style={{
+            '--ai-fab-left': `${fabPosition.x}px`,
+            '--ai-fab-top': `${fabPosition.y}px`,
+          }}
+        >
           {/* Header */}
           <div className="ai-tutor-header">
             <div className="ai-tutor-header-left">

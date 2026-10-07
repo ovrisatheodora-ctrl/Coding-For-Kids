@@ -18,18 +18,16 @@ const COLORS = ['#C7EF8E', '#CCF6FF', '#FFD1F3'];
 function TestimonialCard({ card, color, ratingLabel }) {
   return (
     <article className="testimonial-card" style={{ '--card-color': color }}>
-      <img
-        className="testimonial-avatar"
-        src={card.image}
-        alt=""
-        aria-hidden="true"
-        width="60"
-        height="60"
-        loading="lazy"
-      />
-      <p className="testimonial-quote">{card.quote}</p>
-
-      <div className="testimonial-footer">
+      <div className="testimonial-header">
+        <img
+          className="testimonial-avatar"
+          src={card.image}
+          alt=""
+          aria-hidden="true"
+          width="60"
+          height="60"
+          loading="lazy"
+        />
         <div className="testimonial-author">
           <span className="testimonial-name">{card.name}</span>
           <span className="testimonial-role">{card.role}</span>
@@ -38,6 +36,8 @@ function TestimonialCard({ card, color, ratingLabel }) {
           ★★★★★
         </div>
       </div>
+
+      <p className="testimonial-quote">{card.quote}</p>
     </article>
   );
 }

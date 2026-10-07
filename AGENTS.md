@@ -39,6 +39,7 @@ Hover: translate(-2px,-2px). Active: translate(2px,2px), shadow 3px.
 
 ## Working rules
 - Work in phases. Do ONE phase per task, never build everything at once.
+- If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.
 - Lessons and games are data-driven (no hardcoded page per lesson).
 - All UI strings live in src/data/i18n (id + en), none inline.
 - Short text, big visuals, child-friendly language.

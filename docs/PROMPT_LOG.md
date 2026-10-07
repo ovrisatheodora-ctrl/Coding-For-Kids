@@ -563,3 +563,235 @@ Commit: perubahan UI dari prompt #006–#046 ter-commit dalam dua commit:
 - 36b486d feat: add learning mode framework (2026-10-07 10:01 WIB)
 - 00ed53d style: update mascot, logo, learning page and global styles (2026-10-07 10:03 WIB)
 Catatan: commit 36b486d memuat perubahan UI (navbar, hero, testimonials, CTA, ribbon, mascot) bersama kode Learning Mode, sehingga pesan commitnya hanya menyebut Learning Mode. Perubahan di-commit pada 7 Okt, dikelompokkan per fitur, bukan satu per satu setelah tiap prompt.  
+
+#049 — 2026-10-07 10:53 WIB
+
+Prompt:
+asset yang ini tolong di turunkan lagi posisinya agar center. card nomor 2 sudah benar tidak perlu ada perubahan
+
+#050 — 2026-10-07 10:54 WIB
+
+Prompt:
+yang bagian card 2 assetnya sekalian turunin juga deh tapi jangan terlalu banyak
+
+#051 — 2026-10-07 10:58 WIB
+
+Prompt:
+bagian isi card aku ingin ubah layoutnya.
+pfp sejajar dengan usn dan status (student/parents) lalu sejajar juga dengan ratting
+kemudian untuk kalimat reviewnya itu di bawah. jadi yang atas itu pfp-usn-status- ratting. baru review nya apa
+
+#052 — 2026-10-07 11:00 WIB
+
+Prompt:
+ukuran pfp nya dikecilin dikit bisa?
+
+#047 — 2026-10-07 10:36 WIB
+
+Prompt:
+sudahkah sesai dengan code nya? harusnya hasilnya seperti ini
+
+Reference: screenshot of the three compact, horizontal lesson cards with yellow, blue, and pink backgrounds; text and level dots on the left; illustrations on the right; and purple Explore Lesson buttons.
+
+#047 — 2026-10-07 10:30 WIB
+
+Prompt:
+bantu saya untuk terapkaan code ini dibagian card home
+
+Reference: screenshot of the three homepage lesson cards with pastel panels, bordered illustrations, numbered labels, star decorations, level dots, and white pill buttons.
+
+#053 — 2026-10-07 11:35 WIB
+
+Prompt:
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Background Garis Vertikal</title>
+<style>
+  :root{
+    /* palette */
+    --blossom:#FFD1F3;
+    --sky:#CCF6FF;
+    --apple:#C7EF8E;
+    --cream:#FFFDF5;
+    --cream-garis:#FFFDF5;   /* cream sesuai gambar yang kamu kirim */
+
+    /* dua warna yang dipakai untuk garis */
+    --garis-a:var(--cream-garis);
+    --garis-b:var(--sky);
+
+    --lebar-garis:22px;   /* lebar 1 garis */
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+
+  body{
+    background-color:var(--garis-a);
+    background-image:repeating-linear-gradient(
+      90deg,
+      var(--garis-a) 0 var(--lebar-garis),
+      var(--garis-b) var(--lebar-garis) calc(var(--lebar-garis) * 2)
+    );
+    background-attachment:fixed;
+  }
+
+  /*
+    Ingin kombinasi warna lain? Ganti dua baris --garis-a dan --garis-b di atas:
+      Cream + Blossom : --garis-b:var(--blossom)
+      Cream + Apple   : --garis-b:var(--apple)
+      Sky + Blossom   : --garis-a:var(--sky);  --garis-b:var(--blossom)
+  */
+
+  /* Taruh konten website kamu di sini */
+  main{position:relative;min-height:100vh}
+</style>
+</head>
+<body>
+  <main>
+    <!-- konten kamu -->
+  </main>
+</body>
+</html>
+
+terapkan hanya ke background lessons dan buat sedikit transparant
+
+#054 — 2026-10-07 11:38 WIB
+
+Prompt:
+testimoni bagian ini nya dibuat seperti effect blur out in gitu, jangan langsung patah gt jelek. perbaiki
+
+#055 — 2026-10-07 11:48 WIB
+
+Prompt:
+Add a subtle fade/blur-out effect to the left and right edges of the testimonial marquee.
+
+Requirements:
+- Keep the existing testimonial cards and marquee animation unchanged.
+- Only add the edge fade effect.
+- The cards should gradually disappear/fade as they approach the left and right edges of the testimonial container.
+- Use a gradient overlay from the section background into transparent.
+- The effect should be symmetrical on both sides.
+- The center of the testimonial row must remain completely clear and sharp.
+- Do not blur the actual testimonial cards.
+- Do not change the card size, spacing, colors, typography, or animation speed.
+- Do not add any other visual effects.
+
+Use this structure:
+
+<div className="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-background sm:block" />
+<div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/3 bg-gradient-to-l from-background sm:block" />
+
+Make sure the testimonial container has `relative` and `overflow-hidden` so the fade effect stays inside the section.
+
+#056 — 2026-10-07 11:56 WIB
+
+Prompt:
+button ask ai tolong dirua=bah dengan asset Maskot AI yang telah saya cantumkan. foto tersebut termasuk sebagain button dan tambahkan outlined tebal di bawah agar seolah olah melayang. ask ai tsb juga dapat di geser geser sesuai kemauan user
+
+#057 — 2026-10-07 12:08 WIB
+
+Prompt:
+jangan diberi lingkaran deh, hanya gambar aja dan ukurannya dibesarin
+
+#058 — 2026-10-07 12:13 WIB
+
+Prompt:
+terapkan di## CHOOSE YOUR LEARNING LEVEL
+
+#059 — 2026-10-07 12:17 WIB
+
+Prompt:
+hapus emot yang aku silang dan bold tombol ->
+
+#060 — 2026-10-07 12:17 WIB
+
+Prompt:
+tambahkan foto di asset aitu Learn dan Game
+
+#061 — 2026-10-07 12:17 WIB
+
+Prompt:
+ganti emoji ini dengan asset Grade 1-2 3-4 5-6
+
+#062 — 2026-10-07 12:25 WIB
+
+Prompt:
+besarkan asset Learn dan Game
+lalu keterangan dari judulnya hanya segini
+
+#063 — 2026-10-07 12:25 WIB
+
+Prompt:
+backgroundnya ini dibuat kotak kotak seperti di leasson
+
+#064 — 2026-10-07 12:27 WIB
+
+Prompt:
+asset nya besarin lagi terus geser ke atas dikit
+
+#065 — 2026-10-07 12:29 WIB
+
+Prompt:
+geserin ke kanan
+
+#066 — 2026-10-07 12:31 WIB
+
+Prompt:
+geserin lagi ke kanan
+
+#067 — 2026-10-07 12:36 WIB
+
+Prompt:
+oh iyabagian ini aku maunya kaya gini
+user buka card -> choose learning level -> setelah itu baru muncul langghuage -> pilih -> muncul learnd dan game
+
+#068 — 2026-10-07 12:36 WIB
+
+Prompt:
+tambahkan scroll animation
+
+Clarification:
+Otomatis scroll halus ke langkah berikutnya setelah pilih level/bahasa
+
+#069 — 2026-10-07 12:37 WIB
+
+Prompt:
+hapus bagian ini
+
+Reference:
+Screenshot marking the circular arrows on all three grade cards
+
+#070 — 2026-10-07 13:25 WIB
+
+Prompt:
+terapkan code ini dibagian 3 card ketika di click. sesuaikan isinya
+
+Reference:
+User-provided Logic & Algorithms detail hero HTML/CSS design, adapted for all three lesson categories with localized text and matching existing illustrations.
+
+#071 — 2026-10-07 13:59 WIB
+
+Prompt:
+bagian # LOGIKA & ALGORITMA assetnya diganti jadi LOGIKA & ALGORITMA serta warna card nya kuning meneyesuaikan.
+emot brain diganti asset Brain dan star diganti Asset Grade 1-2
+
+#072 — 2026-10-07 14:03 WIB
+
+Prompt:
+brain nya hapus aja. brain kanan dignati dengan asset LOGIKA & ALGORITMA
+
+#073 — 2026-10-07 14:04 WIB
+
+Prompt:
+asset di besarin lagi kemduaian ini di bawahain
+
+#074 — 2026-10-07 14:04 WIB
+
+Prompt:
+# LOGIC & ALGORITHMS
+Learn to think like a programmer — patterns, sequences, decisions, and debugging.
+
+3 topic tutunkan ke bawahhh

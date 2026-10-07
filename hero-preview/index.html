@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Belajar coding untuk anak SD melalui permainan, aktivitas interaktif, dan tantangan kreatif."
+    />
+    <meta name="theme-color" content="#CCF6FF" />
+    <title>Coding for Kids — Learn to Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Lilita+One&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --blossom: #ffd1f3;
+        --sky: #ccf6ff;
+        --apple: #c7ef8e;
+        --ink: #111111;
+        --paper: #ffffff;
+        --bar-blue: #eafbff;
+        --step: clamp(10px, 3vw, 28px);
+        --display: "Lilita One", Impact, sans-serif;
+        --body: "Fredoka", "Trebuchet MS", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-width: 320px;
+        min-height: 100%;
+        background: var(--sky);
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        background: var(--sky);
+        font-family: var(--body);
+      }
+
+      .hero {
+        position: relative;
+        display: grid;
+        min-height: 100vh;
+        min-height: 100svh;
+        place-items: center;
+        overflow: hidden;
+        padding: clamp(36px, 7vh, 76px) 24px;
+        isolation: isolate;
+      }
+
+      .background-bars {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .bar {
+        position: absolute;
+        width: max(0px, calc((100vw - 800px) / 2));
+        height: 28px;
+      }
+
+      .bar--left {
+        right: calc(50% + 400px);
+      }
+
+      .bar--right {
+        left: calc(50% + 400px);
+      }
+
+      .bar--pink {
+        background: var(--blossom);
+      }
+
+      .bar--green {
+        background: var(--apple);
+      }
+
+      .bar--blue {
+        background: var(--bar-blue);
+      }
+
+      .bar--left.bar--one {
+        top: 20%;
+      }
+
+      .bar--right.bar--one {
+        top: 24%;
+      }
+
+      .bar--left.bar--two {
+        top: 40%;
+      }
+
+      .bar--right.bar--two {
+        top: 45%;
+      }
+
+      .bar--left.bar--three {
+        top: 67%;
+      }
+
+      .bar--right.bar--three {
+        top: 64%;
+      }
+
+      .bar--left.bar--four {
+        top: 81%;
+      }
+
+      .bar--right.bar--four {
+        top: 84%;
+      }
+
+      .clip-definitions {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
+
+      .hero-card {
+        position: relative;
+        width: min(800px, calc(100vw - 64px));
+        min-height: clamp(550px, 76vh, 650px);
+        transform: rotate(-1.2deg);
+        isolation: isolate;
+      }
+
+      .card-layer {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(
+          3% 0,
+          94% 0,
+          97% 3%,
+          97% 18%,
+          98.5% 18%,
+          100% 21%,
+          100% 43%,
+          98% 43%,
+          95.5% 46%,
+          95.5% 68%,
+          98.5% 68%,
+          100% 71%,
+          100% 97%,
+          97% 100%,
+          14% 100%,
+          11% 97%,
+          11% 80%,
+          8.5% 80%,
+          6% 77%,
+          6% 59%,
+          4.5% 59%,
+          2% 56%,
+          2% 36%,
+          1.5% 36%,
+          0 33%,
+          0 3%
+        );
+        clip-path: url("#hero-card-shape");
+      }
+
+      .card-shadow {
+        z-index: -2;
+        transform: translate(-14px, 14px);
+        background: var(--ink);
+      }
+
+      .card-outline {
+        z-index: -1;
+        transform: translate(2px, -2px);
+        background: var(--ink);
+      }
+
+      .card-paper {
+        display: flex;
+        min-height: inherit;
+        align-items: center;
+        padding:
+          clamp(42px, 7vw, 68px)
+          clamp(58px, 8vw, 82px)
+          clamp(42px, 7vw, 62px)
+          calc(var(--step) * 4 + clamp(24px, 4vw, 42px));
+        background: var(--paper);
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 620px;
+      }
+
+      .headline {
+        position: relative;
+        display: grid;
+        justify-items: start;
+        margin: 0;
+        font-family: var(--display);
+        text-transform: uppercase;
+      }
+
+      .headline-line {
+        display: block;
+        -webkit-text-stroke: 1.2px var(--ink);
+        paint-order: stroke fill;
+        text-shadow: 3px 4px 0 var(--ink);
+      }
+
+      .headline-kicker {
+        margin: 0 0 3px 9px;
+        transform: rotate(-4deg);
+        font-family: var(--body);
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-shadow: 1px 2px 0 var(--ink);
+      }
+
+      .headline-code {
+        position: relative;
+        z-index: 1;
+        color: var(--blossom);
+        transform: rotate(-3deg) translateX(-5px);
+        font-size: clamp(5rem, 12vw, 8.5rem);
+        line-height: 0.92;
+        -webkit-text-stroke: 2.5px var(--ink);
+        text-shadow: 5px 6px 0 var(--ink);
+      }
+
+      .headline-pair {
+        display: flex;
+        align-items: center;
+        gap: clamp(12px, 3vw, 28px);
+        margin: 8px 0 2px 5px;
+        font-size: clamp(2rem, 5.3vw, 3.65rem);
+        line-height: 1.1;
+      }
+
+      .headline-play {
+        color: var(--sky);
+        transform: rotate(-3deg);
+      }
+
+      .headline-create {
+        color: var(--apple);
+        transform: rotate(3deg) translateY(4px);
+      }
+
+      .headline-fun {
+        margin: 1px 0 0 5px;
+        color: var(--blossom);
+        transform: rotate(-1deg);
+        font-size: clamp(2.8rem, 7vw, 5.1rem);
+        line-height: 1.05;
+        -webkit-text-stroke: 1.8px var(--ink);
+        text-shadow: 4px 5px 0 var(--ink);
+      }
+
+      .hero-description {
+        max-width: 28em;
+        margin: clamp(18px, 3vh, 26px) 0 0 7px;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 500;
+        line-height: 1.55;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 25px 0 0 7px;
+      }
+
+      .hero-button {
+        display: inline-flex;
+        min-height: 54px;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 23px;
+        border: 3px solid var(--ink);
+        border-radius: 999px;
+        box-shadow: 0 5px 0 var(--ink);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.1;
+        text-align: center;
+        text-decoration: none;
+        transition:
+          transform 120ms ease,
+          box-shadow 120ms ease;
+      }
+
+      .hero-button--primary {
+        background: var(--apple);
+      }
+
+      .hero-button--secondary {
+        background: var(--paper);
+      }
+
+      .hero-button:hover {
+        transform: translateY(2px);
+        box-shadow: 0 3px 0 var(--ink);
+      }
+
+      .hero-button:active {
+        transform: translateY(5px);
+        box-shadow: 0 0 0 var(--ink);
+      }
+
+      .hero-button:focus-visible {
+        outline: 4px solid var(--ink);
+        outline-offset: 5px;
+      }
+
+      .sticker {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        overflow: visible;
+        pointer-events: none;
+      }
+
+      .sticker-star-pink {
+        top: 5%;
+        left: -1%;
+        width: clamp(32px, 5vw, 47px);
+        transform: rotate(-12deg);
+      }
+
+      .sticker-star-green {
+        top: 17%;
+        left: 5%;
+        width: clamp(21px, 3vw, 29px);
+        transform: rotate(12deg);
+      }
+
+      .sticker-star-blue {
+        top: -8%;
+        left: 47%;
+        width: clamp(31px, 5vw, 45px);
+        transform: rotate(9deg);
+      }
+
+      .sticker-code {
+        top: 6%;
+        right: 7%;
+        width: clamp(55px, 8vw, 72px);
+        transform: rotate(7deg);
+      }
+
+      .sticker-cursor {
+        top: 48%;
+        right: 5%;
+        width: clamp(47px, 7vw, 64px);
+        transform: rotate(-12deg);
+      }
+
+      .sticker-plus {
+        right: -2.5%;
+        bottom: -5%;
+        width: clamp(64px, 10vw, 94px);
+        transform: rotate(4deg);
+      }
+
+      @media (max-width: 760px) {
+        .hero-card {
+          min-height: 590px;
+        }
+
+        .card-paper {
+          padding-right: 60px;
+          padding-left: calc(var(--step) * 4 + 34px);
+        }
+
+        .sticker-code {
+          top: 5%;
+          right: 6%;
+        }
+
+        .sticker-cursor {
+          right: 3%;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .hero {
+          min-height: 100svh;
+          padding: 38px 28px 48px;
+        }
+
+        .background-bars,
+        .sticker-star-pink,
+        .sticker-star-green,
+        .sticker-star-blue,
+        .sticker-cursor {
+          display: none;
+        }
+
+        .hero-card {
+          width: calc(100vw - 64px);
+          min-height: 590px;
+          transform: rotate(-0.7deg);
+        }
+
+        .card-paper {
+          padding:
+            54px
+            35px
+            55px
+            calc(var(--step) * 4 + 22px);
+        }
+
+        .hero-copy {
+          max-width: 100%;
+        }
+
+        .headline-code {
+          font-size: clamp(4.1rem, 19vw, 6.2rem);
+          -webkit-text-stroke-width: 2px;
+          text-shadow: 4px 5px 0 var(--ink);
+        }
+
+        .headline-pair {
+          gap: clamp(9px, 3.5vw, 18px);
+          margin-top: 12px;
+          font-size: clamp(1.85rem, 8vw, 2.8rem);
+        }
+
+        .headline-fun {
+          margin-top: 7px;
+          font-size: clamp(2.7rem, 11vw, 4rem);
+          -webkit-text-stroke-width: 1.4px;
+          text-shadow: 3px 4px 0 var(--ink);
+        }
+
+        .hero-description {
+          margin-top: 21px;
+          font-size: 1rem;
+        }
+
+        .hero-actions {
+          flex-direction: column;
+          gap: 13px;
+          margin-top: 22px;
+        }
+
+        .hero-button {
+          width: 100%;
+          min-height: 52px;
+        }
+
+        .sticker-code {
+          top: 4%;
+          right: 5%;
+          width: 52px;
+        }
+
+        .sticker-plus {
+          right: -4%;
+          bottom: -4%;
+          width: 62px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .hero {
+          padding-right: 22px;
+          padding-left: 22px;
+        }
+
+        .hero-card {
+          width: calc(100vw - 56px);
+          min-height: 620px;
+        }
+
+        .card-paper {
+          padding-right: 26px;
+          padding-left: calc(var(--step) * 4 + 18px);
+        }
+
+        .headline-code {
+          font-size: clamp(3.7rem, 18vw, 4.4rem);
+        }
+
+        .headline-pair {
+          gap: 8px;
+          font-size: clamp(1.65rem, 7.5vw, 1.85rem);
+        }
+
+        .headline-fun {
+          font-size: clamp(2.4rem, 10vw, 2.8rem);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="clip-definitions" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="hero-card-shape" clipPathUnits="objectBoundingBox">
+          <path
+            d="M .03 0 H .94 Q .97 0 .97 .03 V .18 H .985 Q 1 .18 1 .21 V .43 H .98 Q .955 .43 .955 .46 V .68 H .985 Q 1 .68 1 .71 V .97 Q 1 1 .97 1 H .14 Q .11 1 .11 .97 V .80 H .085 Q .06 .80 .06 .77 V .59 H .045 Q .02 .59 .02 .56 V .36 H .015 Q 0 .36 0 .33 V .03 Q 0 0 .03 0 Z"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <main class="hero">
+      <div class="background-bars" aria-hidden="true">
+        <span class="bar bar--left bar--pink bar--one"></span>
+        <span class="bar bar--right bar--blue bar--one"></span>
+        <span class="bar bar--left bar--green bar--two"></span>
+        <span class="bar bar--right bar--pink bar--two"></span>
+        <span class="bar bar--left bar--blue bar--three"></span>
+        <span class="bar bar--right bar--green bar--three"></span>
+        <span class="bar bar--left bar--pink bar--four"></span>
+        <span class="bar bar--right bar--blue bar--four"></span>
+      </div>
+
+      <section class="hero-card" aria-labelledby="hero-title">
+        <div class="card-layer card-shadow" aria-hidden="true"></div>
+        <div class="card-layer card-outline" aria-hidden="true"></div>
+        <div class="card-layer card-paper">
+          <div class="hero-copy">
+            <h1 class="headline" id="hero-title">
+              <span class="headline-line headline-kicker">LEARN TO</span>
+              <span class="headline-line headline-code">CODE.</span>
+              <span class="headline-pair">
+                <span class="headline-line headline-play">PLAY.</span>
+                <span class="headline-line headline-create">CREATE.</span>
+              </span>
+              <span class="headline-line headline-fun">HAVE FUN!</span>
+            </h1>
+            <p class="hero-description">
+              Belajar coding untuk anak SD melalui permainan, aktivitas interaktif, dan tantangan kreatif.
+            </p>
+            <div class="hero-actions">
+              <a class="hero-button hero-button--primary" href="#lessons">Start Learning →</a>
+              <a class="hero-button hero-button--secondary" href="#lessons">Explore Lessons</a>
+            </div>
+          </div>
+        </div>
+
+        <svg class="sticker sticker-star-pink" viewBox="0 0 60 60" aria-hidden="true" focusable="false">
+          <path d="M30 3 37 20 56 21 42 33 46 52 30 42 14 52 18 33 4 21 23 20Z" fill="#FFD1F3" stroke="#111111" stroke-width="4" stroke-linejoin="round" />
+        </svg>
+        <svg class="sticker sticker-star-green" viewBox="0 0 60 60" aria-hidden="true" focusable="false">
+          <path d="M30 4 37 21 56 22 42 34 46 53 30 43 14 53 18 34 4 22 23 21Z" fill="#C7EF8E" stroke="#111111" stroke-width="4" stroke-linejoin="round" />
+        </svg>
+        <svg class="sticker sticker-star-blue" viewBox="0 0 60 60" aria-hidden="true" focusable="false">
+          <path d="M30 3 37 20 56 21 42 33 46 52 30 42 14 52 18 33 4 21 23 20Z" fill="#CCF6FF" stroke="#111111" stroke-width="4" stroke-linejoin="round" />
+        </svg>
+        <svg class="sticker sticker-code" viewBox="0 0 86 86" aria-hidden="true" focusable="false">
+          <rect x="5" y="5" width="76" height="76" rx="20" fill="#FFD1F3" stroke="#111111" stroke-width="5" />
+          <path d="m32 30-12 13 12 13M54 30l12 13-12 13M49 25l-12 37" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="sticker sticker-cursor" viewBox="0 0 72 88" aria-hidden="true" focusable="false">
+          <path d="M9 5 60 45 39 48 51 72 39 78 27 54 14 69Z" fill="#CCF6FF" stroke="#111111" stroke-width="5" stroke-linejoin="round" />
+        </svg>
+        <svg class="sticker sticker-plus" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <path d="M37 8h26v29h29v26H63v29H37V63H8V37h29Z" fill="#C7EF8E" stroke="#111111" stroke-width="6" stroke-linejoin="round" />
+        </svg>
+      </section>
+    </main>
+  </body>
+</html>

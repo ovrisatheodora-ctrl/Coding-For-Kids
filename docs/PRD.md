@@ -481,8 +481,15 @@ CTA
 ↓
 FOOTER
 
+# Visual direction
+- Pastel palette: Blossom #FFD1F3, Summer Sky #CCF6FF, Sour Apple #C7EF8E,
+  Banana #FFE45C, outline #111111, and warm cream #FFFDF5.
+- Do not use the old bright palette.
+- Pastel background stripes appear only in specific sections, not across the
+  whole page. The Hero background is plain cream.
+
 # NAVIGATION
-Logo: CODING FOR KIDS ⭐
+Use a star-free image logo on the left beside the CODING FOR KIDS text.
 
 Navigation:
 Home
@@ -492,19 +499,21 @@ About
 
 CTA:
 Start Learning →
+Navbar buttons and Start Learning use Banana. Do not put a star in or beside
+the logo, including in the footer.
 
 # HERO
+Use a layered ticket-style card with the Maskot_Coding_For_Kids.png asset on the
+right. Keep the Hero section background plain cream.
+
 Headline:
 LEARN TO
 CODE.
 PLAY. CREATE.
 HAVE FUN!
 
-Color treatment:
-CODE → Coral
-PLAY → Blue
-CREATE → Green
-HAVE FUN → Yellow
+Use the pastel palette for the headline: Blossom, Summer Sky, Sour Apple, and
+Banana. The primary Start Learning button uses Banana.
 
 Description:
 Belajar coding untuk anak SD melalui permainan, aktivitas interaktif, dan tantangan kreatif.
@@ -514,13 +523,7 @@ START LEARNING →
 EXPLORE LESSONS
 
 Right side:
-Friendly coding robot mascot with:
-
-- Laptop
-- Headphones
-- Happy expression
-- Coding screen
-- Colorful decorations
+Maskot_Coding_For_Kids.png asset.
 
 # LESSON CARDS
 Exactly three:
@@ -534,19 +537,16 @@ Clicking a lesson card opens a dedicated lesson page rather than a modal.
 Section:
 WHAT THEY SAY
 
-Student:
-“Learning coding is no longer boring because there are so many games!”
-— Student, Grade 5
-
-Parent:
-“My child became more interested in learning logic because the lessons feel like playing.”
-— Parent
-
-Teacher:
-“The lessons help students understand coding concepts without making them feel overwhelmed by theory.”
-— Teacher
+Use two rows of testimonial cards in a continuous marquee that loops
+seamlessly and never pauses. Use student and parent testimonials with
+Playful_Pink_Idea_Cube.png, Kawaii_Robot_and_Pastel_Signpost.png, and
+Kawaii_Cat_Designing_a_Star.png asset avatars. Each card places the avatar,
+name, role, and rating together above the review text.
 
 # CTA
+Use a two-row marquee that loops seamlessly and never pauses. Use Banana as
+the CTA accent.
+
 Headline:
 READY TO START YOUR CODING ADVENTURE?
 
@@ -557,7 +557,7 @@ Button:
 START LEARNING →
 
 # FOOTER
-CODING FOR KIDS ⭐
+CODING FOR KIDS, with no star in or beside the logo.
 
 Learn. Play. Create. Have Fun!
 
@@ -584,14 +584,14 @@ The product must work on:
 Desktop:
 - Two-column hero
 - Three lesson cards in one row
-- Three testimonial cards
+- Two testimonial rows
 
 Tablet:
 - Flexible grid
 
 Mobile:
 - Single-column layout
-- Mascot below hero
+- Mascot above the ticket-style Hero card
 - One card per row
 - Touch-friendly buttons
 - Responsive games

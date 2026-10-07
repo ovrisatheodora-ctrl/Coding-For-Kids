@@ -134,21 +134,11 @@ Do not introduce unrelated bright colors.
 
 
 # BACKGROUND
-The entire website uses a warm cream background.
-Create decorative irregular horizontal pastel stripes inspired by the reference.
-Use:
-- Pale blue horizontal strips
-- Pale yellow horizontal strips
-- Cream space between strips
-
-The stripes should have irregular lengths.
+The page background is warm cream (#FFFDF5).
+Pastel background stripes appear only in specific sections, not across the whole page.
+Keep the Hero section background plain cream.
+Where stripes are used, use pastel colors with irregular lengths and cream space between them.
 They should feel hand-designed rather than perfectly uniform.
-Use the stripes:
-- Behind the Hero
-- Around sections
-- Along page edges
-- Between sections
-- Behind decorative illustrations
 
 Add scattered:
 ⭐ Stars
@@ -175,8 +165,7 @@ Style:
 Layout:
 
 LEFT:
-CODING
-FOR KIDS ⭐
+Star-free image logo beside the CODING FOR KIDS text.
 
 CENTER:
 Home
@@ -186,22 +175,26 @@ About
 
 RIGHT:
 Start Learning →
-Home uses a yellow rounded pill.
 
-Start Learning uses:
+Navbar buttons and Start Learning use Banana:
 #FFE45C
+
+The logo must not contain a star, including in its image artwork.
 
 The navbar should visually match the reference screenshot.
 
 # HERO
 The Hero is the most important section.
-Use a large two-column layout.
+Use a layered ticket-style card in a two-column layout.
 
 LEFT:
-Large irregular neo-brutalist cream content panel.
+Large layered ticket-style content card.
 
 RIGHT:
-Large coding robot mascot illustration.
+Large Maskot_Coding_For_Kids.png asset.
+
+The Hero section background is plain cream. The ticket-style card is layered,
+with the mascot on the right on desktop.
 
 The two areas should visually overlap slightly.
 
@@ -216,10 +209,10 @@ PLAY. CREATE.
 HAVE FUN!
 
 Color:
-CODE. → Coral
-PLAY. → Blue
-CREATE. → Green
-HAVE FUN! → Yellow
+CODE. → Blossom
+PLAY. → Summer Sky
+CREATE. → Sour Apple
+HAVE FUN! → Banana
 
 Typography should be:
 - Extremely bold
@@ -250,7 +243,7 @@ Primary:
 START LEARNING →
 
 Background:
-Yellow
+Banana
 
 Secondary:
 EXPLORE LESSONS
@@ -265,17 +258,8 @@ Both should have:
 - Bold typography
 
 # MASCOT
-Place a large cute coding robot on the right side.
-
-Mascot characteristics:
-- Friendly robot
-- White body
-- Dark face screen
-- Blue headphones
-- Laptop
-- Coding interface
-- Happy expression
-- Waving hand
+Place the Maskot_Coding_For_Kids.png asset on the right side of the ticket-style Hero card.
+Keep the mascot friendly, large, and easy to see.
 
 Surround it with:
 - Stars
@@ -325,7 +309,7 @@ Immediately below the Hero, create a full-width playful animated text ribbon.
 Text:
 LEARN ✦ PLAY ✦ CODE ✦ CREATE ✦ DISCOVER ✦ SOLVE ✦ HAVE FUN
 
-Ribbon:
+Ribbon background:
 
 #FFD1F3
 
@@ -386,7 +370,8 @@ Subtitle:
 
 “Explore coding through fun activities, challenges, and creative projects.”
 
-Add decorative pastel stripe elements behind or around the heading.
+Pastel background stripes may appear only in specific sections; do not use them
+as a page-wide background.
 
 ---
 
@@ -442,8 +427,8 @@ Cards should visually resemble colorful physical objects.
 Cards should have:
 
 - Large rounded corners
-- 3px black border
-- Approximately 7px black offset shadow
+- 2px black border
+- Approximately 6px black offset shadow
 - Flat color
 - Compact content
 - Large illustrations
@@ -461,7 +446,7 @@ Hover:
 - Card moves slightly upward
 - Shadow becomes stronger
 - Illustration moves slightly
-- Decorative star rotates
+- Decorative star does not rotate
 
 Click:
 
@@ -844,19 +829,21 @@ Title:
 
 WHAT THEY SAY
 
-Create three cards:
-
-Student
-Parent
-Teacher
+Use two rows of testimonial cards in a continuous marquee.
+The marquee loops seamlessly and never pauses.
+Use student and parent testimonials.
 
 Use:
 
-- Playful avatars
+- Playful_Pink_Idea_Cube.png, Kawaii_Robot_and_Pastel_Signpost.png, and
+  Kawaii_Cat_Designing_a_Star.png avatars
 - Pastel backgrounds
 - Thick borders
 - Black shadows
 - Small stars
+
+Place the avatar, name, role, and rating together on the top row of each card.
+Place the review text below.
 
 Maintain the same visual language as the lesson cards.
 
@@ -864,7 +851,8 @@ Maintain the same visual language as the lesson cards.
 
 # CTA
 
-Create a large yellow CTA banner.
+Use a two-row CTA marquee that loops seamlessly and never pauses.
+Use the same warm cream and pastel design system, with Banana as the CTA accent.
 
 Headline:
 
@@ -892,7 +880,7 @@ The CTA should visually resemble the colorful banner in the reference.
 
 Logo:
 
-CODING FOR KIDS ⭐
+CODING FOR KIDS, with no star in or beside the logo.
 
 Tagline:
 
@@ -925,7 +913,7 @@ Desktop:
 - Wide composition
 - Two-column Hero
 - Three lesson cards
-- Three testimonials
+- Two testimonial rows
 
 Tablet:
 
@@ -935,7 +923,7 @@ Tablet:
 Mobile:
 
 - Single-column layout
-- Mascot moves below/around Hero content
+- Mascot appears above the ticket-style Hero card
 - One lesson card per row
 - Touch-friendly controls
 - Mobile navigation

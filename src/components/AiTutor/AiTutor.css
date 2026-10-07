@@ -3,55 +3,57 @@
 /* Floating action button */
 .ai-tutor-fab {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  width: 176px;
+  height: 176px;
   z-index: 900;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--blossom);
-  color: var(--outline);
-  border: var(--border);
-  border-radius: 100px;
-  padding: 12px 20px;
-  font-weight: 800;
-  font-size: 0.9rem;
+  background: transparent;
+  border: 0;
+  padding: 0;
   cursor: pointer;
-  box-shadow: 5px 5px 0 var(--outline);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  font-family: var(--font-body);
+  transition: transform 0.15s ease;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ai-tutor-fab img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 0 var(--outline));
+  -webkit-user-drag: none;
 }
 
 .ai-tutor-fab:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 var(--outline);
 }
 
 .ai-tutor-fab:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--outline);
+  cursor: grabbing;
+  transform: translateY(4px);
 }
 
-.ai-tutor-fab.open {
-  background: var(--blossom);
+.ai-tutor-fab.dragging {
+  cursor: grabbing;
+  transition: none;
+  transform: none;
 }
 
-.ai-tutor-fab-icon {
-  font-size: 1.3rem;
-}
-
-.ai-tutor-fab-label {
-  white-space: nowrap;
+.ai-tutor-fab:focus-visible {
+  outline: 3px solid var(--outline);
+  outline-offset: 4px;
 }
 
 /* ── Panel ── */
 .ai-tutor-panel {
   position: fixed;
-  bottom: 88px;
-  right: 28px;
+  left: clamp(16px, calc(var(--ai-fab-left) - 92px), calc(100vw - 376px));
+  bottom: max(16px, calc(100vh - var(--ai-fab-top) + 12px));
   z-index: 900;
   width: 360px;
-  max-height: 560px;
+  max-height: min(560px, calc(100vh - 32px));
   background: var(--cream);
   border: var(--border);
   border-radius: 20px;
@@ -284,13 +286,12 @@
 @media (max-width: 480px) {
   .ai-tutor-panel {
     width: calc(100vw - 32px);
-    right: 16px;
-    bottom: 80px;
     max-height: 480px;
+    left: 16px;
   }
 
   .ai-tutor-fab {
-    right: 16px;
-    bottom: 16px;
+    width: 144px;
+    height: 144px;
   }
 }
