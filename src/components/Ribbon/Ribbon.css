@@ -1,11 +1,26 @@
 /* ===== Animated Ribbon ===== */
 .ribbon-wrapper {
-  background: var(--blossom);
+  position: relative;
+  z-index: 2;
+  margin-top: -40px;
+  background: #B5A8FF;
   border-top: var(--border);
   border-bottom: var(--border);
   overflow: hidden;
   padding: 0;
   cursor: default;
+}
+
+@media (max-width: 900px) {
+  .ribbon-wrapper {
+    margin-top: -24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ribbon-wrapper {
+    margin-top: -12px;
+  }
 }
 
 .ribbon-track {
@@ -29,15 +44,19 @@
   font-size: clamp(0.95rem, 2vw, 1.15rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--outline);
+  color: #11112F;
   padding: 0 12px;
   gap: 12px;
 }
 
 .ribbon-sep {
-  color: var(--sour-apple);
+  color: var(--banana);
   font-size: 0.9rem;
   margin-left: 12px;
+}
+
+.ribbon-item:nth-child(even) .ribbon-sep {
+  color: var(--banana);
 }
 
 /* Reduce motion: just show static */

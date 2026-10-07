@@ -22,7 +22,7 @@ function Ribbon({ text }) {
 
     tweenRef.current = gsap.to(track, {
       x: -singleWidth,
-      duration: singleWidth / 90, // speed ≈ 90px/s
+      duration: singleWidth / 120, // speed ≈ 120px/s
       ease: 'none',
       repeat: -1,
       modifiers: {
@@ -53,7 +53,7 @@ function Ribbon({ text }) {
           {items.map((item, i) => (
             <span key={i} className="ribbon-item">
               {item}
-              <span className="ribbon-sep" aria-hidden="true">✦</span>
+              <span className="ribbon-sep" aria-hidden="true">★</span>
             </span>
           ))}
         </div>

@@ -1,6 +1,7 @@
 /* ===== Lessons Section ===== */
 .lessons-section {
   position: relative;
+  padding-bottom: 48px;
 }
 
 .lessons-header {
@@ -29,7 +30,7 @@
 
 .lessons-deco-star {
   font-size: 1.6rem;
-  color: var(--blossom);
+  color: var(--banana);
   display: inline-block;
 }
 
@@ -92,9 +93,11 @@
 }
 
 .lesson-card-star {
+  color: var(--banana);
   font-size: 1.3rem;
   animation: spin-slow 8s linear infinite;
   display: inline-block;
+  -webkit-text-stroke: 0.5px var(--outline);
 }
 
 /* Illustration */
@@ -111,9 +114,11 @@
 }
 
 .card-illustration {
+  display: block;
   width: 100%;
   height: 100%;
   padding: 8px;
+  object-fit: contain;
 }
 
 /* Body */

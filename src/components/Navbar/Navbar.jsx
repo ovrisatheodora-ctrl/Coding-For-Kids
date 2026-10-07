@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import logo from '../../assets/Logo_Coding.png';
 import './Navbar.css';
 
 function Navbar({ t, lang, onLangChange }) {
@@ -25,8 +26,8 @@ function Navbar({ t, lang, onLangChange }) {
       <nav className="navbar" aria-label="Main navigation">
         {/* Logo */}
         <Link to="/" className="navbar-logo" aria-label="Coding for Kids Home">
+          <img src={logo} alt="" aria-hidden="true" />
           <span className="navbar-logo-text">{t.nav.logo}</span>
-          <span className="navbar-logo-star" aria-hidden="true">⭐</span>
         </Link>
 
         {/* Desktop links */}
@@ -57,7 +58,7 @@ function Navbar({ t, lang, onLangChange }) {
           </button>
 
           <button
-            className="btn btn-purple navbar-cta"
+            className="navbar-cta"
             onClick={() => navigate('/lessons')}
             aria-label={t.nav.startLearning}
           >
