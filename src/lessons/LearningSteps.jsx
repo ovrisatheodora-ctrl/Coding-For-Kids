@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ArrowLabel from '../components/ArrowLabel';
 
 function localized(value, lang) {
   return value[lang] || value.id;
@@ -97,7 +98,7 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
         </p>
       )}
       {isCorrect ? (
-        <button className="btn btn-primary" type="button" onClick={onContinue}>{labels.continue}</button>
+        <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
       ) : (
         <button className="btn btn-primary" type="button" onClick={checkChoice} disabled={!choice}>
           {labels.check}
@@ -361,7 +362,7 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
         </div>
       )}
       {outcome === 'correct' || revealed ? (
-        <button className="btn btn-primary" type="button" onClick={goNext}>{labels.continue}</button>
+        <button className="btn btn-primary" type="button" onClick={goNext}><ArrowLabel>{labels.continue}</ArrowLabel></button>
       ) : (
         <button className="btn btn-primary" type="button" onClick={checkAnswer} disabled={value === '' || (question.type === 'matching' && Object.keys(value || {}).length !== question.left.length) || (outcome === 'wrong' && !showHint)}>
           {labels.check}
@@ -377,7 +378,7 @@ export function FeedbackStep({ labels, correctCount, questionCount, onContinue }
       <div className="learning-feedback-illustration" aria-hidden="true">🎉</div>
       <h1 id="learning-step-title" className="learning-step-title">{labels.feedbackTitle}</h1>
       <p>{labels.feedbackBody(correctCount, questionCount)}</p>
-      <button className="btn btn-primary" type="button" onClick={onContinue}>{labels.continue}</button>
+      <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
     </section>
   );
 }

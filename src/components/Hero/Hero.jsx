@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import ArrowLabel from '../ArrowLabel';
 import RobotMascot from '../RobotMascot/RobotMascot';
+import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './Hero.css';
 
 const heroStars = [
@@ -151,11 +153,20 @@ function Hero({ t }) {
                 <p className="hero-description">{h.description}</p>
 
                 <div className="hero-buttons">
-                  <Link to="/lessons" className="btn btn-primary hero-btn-primary">
-                    {h.btnPrimary}
+                  <Link
+                    to="/#lessons"
+                    className="btn btn-primary hero-btn-primary"
+                    onClick={(event) => {
+                      if (window.location.pathname === '/') {
+                        event.preventDefault();
+                        scrollToHomeLessons();
+                      }
+                    }}
+                  >
+                    <ArrowLabel>{h.btnPrimary}</ArrowLabel>
                   </Link>
                   <Link to="/lessons" className="btn btn-secondary hero-btn-secondary">
-                    {h.btnSecondary}
+                    <ArrowLabel>{h.btnSecondary}</ArrowLabel>
                   </Link>
                 </div>
               </section>

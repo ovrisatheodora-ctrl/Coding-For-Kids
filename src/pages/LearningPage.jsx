@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import ArrowLabel from '../components/ArrowLabel';
 import { getLearningUnit } from '../lessons';
 import {
   ActivityStep,
@@ -140,7 +141,7 @@ function LearningPage({ t, lang, isGame = false }) {
               {currentStep < 2 && (
                 <div className="learning-stage-footer">
                   <button className="btn btn-secondary" type="button" onClick={() => setCurrentStep(currentStep + 1)}>
-                    {learning.continue}
+                    <ArrowLabel>{learning.continue}</ArrowLabel>
                   </button>
                 </div>
               )}

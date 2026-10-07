@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import aiMascot from '../../assets/Maskot AI.png';
 import './AiTutor.css';
 
@@ -42,14 +42,32 @@ function AiTutor({ t, currentContext = null }) {
   const [hintLevel, setHintLevel] = useState(1);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const inputRef = useRef(null);
   const fabRef = useRef(null);
+  const panelRef = useRef(null);
   const positionRef = useRef(null);
   const dragRef = useRef(null);
   const suppressClickRef = useRef(false);
   const [fabPosition, setFabPosition] = useState(null);
+  const [panelPosition, setPanelPosition] = useState(null);
   const [isDraggingFab, setIsDraggingFab] = useState(false);
   const lang = t === t ? 'id' : 'en'; // detect lang from t object
+
+  const handlePanelWheel = (event) => {
+    const messagesContainer = messagesContainerRef.current;
+    if (!messagesContainer) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const deltaMultiplier = event.deltaMode === 1
+      ? 16
+      : event.deltaMode === 2
+        ? messagesContainer.clientHeight
+        : 1;
+    messagesContainer.scrollTop += event.deltaY * deltaMultiplier;
+  };
 
   const updateFabPosition = (x, y) => {
     const fabSize = fabRef.current?.offsetWidth || 176;
@@ -183,16 +201,16 @@ function AiTutor({ t, currentContext = null }) {
     setHintLevel(level);
     const hintTexts = {
       id: {
-        1: '💡 Kasih aku petunjuk kecil dulu!',
-        2: '📖 Jelaskan konsepnya ya!',
-        3: '🔍 Berikan contoh yang mirip!',
-        4: '✅ Tolong tunjukkan solusi lengkapnya!',
+        1: 'Kasih aku petunjuk kecil dulu!',
+        2: 'Jelaskan konsepnya ya!',
+        3: 'Berikan contoh yang mirip!',
+        4: 'Tolong tunjukkan solusi lengkapnya!',
       },
       en: {
-        1: '💡 Give me a small clue please!',
-        2: '📖 Please explain the concept!',
-        3: '🔍 Show me a similar example!',
-        4: '✅ Please show me the full solution!',
+        1: 'Give me a small clue please!',
+        2: 'Please explain the concept!',
+        3: 'Show me a similar example!',
+        4: 'Please show me the full solution!',
       },
     };
     const isId = ai.btnLabel.includes('TANYA');
@@ -259,6 +277,38 @@ function AiTutor({ t, currentContext = null }) {
     saveFabPosition(nextPosition);
   };
 
+  useLayoutEffect(() => {
+    if (!open || !fabPosition || !panelRef.current) return undefined;
+
+    const updatePanelPosition = () => {
+      const panel = panelRef.current;
+      if (!panel) return;
+
+      const panelWidth = panel.offsetWidth || 480;
+      const panelHeight = panel.offsetHeight || 560;
+      const fabSize = fabRef.current?.offsetWidth || 176;
+      const safeTop = window.innerWidth <= 768 ? 88 : 112;
+      const maxTop = Math.max(16, window.innerHeight - panelHeight - 16);
+      const minTop = Math.min(safeTop, maxTop);
+
+      const left = Math.min(
+        Math.max(16, fabPosition.x - panelWidth - 4),
+        window.innerWidth - panelWidth - 16,
+      );
+
+      const top = Math.min(
+        Math.max(minTop, fabPosition.y + fabSize / 2 - panelHeight / 2),
+        maxTop,
+      );
+
+      setPanelPosition({ left, top });
+    };
+
+    updatePanelPosition();
+    window.addEventListener('resize', updatePanelPosition);
+    return () => window.removeEventListener('resize', updatePanelPosition);
+  }, [open, fabPosition]);
+
   return (
     <>
       {/* Floating button */}
@@ -289,18 +339,33 @@ function AiTutor({ t, currentContext = null }) {
       {/* Panel */}
       {open && (
         <div
+          ref={panelRef}
           className="ai-tutor-panel"
           role="dialog"
           aria-label={ai.title}
+          onWheel={handlePanelWheel}
           style={{
-            '--ai-fab-left': `${fabPosition.x}px`,
-            '--ai-fab-top': `${fabPosition.y}px`,
+            left: panelPosition ? `${panelPosition.left}px` : '16px',
+            top: panelPosition
+              ? `${panelPosition.top}px`
+              : `${window.innerWidth <= 768 ? 88 : 112}px`,
+            '--ai-tutor-tail-y': panelPosition
+              ? `${Math.min(
+                  Math.max(
+                    fabPosition.y + (fabRef.current?.offsetWidth || 176) / 2 - panelPosition.top,
+                    48,
+                  ),
+                  (panelRef.current?.offsetHeight || 560) - 48,
+                )}px`
+              : undefined,
           }}
         >
           {/* Header */}
           <div className="ai-tutor-header">
             <div className="ai-tutor-header-left">
-              <span className="ai-tutor-avatar">🤖</span>
+              <span className="ai-tutor-avatar">
+                <img src={aiMascot} alt="" aria-hidden="true" />
+              </span>
               <div>
                 <h3 className="ai-tutor-title">{ai.title}</h3>
                 <p className="ai-tutor-subtitle">{ai.subtitle}</p>
@@ -315,29 +380,22 @@ function AiTutor({ t, currentContext = null }) {
             </button>
           </div>
 
-          {/* Hint level buttons */}
-          <div className="ai-tutor-levels">
-            {ai.levels.map(({ label, level }) => (
-              <button
-                key={level}
-                className={`ai-hint-btn${hintLevel === level ? ' active' : ''}`}
-                onClick={() => requestHint(level)}
-                aria-pressed={hintLevel === level}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
           {/* Messages */}
-          <div className="ai-tutor-messages" role="log" aria-live="polite">
+          <div
+            ref={messagesContainerRef}
+            className="ai-tutor-messages"
+            role="log"
+            aria-live="polite"
+          >
             {messages.map((msg, i) => (
               <div
                 key={i}
                 className={`ai-msg ai-msg--${msg.role}`}
               >
                 {msg.role === 'assistant' && (
-                  <span className="ai-msg-avatar">🤖</span>
+                  <span className="ai-msg-avatar">
+                    <img src={aiMascot} alt="" aria-hidden="true" />
+                  </span>
                 )}
                 <div className="ai-msg-bubble">
                   {msg.text.split('\n').map((line, j) => (
@@ -348,7 +406,9 @@ function AiTutor({ t, currentContext = null }) {
             ))}
             {loading && (
               <div className="ai-msg ai-msg--assistant">
-                <span className="ai-msg-avatar">🤖</span>
+                <span className="ai-msg-avatar">
+                  <img src={aiMascot} alt="" aria-hidden="true" />
+                </span>
                 <div className="ai-msg-bubble ai-msg-bubble--loading">
                   <span className="ai-typing-dot" />
                   <span className="ai-typing-dot" />
@@ -364,24 +424,42 @@ function AiTutor({ t, currentContext = null }) {
             className="ai-tutor-input-row"
             onSubmit={(e) => { e.preventDefault(); sendMessage(); }}
           >
-            <input
-              ref={inputRef}
-              type="text"
-              className="ai-tutor-input"
-              placeholder={ai.placeholder}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
-              aria-label={ai.placeholder}
-            />
-            <button
-              type="submit"
-              className="btn btn-purple ai-send-btn"
-              disabled={loading || !input.trim()}
-              aria-label={ai.sendBtn}
-            >
-              {ai.sendBtn} →
-            </button>
+            <div className="ai-tutor-levels">
+              {ai.levels.map(({ label, level }) => (
+                <button
+                  key={level}
+                  type="button"
+                  className={`ai-hint-btn${hintLevel === level ? ' active' : ''}`}
+                  onClick={() => requestHint(level)}
+                  aria-pressed={hintLevel === level}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="ai-tutor-input-wrap">
+              <input
+                ref={inputRef}
+                type="text"
+                className="ai-tutor-input"
+                placeholder={ai.placeholder}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={loading}
+                aria-label={ai.placeholder}
+              />
+              <button
+                type="submit"
+                className="ai-send-btn"
+                disabled={loading || !input.trim()}
+                aria-label={ai.sendBtn}
+                title={ai.sendBtn}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3.4 20.1 21 12 3.4 3.9l.1 6.3L15 12 3.5 13.8l-.1 6.3Z" />
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
       )}

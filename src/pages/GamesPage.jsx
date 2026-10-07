@@ -1,97 +1,187 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import gameIllustration from '../assets/Game.png';
+import mascotIllustration from '../assets/Maskot_Coding_For_Kids.png';
+import grade12Asset from '../assets/Grade 1-2.png';
+import grade34Asset from '../assets/Grade 3-4.png';
+import brainAsset from '../assets/Brain.png';
+import lockAsset from '../assets/lock.png';
+import robotDeliveryAsset from '../assets/Robot Delivery.png';
+import algorithmAsset from '../assets/Algorithm.png';
+import decisionAsset from '../assets/Decision.png';
+import loopAsset from '../assets/Loop.png';
+import bugHunterAsset from '../assets/Bug Hunter.png';
+import { getProgress } from '../data/progress';
 import './GamesPage.css';
 
-const GAMES = [
-  // Logic & Algorithms
-  { id: 'pattern-adventure', title: 'Pattern Adventure', category: 'Logic', color: '#C7EF8E', icon: '⭐', desc: 'Discover and complete amazing patterns!', comingSoon: false },
-  { id: 'robot-delivery', title: 'Robot Delivery', category: 'Logic', color: '#C7EF8E', icon: '🤖', desc: 'Guide the robot to deliver the package!', comingSoon: false },
-  { id: 'algorithm-quest', title: 'Algorithm Quest', category: 'Logic', color: '#C7EF8E', icon: '🗺️', desc: 'Solve problems step by step!', comingSoon: true },
-  { id: 'decision-forest', title: 'Decision Forest', category: 'Logic', color: '#C7EF8E', icon: '🌲', desc: 'Make smart decisions to find your path!', comingSoon: true },
-  { id: 'loop-runner', title: 'Loop Runner', category: 'Logic', color: '#CCF6FF', icon: '🔁', desc: 'Use loops to run faster!', comingSoon: true },
-  { id: 'bug-hunter', title: 'Bug Hunter', category: 'Logic', color: '#FFD1F3', icon: '🐞', desc: 'Find and fix all the bugs!', comingSoon: true },
-  // Basic Coding
-  { id: 'code-the-robot', title: 'Code the Robot', category: 'Coding', color: '#CCF6FF', icon: '🤖', desc: 'Program the robot with code commands!', comingSoon: true },
-  { id: 'robot-maze', title: 'Robot Maze', category: 'Coding', color: '#FFD1F3', icon: '🌀', desc: 'Help the robot escape the maze!', comingSoon: true },
-  { id: 'code-block-factory', title: 'Code Block Factory', category: 'Coding', color: '#CCF6FF', icon: '🏭', desc: 'Build programs with code blocks!', comingSoon: true },
-  { id: 'event-hero', title: 'Event Hero', category: 'Coding', color: '#FFD1F3', icon: '⚡', desc: 'Trigger events to save the day!', comingSoon: true },
-  { id: 'ifelse-adventure', title: 'IF/ELSE Adventure', category: 'Coding', color: '#FFD1F3', icon: '🔀', desc: 'Make decisions with IF and ELSE!', comingSoon: true },
-  { id: 'code-rescue', title: 'Code Rescue', category: 'Coding', color: '#CCF6FF', icon: '🚑', desc: 'Debug the code and save the day!', comingSoon: true },
-  // Creative Coding
-  { id: 'character-creator', title: 'Character Creator', category: 'Creative', color: '#FFD1F3', icon: '🎨', desc: 'Design your own coding character!', comingSoon: true },
-  { id: 'make-it-move', title: 'Make It Move', category: 'Creative', color: '#C7EF8E', icon: '💃', desc: 'Animate your character with code!', comingSoon: true },
-  { id: 'story-quest', title: 'Story Quest', category: 'Creative', color: '#C7EF8E', icon: '📖', desc: 'Create an interactive coding story!', comingSoon: true },
-  { id: 'mini-game-builder', title: 'Mini Game Builder', category: 'Creative', color: '#C7EF8E', icon: '🎮', desc: 'Build your very own mini game!', comingSoon: true },
-  { id: 'score-master', title: 'Score Master', category: 'Creative', color: '#CCF6FF', icon: '🏆', desc: 'Learn variables by keeping score!', comingSoon: true },
-  { id: 'game-creator', title: 'Game Creator', category: 'Creative', color: '#FFD1F3', icon: '🌟', desc: 'Create your ultimate coding game!', comingSoon: true },
+const CATEGORIES = [
+  { id: 'logic', color: '#C7EF8E', icon: { asset: brainAsset }, games: [
+    { id: 'pattern-adventure', grade: '1-2', difficulty: 'easy', icon: { asset: grade12Asset }, playable: true },
+    { id: 'robot-delivery', grade: '1-2', difficulty: 'easy', icon: { asset: robotDeliveryAsset }, playable: true },
+    { id: 'algorithm-quest', grade: '3-4', difficulty: 'medium', icon: { asset: algorithmAsset } },
+    { id: 'decision-forest', grade: '3-4', difficulty: 'medium', icon: { asset: decisionAsset } },
+    { id: 'loop-runner', grade: '3-4', difficulty: 'medium', icon: { asset: loopAsset } },
+    { id: 'bug-hunter', grade: '3-4', difficulty: 'hard', icon: { asset: bugHunterAsset } },
+  ] },
+  { id: 'coding', color: '#CCF6FF', icon: { asset: grade34Asset }, games: [
+    { id: 'code-the-robot', grade: '3-4', difficulty: 'easy', icon: '🤖' },
+    { id: 'robot-maze', grade: '3-4', difficulty: 'easy', icon: '🌀' },
+    { id: 'code-block-factory', grade: '3-4', difficulty: 'medium', icon: '🏭' },
+    { id: 'event-hero', grade: '3-4', difficulty: 'medium', icon: '⚡' },
+    { id: 'ifelse-adventure', grade: '3-4', difficulty: 'hard', icon: '🔀' },
+    { id: 'code-rescue', grade: '3-4', difficulty: 'hard', icon: '🚑' },
+  ] },
+  { id: 'creative', color: '#FFD1F3', icon: '🎨', games: [
+    { id: 'character-creator', grade: '5-6', difficulty: 'easy', icon: '🧑‍🎨' },
+    { id: 'make-it-move', grade: '5-6', difficulty: 'medium', icon: '💃' },
+    { id: 'story-quest', grade: '5-6', difficulty: 'hard', icon: '📖' },
+    { id: 'mini-game-builder', grade: '5-6', difficulty: 'medium', icon: '🎮' },
+    { id: 'score-master', grade: '5-6', difficulty: 'medium', icon: '🏆' },
+    { id: 'game-creator', grade: '5-6', difficulty: 'hard', icon: '🌟' },
+  ] },
 ];
 
-const CATEGORY_COLORS = {
-  Logic: '#C7EF8E',
-  Coding: '#CCF6FF',
-  Creative: '#FFD1F3',
+const readCompletedGames = () => {
+  const completed = getProgress().completedGames;
+  return Array.isArray(completed) ? completed : [];
 };
 
 function GamesPage({ t }) {
-  const categories = ['Logic', 'Coding', 'Creative'];
-  const categoryLabels = {
-    Logic: t === t ? 'Logika & Algoritma' : 'Logic & Algorithms',
-    Coding: 'Basic Coding',
-    Creative: t === t ? 'Coding Kreatif' : 'Creative Coding',
-  };
+  const { gameId } = useParams();
+  const copy = t.gamesPage;
+  const [completedGames, setCompletedGames] = useState(readCompletedGames);
+  const totalGames = CATEGORIES.reduce((total, category) => total + category.games.length, 0);
+  const knownGameIds = new Set(CATEGORIES.flatMap((category) => category.games.map((game) => game.id)));
+  const completedCount = new Set(completedGames.filter((id) => knownGameIds.has(id))).size;
+
+  useEffect(() => {
+    const refreshProgress = () => setCompletedGames(readCompletedGames());
+    window.addEventListener('focus', refreshProgress);
+    window.addEventListener('storage', refreshProgress);
+    return () => {
+      window.removeEventListener('focus', refreshProgress);
+      window.removeEventListener('storage', refreshProgress);
+    };
+  }, []);
+
+  const selectedGame = CATEGORIES.flatMap((category) => category.games)
+    .find((game) => game.id === gameId);
 
   return (
     <main id="main-content" className="games-page">
-      {/* Hero banner */}
-      <div className="games-banner">
-        <div className="container">
-          <div className="games-banner-deco" aria-hidden="true">
-            <span>🎮</span>
-            <span>⭐</span>
-            <span>🏆</span>
+      <div className="games-page-shell container">
+        <section className="games-banner" aria-labelledby="games-title">
+          <img className="games-banner-art games-banner-art--left" src={gameIllustration} alt="" aria-hidden="true" />
+          <div className="games-banner-content">
+            <div className="games-banner-deco" aria-hidden="true">
+              <span>🎮</span>
+              <img src={grade12Asset} alt="" />
+              <span>🏆</span>
+            </div>
+            <h1 id="games-title" className="games-title">{copy.title}</h1>
+            <p className="games-subtitle">{copy.subtitle}</p>
+            <div
+              className="games-progress"
+              role="img"
+              aria-label={copy.progressLabel(completedCount, totalGames)}
+            >
+              <img className="games-progress-star" src={grade12Asset} alt="" aria-hidden="true" />
+              <strong>{copy.progressLabel(completedCount, totalGames)}</strong>
+              <span className="games-progress-track" aria-hidden="true">
+                <span
+                  className="games-progress-fill"
+                  style={{ width: `${completedCount ? Math.max(4, (completedCount / totalGames) * 100) : 0}%` }}
+                />
+              </span>
+            </div>
           </div>
-          <h1 className="games-title">CODING ADVENTURE</h1>
-          <p className="games-subtitle">Complete levels, collect stars, and become a Coding Hero!</p>
-        </div>
-      </div>
+          <img className="games-banner-art games-banner-art--right" src={mascotIllustration} alt="" aria-hidden="true" />
+        </section>
 
-      {/* Games by category */}
-      <div className="games-body container">
-        {categories.map((cat) => (
-          <section key={cat} className="games-category" aria-label={categoryLabels[cat]}>
-            <div className="games-cat-header">
-              <div
-                className="games-cat-badge"
-                style={{ background: CATEGORY_COLORS[cat] }}
-              >
-                {categoryLabels[cat]}
-              </div>
-            </div>
+        {selectedGame && !selectedGame.playable && (
+          <p className="games-selection-message" role="status">{copy.comingSoonMessage}</p>
+        )}
 
-            <div className="games-grid">
-              {GAMES.filter((g) => g.category === cat).map((game) => (
-                <div
-                  key={game.id}
-                  className={`game-card${game.comingSoon ? ' coming-soon' : ''}`}
-                  style={{ '--card-color': game.color }}
+        <div className="games-body">
+          {CATEGORIES.map((category) => (
+            <section
+              key={category.id}
+              className="games-category"
+              aria-labelledby={`games-category-${category.id}`}
+            >
+              <div className="games-cat-header">
+                <h2
+                  id={`games-category-${category.id}`}
+                  className="games-cat-title"
+                  style={{ '--category-color': category.color }}
                 >
-                  <div className="game-card-icon">{game.icon}</div>
-                  <h3 className="game-card-title">{game.title}</h3>
-                  <p className="game-card-desc">{game.desc}</p>
-                  {game.comingSoon ? (
-                    <span className="game-soon-badge">🔒 Coming Soon</span>
-                  ) : (
+                  <span className="games-cat-icon" aria-hidden="true">
+                    {category.icon.asset ? (
+                      <img src={category.icon.asset} alt="" />
+                    ) : category.icon}
+                  </span>
+                  {copy.categories[category.id]}
+                </h2>
+                <span className="games-cat-count">
+                  {copy.gameCount(category.games.length)}
+                </span>
+              </div>
+
+              <div className="games-grid">
+                {category.games.map((game) => {
+                  const gameCopy = copy.content[game.id];
+                  const isComplete = completedGames.includes(game.id);
+                  const cardContent = (
+                    <>
+                      <span className="game-card-art" aria-hidden="true">
+                        {game.icon.asset ? <img src={game.icon.asset} alt="" /> : game.icon}
+                      </span>
+                      <span className="game-card-info">
+                        <span className="game-card-tags">
+                          <span className="game-grade">{copy.grades[game.grade]}</span>
+                          <span className={`game-difficulty game-difficulty--${game.difficulty}`}>
+                            {copy.difficulties[game.difficulty]}
+                          </span>
+                        </span>
+                        <h3 className="game-card-title">{gameCopy.title}</h3>
+                        <span className="game-card-desc">{gameCopy.description}</span>
+                        {game.playable ? (
+                          <span className="game-action">
+                            {isComplete ? copy.playAgain : copy.play}
+                          </span>
+                        ) : (
+                          <span className="game-action game-action--soon">
+                            <img src={lockAsset} alt="" aria-hidden="true" />
+                            {copy.comingSoon}
+                          </span>
+                        )}
+                      </span>
+                    </>
+                  );
+
+                  return game.playable ? (
                     <Link
+                      key={game.id}
                       to={`/games/${game.id}`}
-                      className="btn game-play-btn"
+                      className={`game-card${isComplete ? ' game-card--complete' : ''}`}
+                      style={{ '--card-color': category.color }}
                     >
-                      PLAY →
+                      {cardContent}
                     </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+                  ) : (
+                    <article
+                      key={game.id}
+                      className="game-card game-card--soon"
+                      style={{ '--card-color': category.color }}
+                    >
+                      {cardContent}
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </main>
   );

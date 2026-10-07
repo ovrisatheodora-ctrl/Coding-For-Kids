@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './CTASection.css';
 
 function CTASection({ t }) {
@@ -16,7 +17,16 @@ function CTASection({ t }) {
         </div>
         <h2 className="cta-headline">{headline}</h2>
         <p className="cta-description">{description}</p>
-        <Link to="/lessons" className="btn cta-btn">
+        <Link
+          to="/#lessons"
+          className="btn cta-btn"
+          onClick={(event) => {
+            if (window.location.pathname === '/') {
+              event.preventDefault();
+              scrollToHomeLessons();
+            }
+          }}
+        >
           {btn}
         </Link>
       </div>

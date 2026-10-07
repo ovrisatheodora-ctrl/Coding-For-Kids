@@ -795,3 +795,122 @@ Prompt:
 Learn to think like a programmer — patterns, sequences, decisions, and debugging.
 
 3 topic tutunkan ke bawahhh
+
+#075 — 2026-10-07 16:43 WIB
+
+Prompt:
+terapkan di page game
+
+#076 — 2026-10-07 20:08 WIB
+
+Prompt:
+home start learning nyambungnya ke lesson in this collection bagian home. kalo Explore lesson itu ke nav bar lessons
+
+#077 — 2026-10-07 20:13 WIB
+
+Prompt:
+strart walaupun uda di click, akan di clcik lagi ettap bisa ya. pokoknya klo di click ke lesson in this collection bagian home
+
+#078 — 2026-10-07 20:15 WIB
+
+Prompt:
+ask ai dibuat melebar aja biar ga kepotong sama nav bar maupun hal lain, di chat ai nyabisa di scrol csroll agar ga berubah" ukuran card pop up nya
+
+#079 — 2026-10-07 20:17 WIB
+
+Prompt:
+dia di bawah nav bar, kurleb cardnya ukurannya segini aja, terus dr maskot ai ke card pop up itu ky di kasi bubble
+
+#080 — 2026-10-07 20:21 WIB
+
+Prompt:
+1. card pop up di geser lagi ke sebelah kanan
+2. bgian button recomendasi ini posisinya jangan di atas situ, tapi berada di atas type ur quostion ,,,,,
+3. button send diganti aja, jadi kaya icon send aja gituu di type ue question
+
+#081 — 2026-10-07 20:23 WIB
+
+Prompt:
+jangan ada warna warna ky gini, stay ky yg garis hitam itu aja gpp
+button rekomrndasi dikecilkan lagi agar cuman bisa sejajar stau aja gt
+
+#082 — 2026-10-07 20:25 WIB
+
+Prompt:
+eumm apa ga card nya lebarin dikit lagi terus card nya di geser ke kanan agar dekat dengan maskot
+
+#083 — 2026-10-07 20:27 WIB
+
+Prompt:
+geserin ke kiri dikit
+only like this.
+button "x" bold
+emoji robot di coding asst hapus
+pink pink nya agak di potong lg, agak pepetin sama im here
+
+#084 — 2026-10-07 20:29 WIB
+
+Prompt:
+ketika crusor berada di pop up ask ai dia klo mw scroll down atau up ya yang gerak di ask ai bukan di home dll itu
+
+#085 — 2026-10-07 20:31 WIB
+
+Prompt:
+bubble nya warna blue jan pink coba
+
+#086 — 2026-10-07 20:32 WIB
+
+Prompt:
+um banana, and this ganti warna blue
+
+#087 — 2026-10-07 20:33 WIB
+
+Prompt:
+ini ganti warna hijau
+
+#088 — 2026-10-07 20:34 WIB
+
+Prompt:
+button promnt recomendasi kalau di click wrna ijau jan bananan
+
+#089 — 2026-10-07 20:34 WIB
+
+Prompt:
+coding asst banana
+
+#090 — 2026-10-07 20:35 WIB
+
+Prompt:
+banana dibuat lebih soft / transpt
+
+#091 — 2026-10-07 20:36 WIB
+
+Prompt:
+explore lesson 3 card ketika di click animasi kaya muncul gt kontennya
+nav bar game dan about ketika user click kontennya juga ada effect muncul gitu
+start learning di home ketika di click juga muncul effect muncul gt
+
+#092 — 2026-10-07 20:36 WIB
+
+Prompt:
+effect muncul yang baru di tambahin buat lebih soft
+
+#093 — 2026-10-07 20:41 WIB
+
+Prompt:
+effect nya yg aku maskud tu kaya ketika user click lessons, coba cek
+
+#094 — 2026-10-07 20:42 WIB
+
+Prompt:
+bisa nda ya yang di ask ai semua yg menggunakan emoji di ask ai dibuat emojinya ios iphone
+
+#095 — 2026-10-07 20:51 WIB
+
+Prompt:
+masih sama aja ya ? apa pake assset aj ya hm
+
+#096 — 2026-10-07 20:53 WIB
+
+Prompt:
+eh hapus aja woi yg twemoji, pake yg ky awal gpp kok. aku natalin aja

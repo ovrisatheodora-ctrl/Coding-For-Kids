@@ -13,6 +13,7 @@
   padding: 60px 24px 20px;
   color: var(--outline);
   text-align: center;
+  animation: slide-up 0.5s ease both;
 }
 
 .lessons-heading-row {

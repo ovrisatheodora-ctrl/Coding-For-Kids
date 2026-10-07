@@ -20,7 +20,9 @@ const NotFoundPage    = lazy(() => import('./pages/NotFoundPage'));
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!window.location.hash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [pathname]);
   return null;
 }

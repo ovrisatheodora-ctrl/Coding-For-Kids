@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import ArrowLabel from '../ArrowLabel';
 import logo from '../../assets/Logo_Coding.png';
+import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './Navbar.css';
 
 function Navbar({ t, lang, onLangChange }) {
@@ -20,6 +22,12 @@ function Navbar({ t, lang, onLangChange }) {
     { label: t.nav.games, to: '/games' },
     { label: t.nav.about, to: '/about' },
   ];
+
+  const handleStartLearning = () => {
+    if (!scrollToHomeLessons()) {
+      navigate('/#lessons');
+    }
+  };
 
   return (
     <header className={`navbar-wrapper${scrolled ? ' scrolled' : ''}`} role="banner">
@@ -59,10 +67,10 @@ function Navbar({ t, lang, onLangChange }) {
 
           <button
             className="navbar-cta"
-            onClick={() => navigate('/lessons')}
+            onClick={handleStartLearning}
             aria-label={t.nav.startLearning}
           >
-            {t.nav.startLearning}
+            <ArrowLabel>{t.nav.startLearning}</ArrowLabel>
           </button>
         </div>
 
@@ -96,9 +104,9 @@ function Navbar({ t, lang, onLangChange }) {
             <li>
               <button
                 className="btn btn-purple mobile-cta"
-                onClick={() => { setMenuOpen(false); navigate('/lessons'); }}
+                onClick={() => { setMenuOpen(false); handleStartLearning(); }}
               >
-                {t.nav.startLearning}
+                <ArrowLabel>{t.nav.startLearning}</ArrowLabel>
               </button>
             </li>
             <li>

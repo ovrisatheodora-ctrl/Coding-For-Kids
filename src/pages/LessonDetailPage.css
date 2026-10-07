@@ -12,12 +12,15 @@
 /* Lesson hero */
 .ld-hero-shell {
   padding-top: 32px;
+  animation: slide-up 0.5s ease both;
 }
 
 .ld-back {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+  top: 5px;
   margin-bottom: 20px;
   padding: 11px 20px;
   border: 2px solid var(--outline);
@@ -105,19 +108,19 @@
   position: relative;
   z-index: 1;
   max-width: 56%;
+  padding-top: 20px;
 }
 
 .ld-banner-icon {
   display: block;
-  width: 46px;
-  height: 40px;
-  margin-bottom: 6px;
-  font-size: 2.5rem;
-  line-height: 1;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 10px;
   object-fit: contain;
 }
 
 .ld-banner-title {
+  margin-top: 6px;
   margin-bottom: 14px;
   color: var(--outline);
   font-family: var(--font-display);
@@ -180,6 +183,13 @@
   max-width: 56%;
 }
 
+.ld-banner-image--basic {
+  right: -12px;
+  bottom: -10px;
+  height: 116%;
+  max-width: 58%;
+}
+
 /* Body */
 .ld-body {
   padding-top: 40px;
@@ -189,7 +199,43 @@
   gap: 40px;
 }
 
-.ld-section {}
+.ld-body > .ld-section:first-child {
+  animation: slide-up 0.5s ease 100ms both;
+}
+
+.ld-reveal {
+  animation: ld-reveal-in 0.48s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.ld-reveal-item {
+  animation: ld-reveal-item-in 0.42s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.ld-reveal-item:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+@keyframes ld-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ld-reveal-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .ld-section-title {
   font-family: var(--font-display);
@@ -395,6 +441,10 @@
   color: rgba(17,17,17,0.75);
 }
 
+.ld-path-card--game .ld-path-btn {
+  background: var(--cream);
+}
+
 .ld-path-image {
   position: absolute;
   z-index: 0;
@@ -545,7 +595,10 @@
   .ld-back,
   .ld-back-arrow,
   .ld-grade-card,
-  .ld-path-image {
+  .ld-path-image,
+  .ld-reveal,
+  .ld-reveal-item {
     transition: none;
+    animation: none;
   }
 }

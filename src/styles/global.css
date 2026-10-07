@@ -167,6 +167,10 @@ ul, ol {
   color: var(--outline);
 }
 
+.arrow-label-symbol {
+  font-weight: 900;
+}
+
 /* Section headings */
 .section-title {
   font-family: var(--font-display);

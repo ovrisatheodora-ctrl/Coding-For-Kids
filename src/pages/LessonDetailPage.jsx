@@ -7,8 +7,8 @@ import grade12StarAsset from '../assets/Grade 1-2.png';
 import learnAsset from '../assets/Learn.png';
 import gameAsset from '../assets/Game.png';
 import logicIllustration from '../assets/LOGIKA & ALGORITMA.png';
-import codingIllustration from '../assets/Kawaii_Robot_and_Pastel_Signpost.png';
-import creativeIllustration from '../assets/Kawaii_Cat_Designing_a_Star.png';
+import codingIllustration from '../assets/CODING DASAR.png';
+import creativeIllustration from '../assets/CODING KREATIF & PROYEK.png';
 import { setGrade as saveGrade, setLanguage as saveLang } from '../data/progress';
 import './LessonDetailPage.css';
 
@@ -29,11 +29,9 @@ const LESSON_META = {
     colorBg: '#FFE45C',
   },
   'basic-coding': {
-    icon: '💻',
     colorBg: '#CCF6FF',
   },
   'creative-coding': {
-    icon: '🎨',
     colorBg: '#FFD1F3',
   },
 };
@@ -56,11 +54,18 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
 
     if (selectedGrade && nextSection) {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      nextSection.scrollIntoView({
-        behavior: reduceMotion ? 'auto' : 'smooth',
-        block: 'center',
-      });
+      const scrollToSection = () => {
+        nextSection.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'nearest',
+        });
+      };
+      const scrollTimer = window.setTimeout(scrollToSection, reduceMotion ? 0 : 120);
+
+      return () => window.clearTimeout(scrollTimer);
     }
+
+    return undefined;
   }, [selectedGrade, selectedLang]);
 
   if (!meta || !lesson) {
@@ -99,9 +104,6 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
         >
           <div className="ld-banner-content">
             <div className="ld-banner-text">
-              {meta.icon && (
-                <div className="ld-banner-icon" aria-hidden="true">{meta.icon}</div>
-              )}
               <h1 id="ld-banner-title" className="ld-banner-title">{lesson.title}</h1>
               <p className="ld-banner-desc">{description}</p>
               <span className="ld-topic-pill">
@@ -110,7 +112,7 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
               </span>
             </div>
             <img
-              className={`ld-banner-image${lessonId === 'logic-algorithms' ? ' ld-banner-image--logic' : ''}`}
+              className={`ld-banner-image${lessonId === 'logic-algorithms' ? ' ld-banner-image--logic' : ''}${lessonId === 'basic-coding' ? ' ld-banner-image--basic' : ''}`}
               src={LESSON_ILLUSTRATIONS[lessonId]}
               alt=""
               aria-hidden="true"
@@ -161,21 +163,22 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
         {/* Language selection */}
         {selectedGrade && (
           <section
+            key={selectedGrade}
             ref={languageSectionRef}
-            className="ld-section"
+            className="ld-section ld-reveal"
             aria-label="Language selection"
           >
             <h3 className="ld-lang-label">{ld.langLabel}</h3>
             <div className="ld-lang-grid">
               <button
-                className={`ld-lang-btn${selectedLang === 'id' ? ' selected' : ''}`}
+                className={`ld-lang-btn ld-reveal-item${selectedLang === 'id' ? ' selected' : ''}`}
                 onClick={() => setSelectedLang('id')}
                 aria-pressed={selectedLang === 'id'}
               >
                 🇮🇩 Bahasa Indonesia
               </button>
               <button
-                className={`ld-lang-btn${selectedLang === 'en' ? ' selected' : ''}`}
+                className={`ld-lang-btn ld-reveal-item${selectedLang === 'en' ? ' selected' : ''}`}
                 onClick={() => setSelectedLang('en')}
                 aria-pressed={selectedLang === 'en'}
               >
@@ -188,12 +191,13 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
         {/* Two-path selection */}
         {selectedGrade && selectedLang && (
         <section
+          key={`${selectedGrade}-${selectedLang}`}
           ref={pathSectionRef}
-          className="ld-paths"
+          className="ld-paths ld-reveal"
           aria-label="Choose learning path"
         >
           {/* Learn path */}
-          <div className="ld-path-card ld-path-card--learn">
+          <div className="ld-path-card ld-path-card--learn ld-reveal-item">
             <img className="ld-path-image" src={learnAsset} alt="" aria-hidden="true" />
             <h3 className="ld-path-title">{ld.pathLearn.title}</h3>
             <p className="ld-path-desc">{ld.pathLearn.desc}</p>
@@ -202,12 +206,12 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
               onClick={() => handleStart('learn')}
             >
               {ld.pathLearn.btn.replace(/\s*→\s*$/, '')}
-              <span className="ld-path-btn-arrow" aria-hidden="true">→</span>
+              <strong className="ld-path-btn-arrow" aria-hidden="true">→</strong>
             </button>
           </div>
 
           {/* Game path */}
-          <div className="ld-path-card ld-path-card--game">
+          <div className="ld-path-card ld-path-card--game ld-reveal-item">
             <img className="ld-path-image" src={gameAsset} alt="" aria-hidden="true" />
             <h3 className="ld-path-title">{ld.pathGame.title}</h3>
             <p className="ld-path-desc">{ld.pathGame.desc}</p>
@@ -216,7 +220,7 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
               onClick={() => handleStart('game')}
             >
               {ld.pathGame.btn.replace(/\s*→\s*$/, '')}
-              <span className="ld-path-btn-arrow" aria-hidden="true">→</span>
+              <strong className="ld-path-btn-arrow" aria-hidden="true">→</strong>
             </button>
           </div>
         </section>

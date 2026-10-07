@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ArrowLabel from '../ArrowLabel';
 import './LessonsSection.css';
 import playfulIdeaCube from '../../assets/Playful_Pink_Idea_Cube.png';
 import kawaiiRobot from '../../assets/Kawaii_Robot_and_Pastel_Signpost.png';
@@ -56,7 +57,7 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
         onClick={handleExplore}
         aria-label={`${exploreLabel} ${card.title}`}
       >
-        {exploreLabel}
+        <ArrowLabel>{exploreLabel}</ArrowLabel>
       </button>
     </article>
   );
