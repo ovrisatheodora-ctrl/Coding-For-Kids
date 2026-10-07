@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import AiTutor from './components/AiTutor/AiTutor';
@@ -49,13 +49,28 @@ function PageLoader() {
 
 function AppInner() {
   const progress = getProgress();
-  const [lang, setLang] = useState(progress.language || 'id');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [lang, setLang] = useState(() => {
+    const routeLanguage = new URLSearchParams(window.location.search).get('lang');
+    return routeLanguage === 'en' || routeLanguage === 'id'
+      ? routeLanguage
+      : progress.language || 'id';
+  });
 
   const t = i18n[lang] || i18n.id;
 
   const handleLangChange = (newLang) => {
     setLang(newLang);
     saveLang(newLang);
+    if (location.pathname.endsWith('/learn') || location.pathname.endsWith('/game')) {
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set('lang', newLang);
+      navigate(
+        { pathname: location.pathname, search: `?${searchParams.toString()}`, hash: location.hash },
+        { replace: true },
+      );
+    }
   };
 
   return (
@@ -73,9 +88,9 @@ function AppInner() {
         <Routes>
           <Route path="/"                            element={<HomePage t={t} />} />
           <Route path="/lessons"                     element={<LessonsPage t={t} />} />
-          <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} />} />
-          <Route path="/lessons/:lessonId/learn"     element={<LearningPage t={t} />} />
-          <Route path="/lessons/:lessonId/game"      element={<LearningPage t={t} />} />
+          <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} onLangChange={handleLangChange} />} />
+          <Route path="/lessons/:lessonId/learn"     element={<LearningPage t={t} lang={lang} />} />
+          <Route path="/lessons/:lessonId/game"      element={<LearningPage t={t} lang={lang} isGame />} />
           <Route path="/games"                       element={<GamesPage t={t} />} />
           <Route path="/games/:gameId"               element={<GamesPage t={t} />} />
           <Route path="/about"                       element={<AboutPage t={t} />} />

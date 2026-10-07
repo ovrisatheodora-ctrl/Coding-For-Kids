@@ -40,7 +40,7 @@ const LESSON_META = {
   },
 };
 
-function LessonDetailPage({ t, lang: appLang }) {
+function LessonDetailPage({ t, lang: appLang, onLangChange }) {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const meta = LESSON_META[lessonId];
@@ -68,7 +68,7 @@ function LessonDetailPage({ t, lang: appLang }) {
     }
     saveGrade(selectedGrade);
     saveLang(selectedLang);
-    // Route to learning or game (placeholder — to be built in next phases)
+    onLangChange(selectedLang);
     navigate(`/lessons/${lessonId}/${path}?grade=${selectedGrade}&lang=${selectedLang}`);
   };
 
