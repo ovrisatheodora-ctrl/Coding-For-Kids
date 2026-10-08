@@ -17,6 +17,7 @@ export function ProgressBar({ steps, currentStep, label, onStepChange }) {
           title={step.label}
           onClick={() => onStepChange?.(index)}
           aria-label={`${step.label} ${index + 1}`}
+          disabled={index > currentStep}
         >
           <span className="learning-progress__dot" aria-hidden="true">
             {index < currentStep ? '✓' : index + 1}
@@ -28,36 +29,78 @@ export function ProgressBar({ steps, currentStep, label, onStepChange }) {
   );
 }
 
-export function MaterialStep({ unit, lang }) {
-  return (
-    <section className="learning-card learning-paper" aria-labelledby="learning-step-title">
-      <div className="learning-step-kicker">📒</div>
-      <h1 id="learning-step-title" className="learning-step-title">{localized(unit.title, lang)}</h1>
-      <div className="learning-material-list">
-        {unit.material.map((block, index) => (
-          <p className="learning-material-note" key={block.key}>
-            <span aria-hidden="true">{index === 0 ? '✦' : '✏️'}</span>
-            {localized(block.text, lang)}
-          </p>
-        ))}
-      </div>
-    </section>
-  );
-}
+export function LessonIntroStep({ unit, lang, labels }) {
+  const material = unit.material || [];
+  const primaryMaterial = material[0];
+  const reminder = material[1] || primaryMaterial;
+  const keyPoints = material.slice(2);
+  const example = unit.example || { sequence: [], caption: { id: '', en: '' } };
+  const exampleSequence = example.sequence || [];
+  const localize = (value) => (value?.[lang] || value?.id || '');
 
-export function ExampleStep({ unit, lang, title }) {
   return (
-    <section className="learning-card learning-example-card" aria-labelledby="learning-step-title">
-      <h1 id="learning-step-title" className="learning-step-title">{title}</h1>
-      <div className="learning-example-strip" aria-label={unit.example.sequence.map((item) => localized(item.label, lang)).join(', ')}>
-        {unit.example.sequence.map((item) => (
-          <span className="learning-example-symbol" key={item.id} aria-hidden="true">
-            {item.symbol}
-          </span>
-        ))}
-      </div>
-      <p className="learning-example-caption">{localized(unit.example.caption, lang)}</p>
-    </section>
+    <div className="learning-intro" aria-labelledby="learning-step-title">
+      <section className="learning-intro-panel learning-intro-panel--material">
+        <div className="learning-intro-tag">
+          <span className="learning-intro-tag-icon" aria-hidden="true">📒</span>
+          <span>{labels.materialLabel}</span>
+        </div>
+        <h1 id="learning-step-title" className="learning-step-title">{localize(unit.title)}</h1>
+        {primaryMaterial && <p className="learning-intro-lead">{localize(primaryMaterial.text)}</p>}
+        {reminder && (
+          <aside className="learning-intro-reminder">
+            <span className="learning-intro-reminder-icon" aria-hidden="true">💡</span>
+            <span>
+              <strong>{labels.rememberLabel}</strong>
+              <span>{localize(reminder.text)}</span>
+            </span>
+          </aside>
+        )}
+        <div className="learning-intro-points">
+          <h2>{labels.keyPointsLabel}</h2>
+          <ul>
+            {keyPoints.length ? keyPoints.map((block) => (
+              <li key={block.key}>
+                <span aria-hidden="true">✓</span>
+                {localize(block.text)}
+              </li>
+            )) : (
+              <li>
+                <span aria-hidden="true">✓</span>
+                {labels.keyPointsFallback}
+              </li>
+            )}
+          </ul>
+        </div>
+      </section>
+
+      <section className="learning-intro-panel learning-intro-panel--visual" aria-label={labels.exampleLabel}>
+        <div className="learning-intro-tag">
+          <span className="learning-intro-tag-icon" aria-hidden="true">👀</span>
+          <span>{labels.exampleLabel}</span>
+        </div>
+        <h2 className="learning-intro-example-title">{labels.exampleTitle(localize(unit.title))}</h2>
+        <p className="learning-intro-example-description">{labels.exampleDescription}</p>
+        {exampleSequence.length > 0 ? (
+          <ol className="learning-intro-steps">
+            {exampleSequence.map((item, index) => (
+              <li className="learning-intro-step" key={item.id}>
+                <span className="learning-intro-step-tile" style={{ '--step-color': ['var(--blossom)', 'var(--summer-sky)', 'var(--sour-apple)', 'var(--banana)'][index % 4] }}>
+                  <span className="learning-intro-step-number">{index + 1}</span>
+                  <span aria-hidden="true">{item.symbol || '✨'}</span>
+                </span>
+                <span>{localize(item.label)}</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div className="learning-intro-no-example" role="status">{labels.exampleUnavailable}</div>
+        )}
+        {example.caption && (
+          <p className="learning-intro-example-caption">{localize(example.caption)}</p>
+        )}
+      </section>
+    </div>
   );
 }
 

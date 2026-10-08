@@ -3,6 +3,7 @@ import { basicCodingSubtopics, creativeCodingSubtopics } from './grade12-theme-s
 
 const logicG34Algorithms = {
   id: 'logic-g34-algorithms',
+  showInCatalog: false,
   lessonId: 'logic-algorithms',
   grade: '3-4',
   title: {
@@ -124,6 +125,7 @@ const logicG34Algorithms = {
 
 const logicG56LoopsBugs = {
   id: 'logic-g56-loops-bugs',
+  showInCatalog: false,
   lessonId: 'logic-algorithms',
   grade: '5-6',
   title: {
@@ -354,6 +356,7 @@ const basicG12Directions = {
 
 const basicG34SequenceEvents = {
   id: 'basic-g34-sequence-events',
+  showInCatalog: false,
   lessonId: 'basic-coding',
   grade: '3-4',
   title: {
@@ -445,6 +448,7 @@ const basicG34SequenceEvents = {
 
 const basicG56IfElseFix = {
   id: 'basic-g56-ifelse-fix',
+  showInCatalog: false,
   lessonId: 'basic-coding',
   grade: '5-6',
   title: {
@@ -633,6 +637,7 @@ const creativeG12Character = {
 
 const creativeG34StoryMiniGame = {
   id: 'creative-g34-story-minigame',
+  showInCatalog: false,
   lessonId: 'creative-coding',
   grade: '3-4',
   title: {
@@ -728,6 +733,7 @@ const creativeG34StoryMiniGame = {
 
 const creativeG56ScoreProject = {
   id: 'creative-g56-score-project',
+  showInCatalog: false,
   lessonId: 'creative-coding',
   grade: '5-6',
   title: {
@@ -834,18 +840,1646 @@ const creativeG56ScoreProject = {
   badgeId: 'game-creator',
 };
 
+const createCreativeProjectUnit = ({ id, grade, title, material }) => ({
+  id,
+  lessonId: 'creative-coding',
+  grade,
+  title,
+  material: material.map(([key, text]) => ({ key: `${id}-${key}`, text })),
+  example: {
+    sequence: [
+      { id: `${id}-step-1`, symbol: '🎨', label: { id: 'contoh', en: 'example' } },
+      { id: `${id}-step-2`, symbol: '✨', label: { id: 'kreatif', en: 'creative' } },
+      { id: `${id}-step-3`, symbol: '🚀', label: { id: 'hasil', en: 'result' } },
+    ],
+    caption: { id: 'Kita mulai dengan ide, lalu buat, lalu lihat hasilnya.', en: 'We start with an idea, then build it, then see the result.' },
+  },
+  activity: {
+    id: `${id}-activity`,
+    title: { id: 'Pilih langkah yang benar', en: 'Choose the right step' },
+    sequence: ['💡', '🛠️', '🎉'],
+    options: ['💡', '🛠️', '🎉'],
+    answer: '🛠️',
+    success: { id: 'Hebat! Langkahnya sudah tepat.', en: 'Great! That is the right step.' },
+    hint: { id: 'Mulai dengan ide, lalu buat karya.', en: 'Start with the idea, then build the project.' },
+  },
+  questions: [
+    {
+      id: `${id}-q1`,
+      type: 'multiple-choice',
+      prompt: { id: 'Bagian paling penting saat memulai proyek adalah...', en: 'The most important part at the start of a project is...' },
+      options: [
+        { id: 'idea', text: { id: 'Membuat ide', en: 'Making an idea' } },
+        { id: 'sleep', text: { id: 'Tidur', en: 'Sleeping' } },
+      ],
+      answer: 'idea',
+      hint: { id: 'Proyek butuh ide yang jelas.', en: 'A project needs a clear idea.' },
+      explanation: { id: 'Ide memberi arah pada karya kita.', en: 'The idea gives direction to our work.' },
+    },
+    {
+      id: `${id}-q2`,
+      type: 'true-false',
+      prompt: { id: 'Jika kalian mencoba lalu memperbaiki, karya akan lebih baik.', en: 'If you try and improve, the project can become better.' },
+      answer: true,
+      hint: { id: 'Coba dan perbaiki membantu membuat karya lebih bagus.', en: 'Trying and improving helps make the project better.' },
+      explanation: { id: 'Menguji dan memperbaiki membuat hasil lebih kuat.', en: 'Testing and fixing makes the result stronger.' },
+    },
+  ],
+  badgeId: 'creative-coder',
+});
+
+const creativeG34ProjectSteps = [
+  createCreativeProjectUnit({
+    id: 'creative-g34-animasi-dan-gerak',
+    grade: '3-4',
+    title: { id: 'Animasi dan Gerak', en: 'Animation and Motion' },
+    material: [
+      ['move', { id: 'Animasi membuat objek terlihat bergerak.', en: 'Animation makes objects look like they are moving.' }],
+      ['feel', { id: 'Gerak bisa menambah rasa hidup dalam karya.', en: 'Movement makes a project feel alive.' }],
+      ['loop', { id: 'Kita bisa mengulang gerak agar lebih halus.', en: 'We can repeat motion so it looks smoother.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g34-menggambar-dengan-kode',
+    grade: '3-4',
+    title: { id: 'Menggambar dengan Kode', en: 'Drawing with Code' },
+    material: [
+      ['shape', { id: 'Kode bisa menghasilkan bentuk sederhana seperti lingkaran dan garis.', en: 'Code can create simple shapes like circles and lines.' }],
+      ['order', { id: 'Urutan menggambar juga penting agar hasilnya rapi.', en: 'The drawing order matters to keep the result neat.' }],
+      ['color', { id: 'Warna menambah detail dan ekspresi.', en: 'Color adds detail and expression.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g34-suara-dan-interaksi',
+    grade: '3-4',
+    title: { id: 'Suara dan Interaksi', en: 'Sound and Interaction' },
+    material: [
+      ['sound', { id: 'Suara membuat projek terasa lebih hidup.', en: 'Sound makes a project feel more alive.' }],
+      ['click', { id: 'Klik atau sentuhan bisa memicu aksi.', en: 'A click or tap can trigger an action.' }],
+      ['response', { id: 'Interaksi membuat kita merasa sedang bermain.', en: 'Interaction makes the project feel like a game.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g34-proyek-kuis-interaktif',
+    grade: '3-4',
+    title: { id: 'Proyek: Kuis Interaktif', en: 'Project: Interactive Quiz' },
+    material: [
+      ['question', { id: 'Kuis menanyakan pertanyaan dan menanti jawaban.', en: 'A quiz asks a question and waits for an answer.' }],
+      ['score', { id: 'Skor membantu melihat siapa yang benar.', en: 'Score helps show who answered correctly.' }],
+      ['feedback', { id: 'Umpan balik membuat pemain belajar dari jawaban.', en: 'Feedback helps players learn from each answer.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g34-proyek-game-labirin',
+    grade: '3-4',
+    title: { id: 'Proyek: Game Labirin', en: 'Project: Maze Game' },
+    material: [
+      ['maze', { id: 'Labirin berisi jalur, dinding, dan tujuan.', en: 'A maze has paths, walls, and a goal.' }],
+      ['move', { id: 'Karakter bergerak dengan perintah arah.', en: 'The character moves using direction commands.' }],
+      ['win', { id: 'Saat mencapai tujuan, pemain menang.', en: 'When the goal is reached, the player wins.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g34-proyek-pameran-karyaku',
+    grade: '3-4',
+    title: { id: 'Proyek: Pameran Karyaku', en: 'Project: My Artwork Showcase' },
+    material: [
+      ['show', { id: 'Karya perlu dipamerkan agar orang lain bisa melihatnya.', en: 'Projects need to be shown so others can see them.' }],
+      ['explain', { id: 'Penjelasan singkat membantu teman memahami karyamu.', en: 'A short explanation helps others understand your work.' }],
+      ['proud', { id: 'Pameran adalah momen bangga karena kamu sudah membuat sesuatu.', en: 'Showcase day is a proud moment for your creativity.' }],
+    ],
+  }),
+];
+
+const creativeG56ProjectSteps = [
+  createCreativeProjectUnit({
+    id: 'creative-g56-halaman-web',
+    grade: '5-6',
+    title: { id: 'Halaman Web', en: 'Web Page Design' },
+    material: [
+      ['layout', { id: 'Tata letak menentukan posisi teks, gambar, dan tombol.', en: 'Layout decides where text, images, and buttons go.' }],
+      ['style', { id: 'Warna dan ukuran font membuat halaman lebih menarik.', en: 'Color and font size make the page more appealing.' }],
+      ['content', { id: 'Isi halaman harus jelas dan mudah dibaca.', en: 'Content should be clear and easy to read.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g56-animasi-dan-interaksi',
+    grade: '5-6',
+    title: { id: 'Animasi dan Interaksi', en: 'Animation and Interaction' },
+    material: [
+      ['motion', { id: 'Animasi bisa membuat elemen bergerak lembut atau cepat.', en: 'Animation can make elements move smoothly or quickly.' }],
+      ['hover', { id: 'Interaksi saat tombol disentuh membuat pengalaman lebih hidup.', en: 'Hover interactions make the experience feel more alive.' }],
+      ['timing', { id: 'Waktu dan urutan animasi memengaruhi hasil akhir.', en: 'Timing and order affect the final outcome.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g56-data-dan-daftar',
+    grade: '5-6',
+    title: { id: 'Data dan Daftar', en: 'Data and Lists' },
+    material: [
+      ['list', { id: 'Daftar menyimpan banyak data dalam satu tempat.', en: 'A list stores many items in one place.' }],
+      ['sort', { id: 'Kita bisa mengurutkan data agar mudah dibaca.', en: 'We can sort data to make it easier to read.' }],
+      ['loop', { id: 'Perulangan membantu kita memproses daftar dengan cepat.', en: 'Loops help us process lists efficiently.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g56-proyek-website-profilku',
+    grade: '5-6',
+    title: { id: 'Proyek: Website Profilku', en: 'Project: My Profile Website' },
+    material: [
+      ['profile', { id: 'Website profil berisi tentang diri, minat, dan karya.', en: 'A profile website shows who you are, what you like, and what you make.' }],
+      ['narrative', { id: 'Cerita singkat membuat website lebih personal.', en: 'A short story makes the website more personal.' }],
+      ['publish', { id: 'Setelah dibuat, website bisa dibagikan ke teman.', en: 'After it is created, the website can be shared with friends.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g56-proyek-game-tebak-angka',
+    grade: '5-6',
+    title: { id: 'Proyek: Game Tebak Angka', en: 'Project: Number Guessing Game' },
+    material: [
+      ['random', { id: 'Angka acak menambah tantangan dalam game.', en: 'Random numbers add challenge to a game.' }],
+      ['condition', { id: 'Kondisi menentukan apakah tebakan benar atau salah.', en: 'Conditions decide whether the guess is correct or not.' }],
+      ['repeat', { id: 'Permainan bisa dimainkan berulang sampai target tercapai.', en: 'The game can be replayed until the goal is reached.' }],
+    ],
+  }),
+  createCreativeProjectUnit({
+    id: 'creative-g56-proyek-pameran-dan-presentasi-karya',
+    grade: '5-6',
+    title: { id: 'Proyek: Pameran dan Presentasi Karya', en: 'Project: Showcase and Presentation' },
+    material: [
+      ['prepare', { id: 'Persiapan presentasi membantu audiens paham dengan mudah.', en: 'Presentation prep helps the audience understand quickly.' }],
+      ['feedback', { id: 'Umpan balik dari teman bisa memperbaiki karya.', en: 'Feedback from friends can improve the project.' }],
+      ['proud', { id: 'Presentasi adalah waktu untuk bangga pada proses dan hasil.', en: 'Presentation is a time to be proud of the process and the result.' }],
+    ],
+  }),
+];
+
+const createTopic = ({ id, lessonId, grade, title, material, example, activity, questions, badgeId }) => ({
+  id,
+  lessonId,
+  grade,
+  title,
+  material: material.map(([key, text]) => ({ key: `${id}-${key}`, text })),
+  example: {
+    sequence: example.sequence.map(([symbol, label], index) => ({
+      id: `${id}-example-${index + 1}`,
+      symbol,
+      label,
+    })),
+    caption: example.caption,
+  },
+  activity: {
+    id: `${id}-activity`,
+    type: 'pick',
+    title: activity.title,
+    sequence: activity.sequence,
+    options: activity.options,
+    answer: activity.answer,
+    success: { id: '🎉 Hebat, benar!', en: '🎉 Great, correct!' },
+    hint: { id: 'Hampir! Coba lagi ya 💪', en: 'Almost! Try again 💪' },
+  },
+  questions,
+  badgeId,
+});
+
+const logicG34Subtopics = [
+  createTopic({
+    id: 'logic-g34-algoritma-sehari-hari',
+    lessonId: 'logic-algorithms',
+    grade: '3-4',
+    title: { id: 'Algoritma Sehari-hari', en: 'Algorithms in Daily Life' },
+    material: [
+      ['steps', { id: 'Algoritma adalah langkah yang berurutan untuk menyelesaikan masalah.', en: 'An algorithm is a set of steps in order to solve a problem.' }],
+      ['right-order', { id: 'Kalau urutannya salah, hasilnya bisa berubah.', en: 'If the order changes, the result can change too.' }],
+      ['everyday', { id: 'Kita memakai algoritma saat mandi, makan, dan belajar.', en: 'We use algorithms when we bathe, eat, and study.' }],
+    ],
+    example: {
+      sequence: [['🧼', { id: 'pakai sabun', en: 'use soap' }], ['💦', { id: 'bilas', en: 'rinse' }], ['🧻', { id: 'keringkan', en: 'dry' }]],
+      caption: { id: 'Pakai sabun → Bilas → Keringkan', en: 'Use soap → Rinse → Dry' },
+    },
+    activity: {
+      title: { id: 'Susun langkah mencuci tangan', en: 'Arrange handwashing steps' },
+      sequence: ['Basahi tangan', 'Pakai sabun', 'Bilas', 'Keringkan'],
+      options: ['Basahi tangan', 'Pakai sabun', 'Bilas', 'Keringkan'],
+      answer: 'Pakai sabun',
+    },
+    questions: [
+      {
+        id: 'logic-g34-algorithm-what',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa itu algoritma?', en: 'What is an algorithm?' },
+        options: [
+          { id: 'steps', text: { id: 'Daftar langkah yang berurutan', en: 'A list of steps in order' } },
+          { id: 'robot', text: { id: 'Robot kecil', en: 'A tiny robot' } },
+        ],
+        answer: 'steps',
+        hint: { id: 'Ingat cara membuat roti atau kopi.', en: 'Think of how to make bread or coffee.' },
+        explanation: { id: 'Algoritma adalah langkah yang harus dilakukan secara berurutan.', en: 'An algorithm is a set of steps done in order.' },
+      },
+      {
+        id: 'logic-g34-algorithm-order',
+        type: 'true-false',
+        prompt: { id: 'Urutan langkah tidak memengaruhi hasil.', en: 'The order of steps does not affect the result.' },
+        answer: false,
+        hint: { id: 'Coba bayangkan memakai sabun sebelum bilas.', en: 'Imagine washing with soap before rinsing.' },
+        explanation: { id: 'Urutan langkah penting agar tujuan tercapai dengan benar.', en: 'The order matters so the goal is reached correctly.' },
+      },
+    ],
+    badgeId: 'problem-solver',
+  }),
+  createTopic({
+    id: 'logic-g34-pola-dan-urutan-lanjutan',
+    lessonId: 'logic-algorithms',
+    grade: '3-4',
+    title: { id: 'Pola dan Urutan Lanjutan', en: 'Patterns and Sequences' },
+    material: [
+      ['pattern', { id: 'Pola adalah susunan yang berulang.', en: 'A pattern is a repeating arrangement.' }],
+      ['sequence', { id: 'Urutan membantu kita memprediksi langkah berikutnya.', en: 'Sequence helps us predict the next step.' }],
+      ['clue', { id: 'Cari warna, bentuk, atau angka yang berulang.', en: 'Look for repeating colors, shapes, or numbers.' }],
+    ],
+    example: {
+      sequence: [['🔴', { id: 'merah', en: 'red' }], ['🔵', { id: 'biru', en: 'blue' }], ['🔴', { id: 'merah', en: 'red' }], ['🔵', { id: 'biru', en: 'blue' }]],
+      caption: { id: 'Merah, biru, merah, biru... pola berulang.', en: 'Red, blue, red, blue... the pattern repeats.' },
+    },
+    activity: {
+      title: { id: 'Apa pola berikutnya?', en: 'What comes next?' },
+      sequence: ['🔴', '🔵', '🔴', '🔵', '❓'],
+      options: ['🔴', '🔵', '🟢'],
+      answer: '🔴',
+    },
+    questions: [
+      {
+        id: 'logic-g34-pattern-next',
+        type: 'multiple-choice',
+        prompt: { id: 'Lanjutkan pola: 🐱🐶🐱🐶❓', en: 'Continue the pattern: 🐱🐶🐱🐶❓' },
+        options: [
+          { id: 'cat', text: { id: '🐱', en: '🐱' } },
+          { id: 'dog', text: { id: '🐶', en: '🐶' } },
+        ],
+        answer: 'cat',
+        hint: { id: 'Pola bergantian.', en: 'The pattern alternates.' },
+        explanation: { id: 'Setelah anjing, pola kembali ke kucing.', en: 'After the dog, the pattern returns to the cat.' },
+      },
+      {
+        id: 'logic-g34-pattern-rule',
+        type: 'true-false',
+        prompt: { id: 'Pola bisa membantu kita memprediksi langkah berikutnya.', en: 'A pattern helps us predict the next step.' },
+        answer: true,
+        hint: { id: 'Pola punya aturan yang berulang.', en: 'Patterns follow a repeating rule.' },
+        explanation: { id: 'Dengan aturan pola, kita dapat mengetahui yang berikutnya.', en: 'With a pattern rule, we can know what comes next.' },
+      },
+    ],
+    badgeId: 'pattern-finder',
+  }),
+  createTopic({
+    id: 'logic-g34-perulangan',
+    lessonId: 'logic-algorithms',
+    grade: '3-4',
+    title: { id: 'Perulangan', en: 'Loops' },
+    material: [
+      ['repeat', { id: 'Perulangan artinya mengulang langkah yang sama.', en: 'A loop means repeating the same step.' }],
+      ['shorter', { id: 'Kode jadi lebih singkat saat ada langkah yang berulang.', en: 'The code becomes shorter when a step repeats.' }],
+      ['robot', { id: 'Robot maju 3 kali bisa ditulis dengan perulangan.', en: 'A robot moving 3 times can be written as a loop.' }],
+    ],
+    example: {
+      sequence: [['🔁', { id: 'ulangi', en: 'repeat' }], ['3️⃣', { id: '3 kali', en: '3 times' }], ['➡️', { id: 'maju', en: 'move forward' }]],
+      caption: { id: 'Ulangi 3× maju = maju, maju, maju', en: 'Repeat move forward 3× = move, move, move' },
+    },
+    activity: {
+      title: { id: '“Ulangi 2× ➡️” sama dengan...', en: '“Repeat 2× ➡️” is the same as...' },
+      sequence: ['🔁', '2️⃣', '➡️', '❓'],
+      options: ['➡️ ➡️', '➡️', '⬅️ ⬅️'],
+      answer: '➡️ ➡️',
+    },
+    questions: [
+      {
+        id: 'logic-g34-loop-shorter',
+        type: 'multiple-choice',
+        prompt: { id: 'Mana yang lebih singkat untuk ➡️➡️➡️?', en: 'Which is shorter for ➡️➡️➡️?' },
+        options: [
+          { id: 'repeat', text: { id: 'Ulangi 3× ➡️', en: 'Repeat 3× ➡️' } },
+          { id: 'long', text: { id: '➡️➡️➡️', en: '➡️➡️➡️' } },
+        ],
+        answer: 'repeat',
+        hint: { id: 'Perulangan membuat kode lebih ringkas.', en: 'Loops make the code shorter.' },
+        explanation: { id: 'Dengan perulangan, kita menulis satu perintah lalu bilang berapa kali diulang.', en: 'With loops, we write one command and say how many times to repeat it.' },
+      },
+      {
+        id: 'logic-g34-loop-false',
+        type: 'true-false',
+        prompt: { id: 'Perulangan hanya boleh dipakai sekali.', en: 'A loop can only be used once.' },
+        answer: false,
+        hint: { id: 'Perulangan bisa dipakai berulang-ulang.', en: 'Loops can be used repeatedly.' },
+        explanation: { id: 'Perulangan dibuat untuk mengulang sesuatu beberapa kali.', en: 'Loops are made to repeat something multiple times.' },
+      },
+    ],
+    badgeId: 'loop-artist',
+  }),
+  createTopic({
+    id: 'logic-g34-percabangan',
+    lessonId: 'logic-algorithms',
+    grade: '3-4',
+    title: { id: 'Percabangan (Jika–Maka)', en: 'Branches (If–Then)' },
+    material: [
+      ['if', { id: 'Jika kondisi benar, jalankan aksi.', en: 'If the condition is true, do the action.' }],
+      ['else', { id: 'Kalau tidak, ambil jalur lain.', en: 'If not, take another path.' }],
+      ['choices', { id: 'Percabangan membuat keputusan di program.', en: 'Branches create decisions inside a program.' }],
+    ],
+    example: {
+      sequence: [['if', { id: 'jika', en: 'if' }], ['☀️', { id: 'cerah', en: 'sunny' }], ['else', { id: 'jika tidak', en: 'else' }], ['🌧️', { id: 'hujan', en: 'rainy' }]],
+      caption: { id: 'Jika cerah → bermain di luar; kalau tidak → pakai payung', en: 'If sunny → play outside; else → bring an umbrella' },
+    },
+    activity: {
+      title: { id: 'Pilih keputusan yang benar', en: 'Choose the correct decision' },
+      sequence: ['if score > 5', 'menang', 'else', 'coba lagi'],
+      options: ['if score > 5', 'menang', 'else', 'coba lagi'],
+      answer: 'menang',
+    },
+    questions: [
+      {
+        id: 'logic-g34-branch-true',
+        type: 'multiple-choice',
+        prompt: { id: 'Kalau siswa mendapat 8 dari 10, kondisinya: skor > 5. Apa hasilnya?', en: 'If a student scores 8 out of 10, condition: score > 5. What happens?' },
+        options: [
+          { id: 'win', text: { id: 'Lulus', en: 'Pass' } },
+          { id: 'retry', text: { id: 'Coba lagi', en: 'Retry' } },
+        ],
+        answer: 'win',
+        hint: { id: '8 lebih besar dari 5.', en: '8 is greater than 5.' },
+        explanation: { id: 'Karena kondisinya benar, aksi yang benar dipilih.', en: 'Because the condition is true, the correct action is chosen.' },
+      },
+      {
+        id: 'logic-g34-branch-false',
+        type: 'true-false',
+        prompt: { id: '`else` dijalankan saat kondisi `if` salah.', en: '`else` runs when the `if` condition is false.' },
+        answer: true,
+        hint: { id: 'Else adalah jalur alternatif.', en: 'Else is the alternate path.' },
+        explanation: { id: 'Saat kondisi tidak benar, jalur `else` yang berjalan.', en: 'When the condition is not true, the `else` path runs.' },
+      },
+    ],
+    badgeId: 'decision-maker',
+  }),
+  createTopic({
+    id: 'logic-g34-mencari-dan-memperbaiki-kesalahan',
+    lessonId: 'logic-algorithms',
+    grade: '3-4',
+    title: { id: 'Mencari dan Memperbaiki Kesalahan', en: 'Finding and Fixing Mistakes' },
+    material: [
+      ['bug', { id: 'Bug adalah kesalahan dalam langkah atau kode.', en: 'A bug is a mistake in the steps or code.' }],
+      ['debug', { id: 'Debugging adalah cara mencari dan memperbaiki bug.', en: 'Debugging is the process of finding and fixing the bug.' }],
+      ['test', { id: 'Setelah diperbaiki, kita coba lagi untuk melihat hasilnya.', en: 'After fixing it, we test again to check the result.' }],
+    ],
+    example: {
+      sequence: [['▶️', { id: 'jalankan', en: 'run' }], ['👀', { id: 'lihat hasil', en: 'observe' }], ['🔧', { id: 'perbaiki', en: 'fix' }], ['▶️', { id: 'coba lagi', en: 'try again' }]],
+      caption: { id: 'Jalankan → lihat hasil → perbaiki → coba lagi', en: 'Run → observe → fix → try again' },
+    },
+    activity: {
+      title: { id: 'Susun siklus debugging', en: 'Arrange the debugging cycle' },
+      sequence: ['Jalankan program', 'Amati hasilnya', 'Temukan bug', 'Perbaiki', 'Coba lagi'],
+      options: ['Jalankan program', 'Amati hasilnya', 'Temukan bug', 'Perbaiki', 'Coba lagi'],
+      answer: 'Amati hasilnya',
+    },
+    questions: [
+      {
+        id: 'logic-g34-debug-what',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa itu bug?', en: 'What is a bug?' },
+        options: [
+          { id: 'mistake', text: { id: 'Kesalahan dalam kode atau langkah', en: 'A mistake in the code or steps' } },
+          { id: 'bonus', text: { id: 'Hadiah', en: 'A prize' } },
+        ],
+        answer: 'mistake',
+        hint: { id: 'Bug membuat program tidak berjalan seperti yang kita inginkan.', en: 'A bug makes the program behave differently than expected.' },
+        explanation: { id: 'Bug adalah masalah yang harus kita cari lalu perbaiki.', en: 'A bug is a problem we need to find and fix.' },
+      },
+      {
+        id: 'logic-g34-debug-true',
+        type: 'true-false',
+        prompt: { id: 'Menguji program membantu kita menemukan kesalahan.', en: 'Testing the program helps us find mistakes.' },
+        answer: true,
+        hint: { id: 'Saat program gagal, kita lihat apa yang salah.', en: 'When a program fails, we look for what went wrong.' },
+        explanation: { id: 'Menguji program adalah cara utama untuk menemukan bug.', en: 'Testing a program is the main way to find bugs.' },
+      },
+    ],
+    badgeId: 'bug-hunter',
+  }),
+];
+
+const logicG56Subtopics = [
+  createTopic({
+    id: 'logic-g56-algoritma-dan-diagram-alur',
+    lessonId: 'logic-algorithms',
+    grade: '5-6',
+    title: { id: 'Algoritma dan Diagram Alur', en: 'Algorithms and Flowcharts' },
+    material: [
+      ['flow', { id: 'Diagram alur membantu kita melihat urutan keputusan.', en: 'A flowchart helps us see the sequence of decisions.' }],
+      ['logic', { id: 'Algoritma bisa ditulis dengan langkah yang jelas.', en: 'Algorithms can be written as clear steps.' }],
+      ['problem', { id: 'Semakin jelas langkahnya, semakin mudah masalah diselesaikan.', en: 'The clearer the steps, the easier the problem is to solve.' }],
+    ],
+    example: {
+      sequence: [['🧭', { id: 'mulai', en: 'start' }], ['📋', { id: 'cari data', en: 'gather data' }], ['✅', { id: 'cek', en: 'check' }], ['🏁', { id: 'selesai', en: 'finish' }]],
+      caption: { id: 'Mulai → cari data → cek → selesai', en: 'Start → gather data → check → finish' },
+    },
+    activity: {
+      title: { id: 'Urutkan alur kerjanya', en: 'Arrange the workflow' },
+      sequence: ['Mulai', 'Cari masalah', 'Coba solusi', 'Lihat hasil', 'Selesai'],
+      options: ['Mulai', 'Cari masalah', 'Coba solusi', 'Lihat hasil', 'Selesai'],
+      answer: 'Cari masalah',
+    },
+    questions: [
+      {
+        id: 'logic-g56-flowchart',
+        type: 'multiple-choice',
+        prompt: { id: 'Diagram alur berguna untuk...', en: 'A flowchart is useful for...' },
+        options: [
+          { id: 'visualize', text: { id: 'Melihat urutan langkah', en: 'Visualizing a sequence of steps' } },
+          { id: 'sleep', text: { id: 'Tidur malam', en: 'Sleeping at night' } },
+        ],
+        answer: 'visualize',
+        hint: { id: 'Diagram alur menggambarkan alur kerja.', en: 'A flowchart shows the work flow.' },
+        explanation: { id: 'Diagram alur membantu kita memvisualisasikan proses.', en: 'A flowchart helps us visualize a process.' },
+      },
+      {
+        id: 'logic-g56-flowchart-true',
+        type: 'true-false',
+        prompt: { id: 'Diagram alur bisa membantu kita memahami logika program.', en: 'A flowchart helps us understand the logic of a program.' },
+        answer: true,
+        hint: { id: 'Diagram alur menampilkan langkah dan keputusan.', en: 'A flowchart shows steps and decisions.' },
+        explanation: { id: 'Diagram alur mempermudah kita melihat keputusan sebelum coding.', en: 'A flowchart makes it easier to see decisions before coding.' },
+      },
+    ],
+    badgeId: 'problem-solver',
+  }),
+  createTopic({
+    id: 'logic-g56-logika-benar-salah',
+    lessonId: 'logic-algorithms',
+    grade: '5-6',
+    title: { id: 'Logika Benar/Salah (DAN, ATAU, BUKAN)', en: 'Logic (True/False: AND, OR, NOT)' },
+    material: [
+      ['true', { id: 'Pernyataan benar atau salah menentukan keputusan.', en: 'A true or false statement determines the decision.' }],
+      ['and', { id: 'DAN hanya benar jika semua syarat benar.', en: 'AND is true only if all conditions are true.' }],
+      ['or', { id: 'ATAU benar jika salah satu syarat benar.', en: 'OR is true when any condition is true.' }],
+    ],
+    example: {
+      sequence: [['✅', { id: 'benar', en: 'true' }], ['AND', { id: 'dan', en: 'and' }], ['❌', { id: 'salah', en: 'false' }]],
+      caption: { id: 'Benar AND Benar = Benar, Benar AND Salah = Salah', en: 'True AND True = True, True AND False = False' },
+    },
+    activity: {
+      title: { id: 'Pilihan yang benar', en: 'Choose the correct logic' },
+      sequence: ['Benar AND Benar', 'Benar OR Salah', 'BUKAN Benar'],
+      options: ['Benar AND Benar', 'Benar OR Salah', 'BUKAN Benar'],
+      answer: 'Benar AND Benar',
+    },
+    questions: [
+      {
+        id: 'logic-g56-logic-and',
+        type: 'multiple-choice',
+        prompt: { id: 'Apakah `Benar AND Salah` hasilnya?', en: 'What is `True AND False`?' },
+        options: [
+          { id: 'true', text: { id: 'Benar', en: 'True' } },
+          { id: 'false', text: { id: 'Salah', en: 'False' } },
+        ],
+        answer: 'false',
+        hint: { id: 'AND membutuhkan semua syarat benar.', en: 'AND requires every condition to be true.' },
+        explanation: { id: 'Karena salah satu syarat salah, hasilnya salah.', en: 'Because one condition is false, the result is false.' },
+      },
+      {
+        id: 'logic-g56-logic-or',
+        type: 'true-false',
+        prompt: { id: '`Salah OR Benar` adalah Benar.', en: '`False OR True` is True.' },
+        answer: true,
+        hint: { id: 'OR benar jika satu syarat benar.', en: 'OR is true if one condition is true.' },
+        explanation: { id: 'Karena ada syarat yang benar, hasilnya benar.', en: 'Because one condition is true, the result is true.' },
+      },
+    ],
+    badgeId: 'logic-guard',
+  }),
+  createTopic({
+    id: 'logic-g56-mengurutkan-dan-mencari',
+    lessonId: 'logic-algorithms',
+    grade: '5-6',
+    title: { id: 'Mengurutkan dan Mencari', en: 'Sorting and Searching' },
+    material: [
+      ['sort', { id: 'Mengurutkan membuat data lebih mudah dibaca.', en: 'Sorting makes data easier to read.' }],
+      ['search', { id: 'Mencari berarti menemukan data yang kita butuhkan.', en: 'Searching means finding the data we need.' }],
+      ['pattern', { id: 'Urutan dan pencarian bisa membantu memecahkan masalah besar.', en: 'Ordering and searching can help solve bigger problems.' }],
+    ],
+    example: {
+      sequence: [['1️⃣', { id: '1', en: '1' }], ['2️⃣', { id: '2', en: '2' }], ['3️⃣', { id: '3', en: '3' }]],
+      caption: { id: 'Data diurutkan dari kecil ke besar', en: 'Data is sorted from smallest to largest' },
+    },
+    activity: {
+      title: { id: 'Urutkan angka', en: 'Sort the numbers' },
+      sequence: ['7', '2', '9', '1'],
+      options: ['1', '2', '7', '9'],
+      answer: '2',
+    },
+    questions: [
+      {
+        id: 'logic-g56-sort',
+        type: 'multiple-choice',
+        prompt: { id: 'Mana yang paling rapi urutannya?', en: 'Which is the neatest order?' },
+        options: [
+          { id: '1-2-3', text: { id: '1, 2, 3', en: '1, 2, 3' } },
+          { id: '3-1-2', text: { id: '3, 1, 2', en: '3, 1, 2' } },
+        ],
+        answer: '1-2-3',
+        hint: { id: 'Urutkan dari kecil ke besar.', en: 'Sort from smallest to largest.' },
+        explanation: { id: 'Urutan numerik yang rapi memudahkan kita mencari data.', en: 'A neat numeric order makes data easier to find.' },
+      },
+      {
+        id: 'logic-g56-search',
+        type: 'true-false',
+        prompt: { id: 'Mencari berarti melihat semua data dengan teliti.', en: 'Searching means looking carefully through the data.' },
+        answer: true,
+        hint: { id: 'Kita mencari data tertentu di antara banyak data.', en: 'We look for a specific item among many data points.' },
+        explanation: { id: 'Mencari adalah menemukan nilai yang kita butuhkan.', en: 'Searching is finding the value we need.' },
+      },
+    ],
+    badgeId: 'search-scout',
+  }),
+  createTopic({
+    id: 'logic-g56-dekomposisi',
+    lessonId: 'logic-algorithms',
+    grade: '5-6',
+    title: { id: 'Memecah Masalah Besar (Dekomposisi)', en: 'Breaking Down Big Problems' },
+    material: [
+      ['break', { id: 'Masalah besar bisa dibagi menjadi bagian kecil.', en: 'A big problem can be split into smaller parts.' }],
+      ['solve', { id: 'Masing-masing bagian lebih mudah ditangani.', en: 'Each part is easier to handle.' }],
+      ['team', { id: 'Dekomposisi membantu kita bekerja seperti tim.', en: 'Decomposition helps us work like a team.' }],
+    ],
+    example: {
+      sequence: [['🧩', { id: 'pecah', en: 'split' }], ['🧠', { id: 'pikir', en: 'think' }], ['✅', { id: 'selesaikan', en: 'solve' }]],
+      caption: { id: 'Pecah masalah → kerjakan satu bagian → selesai', en: 'Break the problem → handle one part → finish' },
+    },
+    activity: {
+      title: { id: 'Pilih cara memecah masalah', en: 'Choose the best way to split the problem' },
+      sequence: ['Buat tugas besar', 'Pisahkan menjadi langkah kecil', 'Selesaikan satu per satu'],
+      options: ['Buat tugas besar', 'Pisahkan menjadi langkah kecil', 'Selesaikan satu per satu'],
+      answer: 'Pisahkan menjadi langkah kecil',
+    },
+    questions: [
+      {
+        id: 'logic-g56-decompose',
+        type: 'multiple-choice',
+        prompt: { id: 'Kenapa kita membagi masalah besar?', en: 'Why do we break a big problem into smaller parts?' },
+        options: [
+          { id: 'easier', text: { id: 'Agar lebih mudah diselesaikan', en: 'So it is easier to solve' } },
+          { id: 'harder', text: { id: 'Agar lebih sulit', en: 'So it is harder' } },
+        ],
+        answer: 'easier',
+        hint: { id: 'Bagian kecil biasanya lebih mudah dikelola.', en: 'Smaller pieces are easier to manage.' },
+        explanation: { id: 'Dengan memecah masalah, kita fokus pada satu langkah at a time.', en: 'By breaking down the problem, we focus on one step at a time.' },
+      },
+      {
+        id: 'logic-g56-decompose-true',
+        type: 'true-false',
+        prompt: { id: 'Dekomposisi membantu kita mengorganisir pekerjaan.', en: 'Decomposition helps us organize work.' },
+        answer: true,
+        hint: { id: 'Menyusun langkah menjadi lebih rapi.', en: 'It helps arrange steps neatly.' },
+        explanation: { id: 'Ketika kerja dipecah, tugas menjadi lebih teratur.', en: 'When work is broken up, tasks become more organized.' },
+      },
+    ],
+    badgeId: 'planner',
+  }),
+  createTopic({
+    id: 'logic-g56-debugging-sistematis',
+    lessonId: 'logic-algorithms',
+    grade: '5-6',
+    title: { id: 'Debugging Sistematis', en: 'Systematic Debugging' },
+    material: [
+      ['read', { id: 'Baca ulang kode untuk melihat bagian yang bermasalah.', en: 'Read the code again to look for the issue.' }],
+      ['check', { id: 'Cek satu bagian demi satu bagian.', en: 'Check one part at a time.' }],
+      ['fix', { id: 'Kita bisa memperbaiki sebab dan menguji ulang.', en: 'We fix the cause and test again.' }],
+    ],
+    example: {
+      sequence: [['🔎', { id: 'temukan', en: 'find' }], ['🧪', { id: 'uji', en: 'test' }], ['🔧', { id: 'perbaiki', en: 'fix' }], ['✅', { id: 'cek lagi', en: 'check again' }]],
+      caption: { id: 'Temukan → uji → perbaiki → cek lagi', en: 'Find → test → fix → check again' },
+    },
+    activity: {
+      title: { id: 'Susun cara debug yang tepat', en: 'Arrange the best debugging method' },
+      sequence: ['Baca kode', 'Temukan sumber bug', 'Perbaiki', 'Uji lagi'],
+      options: ['Baca kode', 'Temukan sumber bug', 'Perbaiki', 'Uji lagi'],
+      answer: 'Temukan sumber bug',
+    },
+    questions: [
+      {
+        id: 'logic-g56-debug-systematic',
+        type: 'multiple-choice',
+        prompt: { id: 'Cara paling efektif untuk debug adalah...', en: 'The most effective way to debug is to...' },
+        options: [
+          { id: 'slowly', text: { id: 'Memeriksa satu bagian secara bertahap', en: 'Check one part at a time' } },
+          { id: 'random', text: { id: 'Mengganti semuanya secara acak', en: 'Change everything randomly' } },
+        ],
+        answer: 'slowly',
+        hint: { id: 'Debugging lebih baik kalau sistematis.', en: 'Debugging works better when it is systematic.' },
+        explanation: { id: 'Dengan memeriksa satu bagian, kita lebih cepat menemukan penyebabnya.', en: 'Checking one part at a time helps us find the root cause faster.' },
+      },
+      {
+        id: 'logic-g56-debug-systematic-true',
+        type: 'true-false',
+        prompt: { id: 'Setelah memperbaiki bug, kita harus menguji lagi.', en: 'After fixing a bug, we should test it again.' },
+        answer: true,
+        hint: { id: 'Uji ulang memastikan bug benar-benar hilang.', en: 'Re-testing ensures the bug is really gone.' },
+        explanation: { id: 'Uji ulang membuktikan solusi yang kita buat berhasil.', en: 'Retesting proves the fix works.' },
+      },
+    ],
+    badgeId: 'bug-hunter',
+  }),
+];
+
+const basicG34Subtopics = [
+  createTopic({
+    id: 'basic-g34-blok-perintah-dan-program',
+    lessonId: 'basic-coding',
+    grade: '3-4',
+    title: { id: 'Blok Perintah dan Program', en: 'Command Blocks and Programs' },
+    material: [
+      ['blocks', { id: 'Blok perintah adalah instruksi kecil yang bisa disusun.', en: 'Command blocks are small instructions we can arrange.' }],
+      ['program', { id: 'Program adalah kumpulan blok yang dijalankan secara berurutan.', en: 'A program is a set of blocks run in order.' }],
+      ['run', { id: 'Saat program dijalankan, komputer mengikuti urutannya.', en: 'When a program runs, the computer follows the order.' }],
+    ],
+    example: {
+      sequence: [['🟩', { id: 'mulai', en: 'start' }], ['➡️', { id: 'bergerak', en: 'move' }], ['💬', { id: 'berbicara', en: 'say' }]],
+      caption: { id: 'Mulai → bergerak → berbicara', en: 'Start → move → say' },
+    },
+    activity: {
+      title: { id: 'Urutkan blok program', en: 'Arrange the program blocks' },
+      sequence: ['Mulai', 'Bergerak', 'Berbicara'],
+      options: ['Mulai', 'Bergerak', 'Berbicara'],
+      answer: 'Bergerak',
+    },
+    questions: [
+      {
+        id: 'basic-g34-command-blocks',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa fungsi blok perintah?', en: 'What is the purpose of a command block?' },
+        options: [
+          { id: 'tell', text: { id: 'Memberi tahu komputer apa yang harus dilakukan', en: 'Telling the computer what to do' } },
+          { id: 'paint', text: { id: 'Mewarnai halaman', en: 'Coloring a page' } },
+        ],
+        answer: 'tell',
+        hint: { id: 'Blok perintah adalah instruksi.', en: 'Command blocks are instructions.' },
+        explanation: { id: 'Blok perintah mengarahkan komputer untuk melakukan aksi.', en: 'Command blocks direct the computer to perform an action.' },
+      },
+      {
+        id: 'basic-g34-program-order',
+        type: 'true-false',
+        prompt: { id: 'Blok program biasanya dijalankan dari atas ke bawah.', en: 'Program blocks usually run from top to bottom.' },
+        answer: true,
+        hint: { id: 'Urutan langkah sangat penting.', en: 'The order of steps matters.' },
+        explanation: { id: 'Blok di atas biasanya dieksekusi lebih dulu.', en: 'Blocks at the top are usually executed first.' },
+      },
+    ],
+    badgeId: 'junior-coder',
+  }),
+  createTopic({
+    id: 'basic-g34-variabel-kotak-penyimpan',
+    lessonId: 'basic-coding',
+    grade: '3-4',
+    title: { id: 'Variabel (Kotak Penyimpan)', en: 'Variables (Storage Boxes)' },
+    material: [
+      ['box', { id: 'Variabel seperti kotak yang menyimpan nilai.', en: 'A variable is like a box that stores a value.' }],
+      ['value', { id: 'Nilai bisa berupa angka, kata, atau skor.', en: 'A value can be a number, word, or score.' }],
+      ['change', { id: 'Nilainya bisa berubah saat game berjalan.', en: 'The value can change while the game runs.' }],
+    ],
+    example: {
+      sequence: [['📦', { id: 'kotak', en: 'box' }], ['7', { id: 'skor', en: 'score' }], ['⭐', { id: 'bintang', en: 'stars' }]],
+      caption: { id: 'Skor 7 disimpan di kotak variabel', en: 'Score 7 is stored in a variable box' },
+    },
+    activity: {
+      title: { id: 'Pilih kotak yang menyimpan skor', en: 'Choose the box that stores the score' },
+      sequence: ['Skor', 'Kotak', 'Tombol'],
+      options: ['Skor', 'Kotak', 'Tombol'],
+      answer: 'Kotak',
+    },
+    questions: [
+      {
+        id: 'basic-g34-variable-box',
+        type: 'multiple-choice',
+        prompt: { id: 'Variabel berguna untuk...', en: 'A variable is useful for...' },
+        options: [
+          { id: 'store', text: { id: 'Menyimpan data', en: 'Storing data' } },
+          { id: 'running', text: { id: 'Menjalankan kipas', en: 'Running a fan' } },
+        ],
+        answer: 'store',
+        hint: { id: 'Bayangkan kotak yang menampung benda.', en: 'Think of a box storing items.' },
+        explanation: { id: 'Variabel menyimpan nilai yang bisa dipakai nanti.', en: 'Variables store values we can use later.' },
+      },
+      {
+        id: 'basic-g34-variable-change',
+        type: 'true-false',
+        prompt: { id: 'Nilai variabel bisa berubah.', en: 'A variable value can change.' },
+        answer: true,
+        hint: { id: 'Skor bisa bertambah saat menang.', en: 'Score can increase when you win.' },
+        explanation: { id: 'Skor dan nilai biasanya berubah selama permainan.', en: 'Scores and values often change during a game.' },
+      },
+    ],
+    badgeId: 'value-tracker',
+  }),
+  createTopic({
+    id: 'basic-g34-kondisi-dengan-blok',
+    lessonId: 'basic-coding',
+    grade: '3-4',
+    title: { id: 'Kondisi dengan Blok', en: 'Conditions with Blocks' },
+    material: [
+      ['if', { id: 'Blok kondisi memeriksa apakah sesuatu benar.', en: 'A condition block checks whether something is true.' }],
+      ['if-else', { id: 'Kalau benar, jalankan satu aksi. Kalau salah, jalur lain.', en: 'If true, do one action; if false, do another.' }],
+      ['decision', { id: 'Kondisi membuat program punya keputusan.', en: 'Conditions let the program make decisions.' }],
+    ],
+    example: {
+      sequence: [['if', { id: 'jika', en: 'if' }], ['⭐', { id: 'skor lebih dari 5', en: 'score > 5' }], ['🎉', { id: 'menang', en: 'win' }]],
+      caption: { id: 'Jika skor > 5 → menang', en: 'If score > 5 → win' },
+    },
+    activity: {
+      title: { id: 'Pilih kondisi yang benar', en: 'Choose the true condition' },
+      sequence: ['score > 5', 'score = 3', 'score < 2'],
+      options: ['score > 5', 'score = 3', 'score < 2'],
+      answer: 'score > 5',
+    },
+    questions: [
+      {
+        id: 'basic-g34-condition-check',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa arti blok `if`?', en: 'What does the `if` block mean?' },
+        options: [
+          { id: 'check', text: { id: 'Periksa apakah kondisi benar', en: 'Check whether a condition is true' } },
+          { id: 'jump', text: { id: 'Lompat', en: 'Jump' } },
+        ],
+        answer: 'check',
+        hint: { id: 'If berarti cek dulu.', en: 'If means check first.' },
+        explanation: { id: 'Blok `if` mengecek syarat sebelum melanjutkan.', en: 'The `if` block checks a condition before continuing.' },
+      },
+      {
+        id: 'basic-g34-condition-false',
+        type: 'true-false',
+        prompt: { id: 'Blok `else` berjalan saat kondisi salah.', en: 'The `else` block runs when the condition is false.' },
+        answer: true,
+        hint: { id: 'Else adalah jalur alternatif.', en: 'Else is the alternative path.' },
+        explanation: { id: 'Ketika conditions tidak terpenuhi, else yang aktif.', en: 'When the condition is not met, the else path becomes active.' },
+      },
+    ],
+    badgeId: 'decision-maker',
+  }),
+  createTopic({
+    id: 'basic-g34-perulangan-dengan-blok',
+    lessonId: 'basic-coding',
+    grade: '3-4',
+    title: { id: 'Perulangan dengan Blok', en: 'Loops with Blocks' },
+    material: [
+      ['loop-block', { id: 'Blok ulang membantu kita mengulang tindakan tanpa menulis berulang.', en: 'A loop block helps us repeat an action without writing it over and over.' }],
+      ['efficient', { id: 'Kode lebih pendek dan lebih cepat dibuat.', en: 'The code is shorter and faster to build.' }],
+      ['move', { id: 'Robot bisa maju beberapa kali dengan satu blok loop.', en: 'A robot can move several times using one loop block.' }],
+    ],
+    example: {
+      sequence: [['🔁', { id: 'ulangi', en: 'repeat' }], ['4️⃣', { id: 'empat kali', en: '4 times' }], ['➡️', { id: 'maju', en: 'move' }]],
+      caption: { id: 'Ulangi 4× maju', en: 'Repeat move 4 times' },
+    },
+    activity: {
+      title: { id: 'Pilih cara yang paling singkat', en: 'Choose the shortest way' },
+      sequence: ['➡️➡️➡️➡️', 'Ulangi 4× ➡️', '⬅️⬅️⬅️⬅️'],
+      options: ['➡️➡️➡️➡️', 'Ulangi 4× ➡️', '⬅️⬅️⬅️⬅️'],
+      answer: 'Ulangi 4× ➡️',
+    },
+    questions: [
+      {
+        id: 'basic-g34-loop-block',
+        type: 'multiple-choice',
+        prompt: { id: 'Blok loop membantu ketika kita perlu...', en: 'A loop block helps when we need to...' },
+        options: [
+          { id: 'repeat', text: { id: 'Mengulang langkah yang sama', en: 'Repeat the same step' } },
+          { id: 'eat', text: { id: 'Makan siang', en: 'Eat lunch' } },
+        ],
+        answer: 'repeat',
+        hint: { id: 'Loop sering dipakai untuk pengulangan.', en: 'Loops are often used for repetition.' },
+        explanation: { id: 'Loop memudahkan program untuk menjalankan aksi berulang dengan cepat.', en: 'Loops make it easy to run the same action repeatedly.' },
+      },
+      {
+        id: 'basic-g34-loop-efficient',
+        type: 'true-false',
+        prompt: { id: 'Loop membuat kode menjadi lebih singkat.', en: 'Loops make code shorter.' },
+        answer: true,
+        hint: { id: 'Kita tidak perlu menulis ulang langkah yang sama.', en: 'We do not need to write the same step over and over.' },
+        explanation: { id: 'Loop menghemat baris kode saat aksi berulang.', en: 'Loops save code lines when the action repeats.' },
+      },
+    ],
+    badgeId: 'loop-artist',
+  }),
+  createTopic({
+    id: 'basic-g34-kejadian-klik-dan-tombol',
+    lessonId: 'basic-coding',
+    grade: '3-4',
+    title: { id: 'Kejadian (Klik dan Tombol)', en: 'Events (Clicks and Buttons)' },
+    material: [
+      ['event', { id: 'Kejadian adalah saat sesuatu mulai terjadi.', en: 'An event is a moment when something starts.' }],
+      ['click', { id: 'Klik tombol atau spasi bisa memicu aksi.', en: 'Clicking a button or a space key can trigger an action.' }],
+      ['response', { id: 'Program beraksi setelah kejadian terjadi.', en: 'The program responds after the event happens.' }],
+    ],
+    example: {
+      sequence: [['▶️', { id: 'klik', en: 'click' }], ['🚶', { id: 'bergerak', en: 'move' }], ['💬', { id: 'ucap', en: 'say' }]],
+      caption: { id: 'Klik tombol → karakter bergerak → berkata halo', en: 'Click the button → character moves → says hello' },
+    },
+    activity: {
+      title: { id: 'Apa yang memicu aksi?', en: 'What triggers the action?' },
+      sequence: ['Klik tombol', 'Kata yang muncul', 'Karakter bergerak'],
+      options: ['Klik tombol', 'Kata yang muncul', 'Karakter bergerak'],
+      answer: 'Klik tombol',
+    },
+    questions: [
+      {
+        id: 'basic-g34-event-trigger',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa itu kejadian dalam program?', en: 'What is an event in a program?' },
+        options: [
+          { id: 'trigger', text: { id: 'Hal yang memulai aksi', en: 'Something that starts an action' } },
+          { id: 'music', text: { id: 'Lagu favorit', en: 'Favorite music' } },
+        ],
+        answer: 'trigger',
+        hint: { id: 'Event sering terjadi saat klik atau tombol ditekan.', en: 'Events often happen when a click or key is pressed.' },
+        explanation: { id: 'Event adalah pemicu yang memulai respons pada program.', en: 'An event is a trigger that starts a response in the program.' },
+      },
+      {
+        id: 'basic-g34-event-click',
+        type: 'true-false',
+        prompt: { id: 'Klik tombol bisa memulai program.', en: 'Clicking a button can start a program.' },
+        answer: true,
+        hint: { id: 'Klik sering dipakai sebagai pemicu.', en: 'Clicks are often used as triggers.' },
+        explanation: { id: 'Klik tombol adalah contoh event yang memulai aksi.', en: 'A button click is an example of an event that starts action.' },
+      },
+    ],
+    badgeId: 'event-hero',
+  }),
+];
+
+const basicG56Subtopics = [
+  createTopic({
+    id: 'basic-g56-dari-blok-ke-kode-teks',
+    lessonId: 'basic-coding',
+    grade: '5-6',
+    title: { id: 'Dari Blok ke Kode Teks', en: 'From Blocks to Text Code' },
+    material: [
+      ['translate', { id: 'Blok visual bisa diterjemahkan ke kode teks.', en: 'Visual blocks can be translated into text code.' }],
+      ['syntax', { id: 'Kode teks punya aturan penulisan yang harus benar.', en: 'Text code has writing rules that must be correct.' }],
+      ['read', { id: 'Membaca kode membantu kita memahami logika program.', en: 'Reading code helps us understand program logic.' }],
+    ],
+    example: {
+      sequence: [['🧩', { id: 'blok', en: 'block' }], ['➡️', { id: 'diterjemahkan', en: 'translated' }], ['⌨️', { id: 'kode', en: 'code' }]],
+      caption: { id: 'Blok visual → teks kode → program berjalan', en: 'Visual block → text code → program runs' },
+    },
+    activity: {
+      title: { id: 'Pilih representasi kode yang benar', en: 'Choose the correct code representation' },
+      sequence: ['Blok visual', 'Kode teks', 'Diagram'],
+      options: ['Blok visual', 'Kode teks', 'Diagram'],
+      answer: 'Kode teks',
+    },
+    questions: [
+      {
+        id: 'basic-g56-code-translate',
+        type: 'multiple-choice',
+        prompt: { id: 'Kode teks biasanya lebih...', en: 'Text code is usually more...' },
+        options: [
+          { id: 'precise', text: { id: 'Presisi dan detail', en: 'Precise and detailed' } },
+          { id: 'blurry', text: { id: 'Buram', en: 'Blurry' } },
+        ],
+        answer: 'precise',
+        hint: { id: 'Kode teks memiliki aturan khusus.', en: 'Text code has specific rules.' },
+        explanation: { id: 'Kode teks mengatur instruksi secara jelas dan spesifik.', en: 'Text code organizes instructions clearly and specifically.' },
+      },
+      {
+        id: 'basic-g56-code-read',
+        type: 'true-false',
+        prompt: { id: 'Membaca kode membantu memahami program.', en: 'Reading code helps understand the program.' },
+        answer: true,
+        hint: { id: 'Kode bukan hanya untuk dijalankan, tapi juga dibaca.', en: 'Code is not only run, it is also read.' },
+        explanation: { id: 'Membaca kode membantu menemukan alur dan bug.', en: 'Reading code helps find flow and bugs.' },
+      },
+    ],
+    badgeId: 'junior-coder',
+  }),
+  createTopic({
+    id: 'basic-g56-variabel-dan-tipe-data',
+    lessonId: 'basic-coding',
+    grade: '5-6',
+    title: { id: 'Variabel dan Tipe Data', en: 'Variables and Data Types' },
+    material: [
+      ['types', { id: 'Tipe data menentukan bentuk informasi seperti angka atau teks.', en: 'Data types determine the form of information like numbers or text.' }],
+      ['variable', { id: 'Variabel menyimpan nilai yang bisa berubah.', en: 'Variables store values that can change.' }],
+      ['use', { id: 'Kita bisa menampung skor, nama, dan status.', en: 'We can store scores, names, and statuses.' }],
+    ],
+    example: {
+      sequence: [['🧮', { id: 'angka', en: 'number' }], ['📝', { id: 'teks', en: 'text' }], ['📦', { id: 'variabel', en: 'variable' }]],
+      caption: { id: 'Angka dan teks masuk ke variabel yang berbeda', en: 'Numbers and text go into different variables' },
+    },
+    activity: {
+      title: { id: 'Pilih tipe data yang benar', en: 'Choose the correct data type' },
+      sequence: ['"Halo"', '42', 'True'],
+      options: ['"Halo"', '42', 'True'],
+      answer: '42',
+    },
+    questions: [
+      {
+        id: 'basic-g56-variable-data',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa fungsi variabel?', en: 'What is the purpose of a variable?' },
+        options: [
+          { id: 'store', text: { id: 'Menyimpan data', en: 'Store data' } },
+          { id: 'run', text: { id: 'Menjalankan game', en: 'Run the game' } },
+        ],
+        answer: 'store',
+        hint: { id: 'Variabel seperti kotak penyimpan.', en: 'A variable is like a storage box.' },
+        explanation: { id: 'Variabel menyimpan nilai yang bisa dipakai di program.', en: 'Variables store values used in the program.' },
+      },
+      {
+        id: 'basic-g56-type-number',
+        type: 'true-false',
+        prompt: { id: 'Angka merupakan contoh tipe data.', en: 'A number is an example of a data type.' },
+        answer: true,
+        hint: { id: 'Angka adalah bentuk data yang umum.', en: 'Numbers are a common form of data.' },
+        explanation: { id: 'Angka adalah data numerik yang sering dipakai dalam logika.', en: 'Numbers are numeric data often used in logic.' },
+      },
+    ],
+    badgeId: 'value-tracker',
+  }),
+  createTopic({
+    id: 'basic-g56-kondisi-dan-operator',
+    lessonId: 'basic-coding',
+    grade: '5-6',
+    title: { id: 'Kondisi dan Operator', en: 'Conditions and Operators' },
+    material: [
+      ['operator', { id: 'Operator membandingkan nilai seperti lebih besar, sama dengan, atau tidak sama.', en: 'Operators compare values such as greater than, equal to, or not equal.' }],
+      ['condition', { id: 'Kondisi menentukan apakah blok tertentu dijalankan.', en: 'Conditions determine whether a block is executed.' }],
+      ['logic', { id: 'Operator membantu program membuat keputusan cerdas.', en: 'Operators help programs make smart decisions.' }],
+    ],
+    example: {
+      sequence: [['5', { id: 'angka', en: 'number' }], ['>', { id: 'lebih dari', en: 'greater than' }], ['3', { id: 'angka lain', en: 'another number' }]],
+      caption: { id: '5 > 3 berarti benar', en: '5 > 3 means true' },
+    },
+    activity: {
+      title: { id: 'Cek pernyataan yang benar', en: 'Check which statement is true' },
+      sequence: ['5 > 3', '2 > 9', '4 = 4'],
+      options: ['5 > 3', '2 > 9', '4 = 4'],
+      answer: '5 > 3',
+    },
+    questions: [
+      {
+        id: 'basic-g56-operator-gt',
+        type: 'multiple-choice',
+        prompt: { id: 'Apakah 7 > 4 benar?', en: 'Is 7 > 4 true?' },
+        options: [
+          { id: 'yes', text: { id: 'Benar', en: 'True' } },
+          { id: 'no', text: { id: 'Salah', en: 'False' } },
+        ],
+        answer: 'yes',
+        hint: { id: '7 lebih besar dari 4.', en: '7 is greater than 4.' },
+        explanation: { id: 'Karena 7 memang lebih besar dari 4, hasilnya benar.', en: 'Because 7 is indeed greater than 4, the statement is true.' },
+      },
+      {
+        id: 'basic-g56-operator-eq',
+        type: 'true-false',
+        prompt: { id: '4 = 4 adalah benar.', en: '4 = 4 is true.' },
+        answer: true,
+        hint: { id: 'Nilainya sama.', en: 'The values are the same.' },
+        explanation: { id: 'Kedua sisi sama, jadi kondisi bernilai benar.', en: 'Both sides are equal, so the condition is true.' },
+      },
+    ],
+    badgeId: 'logic-guard',
+  }),
+  createTopic({
+    id: 'basic-g56-perulangan-for-while',
+    lessonId: 'basic-coding',
+    grade: '5-6',
+    title: { id: 'Perulangan (for / while)', en: 'Loops (for / while)' },
+    material: [
+      ['for', { id: 'for digunakan saat jumlah pengulangan sudah diketahui.', en: 'for is used when the number of repeats is known.' }],
+      ['while', { id: 'while digunakan saat pengulangan bergantung pada kondisi.', en: 'while is used when repetition depends on a condition.' }],
+      ['repeat', { id: 'Keduanya membuat program lebih efisien.', en: 'Both make the program more efficient.' }],
+    ],
+    example: {
+      sequence: [['for', { id: 'for', en: 'for' }], ['3', { id: '3 kali', en: '3 times' }], ['🔁', { id: 'ulang', en: 'repeat' }]],
+      caption: { id: 'for 3 kali: ulang langkah 3 kali', en: 'for 3 times: repeat the step 3 times' },
+    },
+    activity: {
+      title: { id: 'Pilih bentuk perulangan yang paling tepat', en: 'Choose the most suitable loop form' },
+      sequence: ['for', 'while', 'if'],
+      options: ['for', 'while', 'if'],
+      answer: 'for',
+    },
+    questions: [
+      {
+        id: 'basic-g56-loop-when',
+        type: 'multiple-choice',
+        prompt: { id: 'Kapan kita memakai `for`?', en: 'When do we use `for`?' },
+        options: [
+          { id: 'known', text: { id: 'Saat jumlah pengulangan sudah diketahui', en: 'When the number of repeats is known' } },
+          { id: 'unknown', text: { id: 'Saat jumlahnya tidak diketahui', en: 'When the number is unknown' } },
+        ],
+        answer: 'known',
+        hint: { id: 'for cocok untuk ulangan yang pasti.', en: 'for fits predictable repetition.' },
+        explanation: { id: 'Jika kita tahu berapa kali harus diulang, for lebih cocok.', en: 'If we know how many times to repeat, for is more suitable.' },
+      },
+      {
+        id: 'basic-g56-loop-while',
+        type: 'true-false',
+        prompt: { id: '`while` sering dipakai saat kondisi menentukan apakah loop harus terus berjalan.', en: '`while` is often used when a condition decides whether the loop continues.' },
+        answer: true,
+        hint: { id: 'While bergantung pada kondisi.', en: 'While depends on a condition.' },
+        explanation: { id: 'Loop while tetap berjalan selama kondisinya benar.', en: 'A while loop keeps running while the condition remains true.' },
+      },
+    ],
+    badgeId: 'loop-artist',
+  }),
+  createTopic({
+    id: 'basic-g56-fungsi',
+    lessonId: 'basic-coding',
+    grade: '5-6',
+    title: { id: 'Fungsi', en: 'Functions' },
+    material: [
+      ['function', { id: 'Fungsi adalah blok kode yang bisa dipanggil lagi saat dibutuhkan.', en: 'A function is a block of code that can be called again when needed.' }],
+      ['reuse', { id: 'Fungsi membuat kode lebih rapi dan bisa dipakai berulang.', en: 'Functions make code cleaner and reusable.' }],
+      ['task', { id: 'Setiap fungsi punya tugas khusus.', en: 'Each function has a specific job.' }],
+    ],
+    example: {
+      sequence: [['🧩', { id: 'fungsi', en: 'function' }], ['🛠️', { id: 'tugas', en: 'task' }], ['📞', { id: 'panggil', en: 'call' }]],
+      caption: { id: 'Fungsi dibuat lalu dipanggil saat dibutuhkan', en: 'Function is defined and then called when needed' },
+    },
+    activity: {
+      title: { id: 'Pilih fungsi yang paling cocok', en: 'Choose the most suitable function' },
+      sequence: ['Fungsi bergerak', 'Fungsi skor', 'Fungsi warna'],
+      options: ['Fungsi bergerak', 'Fungsi skor', 'Fungsi warna'],
+      answer: 'Fungsi bergerak',
+    },
+    questions: [
+      {
+        id: 'basic-g56-function-what',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa fungsi dari fungsi?', en: 'What is the purpose of a function?' },
+        options: [
+          { id: 'reuse', text: { id: 'Menggunakan kembali beberapa kode', en: 'Reuse a block of code' } },
+          { id: 'sleep', text: { id: 'Tidur', en: 'Sleep' } },
+        ],
+        answer: 'reuse',
+        hint: { id: 'Fungsi membantu kode reusable.', en: 'Functions help code become reusable.' },
+        explanation: { id: 'Fungsi menampung tugas agar bisa dipanggil kapan saja.', en: 'Functions wrap a task so it can be called whenever needed.' },
+      },
+      {
+        id: 'basic-g56-function-true',
+        type: 'true-false',
+        prompt: { id: 'Fungsi membuat kode lebih rapi.', en: 'Functions make code neater.' },
+        answer: true,
+        hint: { id: 'Ini mengurangi pengulangan kode.', en: 'It reduces repeated code.' },
+        explanation: { id: 'Fungsi memungkinkan kita menulis tugas sekali lalu memanggilnya lagi.', en: 'Functions allow us to write a task once and call it again later.' },
+      },
+    ],
+    badgeId: 'junior-coder',
+  }),
+];
+
+const creativeG34Subtopics = [
+  createTopic({
+    id: 'creative-g34-animasi-dan-gerak',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Animasi dan Gerak', en: 'Animation and Motion' },
+    material: [
+      ['motion', { id: 'Gerakan membuat objek terlihat hidup.', en: 'Movement makes objects look alive.' }],
+      ['timing', { id: 'Waktu dan urutan gerak memengaruhi hasil.', en: 'Timing and motion order affect the result.' }],
+      ['loop', { id: 'Animasi sering dibuat dengan pengulangan.', en: 'Animations are often built with repetition.' }],
+    ],
+    example: {
+      sequence: [['🐰', { id: 'mulai', en: 'start' }], ['➡️', { id: 'maju', en: 'move' }], ['✨', { id: 'berubah', en: 'change' }]],
+      caption: { id: 'Karakter bergerak dan berubah sedikit demi sedikit', en: 'The character moves and changes little by little' },
+    },
+    activity: {
+      title: { id: 'Pilih yang membuat animasi bergerak', en: 'Choose what makes an animation move' },
+      sequence: ['Gerak', 'Warna', 'Teks'],
+      options: ['Gerak', 'Warna', 'Teks'],
+      answer: 'Gerak',
+    },
+    questions: [
+      {
+        id: 'creative-g34-motion',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa fungsi animasi?', en: 'What is the role of animation?' },
+        options: [
+          { id: 'move', text: { id: 'Membuat objek terlihat bergerak', en: 'Make objects look like they move' } },
+          { id: 'sleep', text: { id: 'Membuat tidur lebih nyenyak', en: 'Help people sleep well' } },
+        ],
+        answer: 'move',
+        hint: { id: 'Animasi berkaitan dengan gerak.', en: 'Animation is about movement.' },
+        explanation: { id: 'Animasi membuat elemen tampak bergerak bergantian.', en: 'Animation makes elements appear to move over time.' },
+      },
+      {
+        id: 'creative-g34-motion-true',
+        type: 'true-false',
+        prompt: { id: 'Gerakan dapat dibuat berulang untuk menambah efek.', en: 'Movement can be repeated to add effect.' },
+        answer: true,
+        hint: { id: 'Loop sering dipakai dalam animasi.', en: 'Loops are often used in animation.' },
+        explanation: { id: 'Pengulangan membuat gerak terasa halus dan hidup.', en: 'Repeating motion makes it feel smooth and alive.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g34-menggambar-dengan-kode',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Menggambar dengan Kode', en: 'Drawing with Code' },
+    material: [
+      ['shape', { id: 'Kode bisa membuat bentuk seperti lingkaran, garis, dan persegi.', en: 'Code can create shapes such as circles, lines, and squares.' }],
+      ['order', { id: 'Urutan menggambar harus rapi agar hasilnya bagus.', en: 'The drawing order should be neat for a good result.' }],
+      ['color', { id: 'Warna membuat gambar lebih menarik.', en: 'Color makes images more interesting.' }],
+    ],
+    example: {
+      sequence: [['🔵', { id: 'warna', en: 'color' }], ['◯', { id: 'bentuk', en: 'shape' }], ['✏️', { id: 'gambar', en: 'draw' }]],
+      caption: { id: 'Warnai lalu gambar bentuk', en: 'Color it, then draw the shape' },
+    },
+    activity: {
+      title: { id: 'Pilih elemen paling penting dalam menggambar', en: 'Choose the most important element in drawing' },
+      sequence: ['Bentuk', 'Warna', 'Kertas'],
+      options: ['Bentuk', 'Warna', 'Kertas'],
+      answer: 'Bentuk',
+    },
+    questions: [
+      {
+        id: 'creative-g34-draw-shape',
+        type: 'multiple-choice',
+        prompt: { id: 'Kode bisa dibuat untuk...', en: 'Code can be used to...' },
+        options: [
+          { id: 'draw', text: { id: 'Menggambar bentuk', en: 'Draw shapes' } },
+          { id: 'sleep', text: { id: 'Tidur', en: 'Sleep' } },
+        ],
+        answer: 'draw',
+        hint: { id: 'Kode bisa memerintahkan komputer menggambar.', en: 'Code can tell the computer to draw.' },
+        explanation: { id: 'Dengan kode, kita membuat bentuk dan pola visual.', en: 'With code, we create visual shapes and patterns.' },
+      },
+      {
+        id: 'creative-g34-draw-color',
+        type: 'true-false',
+        prompt: { id: 'Warna bisa membuat gambar lebih menarik.', en: 'Color can make a drawing more interesting.' },
+        answer: true,
+        hint: { id: 'Warna memberi ekspresi pada karya.', en: 'Color adds expression to a work.' },
+        explanation: { id: 'Warna membuat karya lebih hidup dan mudah dibedakan.', en: 'Color makes art more lively and easier to distinguish.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g34-suara-dan-interaksi',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Suara dan Interaksi', en: 'Sound and Interaction' },
+    material: [
+      ['sound', { id: 'Suara membuat project terasa lebih hidup.', en: 'Sound makes a project feel more alive.' }],
+      ['interaction', { id: 'Interaksi terjadi saat kita klik, sentuh, atau menekan tombol.', en: 'Interaction happens when we click, tap, or press a button.' }],
+      ['response', { id: 'Tiap tindakan mendapat reaksi yang sesuai.', en: 'Each action gets a matching response.' }],
+    ],
+    example: {
+      sequence: [['🖱️', { id: 'klik', en: 'click' }], ['🔊', { id: 'suara', en: 'sound' }], ['✨', { id: 'reaksi', en: 'reaction' }]],
+      caption: { id: 'Klik → suara → reaksi', en: 'Click → sound → reaction' },
+    },
+    activity: {
+      title: { id: 'Apa yang memicu reaksi?', en: 'What triggers the reaction?' },
+      sequence: ['Klik', 'Suara', 'Gambar'],
+      options: ['Klik', 'Suara', 'Gambar'],
+      answer: 'Klik',
+    },
+    questions: [
+      {
+        id: 'creative-g34-sound-click',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa yang biasanya memulai interaksi?', en: 'What usually starts an interaction?' },
+        options: [
+          { id: 'click', text: { id: 'Klik atau sentuhan', en: 'A click or tap' } },
+          { id: 'shadow', text: { id: 'Bayangan', en: 'A shadow' } },
+        ],
+        answer: 'click',
+        hint: { id: 'Interaksi sering dimulai saat kita memberi input.', en: 'Interaction often starts when we provide input.' },
+        explanation: { id: 'Klik atau sentuhan adalah bentuk input yang memicu aksi.', en: 'A click or tap is a form of input that triggers an action.' },
+      },
+      {
+        id: 'creative-g34-sound-true',
+        type: 'true-false',
+        prompt: { id: 'Suara dapat membuat projek terasa lebih hidup.', en: 'Sound can make a project feel more alive.' },
+        answer: true,
+        hint: { id: 'Suara memberi rasa dinamis.', en: 'Sound adds a dynamic feeling.' },
+        explanation: { id: 'Suara membuat project terasa lebih interaktif dan menyenangkan.', en: 'Sound makes a project feel more interactive and enjoyable.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g34-proyek-kuis-interaktif',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Proyek: Kuis Interaktif', en: 'Project: Interactive Quiz' },
+    material: [
+      ['question', { id: 'Kuis berisi pertanyaan yang harus dijawab.', en: 'A quiz contains questions that need answers.' }],
+      ['choice', { id: 'Pilihan jawaban membuat pemain memilih.', en: 'Answer choices make the player decide.' }],
+      ['feedback', { id: 'Umpan balik membuat pemain belajar dari jawaban.', en: 'Feedback helps players learn from their answers.' }],
+    ],
+    example: {
+      sequence: [['❓', { id: 'pertanyaan', en: 'question' }], ['✅', { id: 'jawaban', en: 'answer' }], ['⭐', { id: 'skor', en: 'score' }]],
+      caption: { id: 'Pertanyaan → jawaban → skor', en: 'Question → answer → score' },
+    },
+    activity: {
+      title: { id: 'Pilih bagian penting dari kuis', en: 'Choose the essential part of a quiz' },
+      sequence: ['Pertanyaan', 'Skor', 'Gambar'],
+      options: ['Pertanyaan', 'Skor', 'Gambar'],
+      answer: 'Pertanyaan',
+    },
+    questions: [
+      {
+        id: 'creative-g34-quiz-parts',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa elemen paling penting dari kuis?', en: 'What is the most important element in a quiz?' },
+        options: [
+          { id: 'question', text: { id: 'Pertanyaan', en: 'The question' } },
+          { id: 'table', text: { id: 'Meja', en: 'A table' } },
+        ],
+        answer: 'question',
+        hint: { id: 'Tanpa pertanyaan, tidak ada kuis.', en: 'Without a question, there is no quiz.' },
+        explanation: { id: 'Pertanyaan adalah inti dari kuis interaktif.', en: 'The question is the heart of an interactive quiz.' },
+      },
+      {
+        id: 'creative-g34-quiz-feedback',
+        type: 'true-false',
+        prompt: { id: 'Umpan balik membantu pemain belajar.', en: 'Feedback helps players learn.' },
+        answer: true,
+        hint: { id: 'Umpan balik memberi tahu apakah jawaban benar atau salah.', en: 'Feedback tells whether the answer is correct or not.' },
+        explanation: { id: 'Umpan balik membuat pemain tahu apa yang salah dan bagaimana memperbaiki.', en: 'Feedback tells players what is wrong and how to improve.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g34-proyek-game-labirin',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Proyek: Game Labirin', en: 'Project: Maze Game' },
+    material: [
+      ['maze', { id: 'Labirin punya jalur, dinding, dan tujuan.', en: 'A maze has a path, walls, and a goal.' }],
+      ['move', { id: 'Karakter bergerak sesuai arah yang dipilih.', en: 'The character moves according to the chosen direction.' }],
+      ['win', { id: 'Saat mencapai tujuan, pemain menang.', en: 'When the goal is reached, the player wins.' }],
+    ],
+    example: {
+      sequence: [['🧭', { id: 'arah', en: 'direction' }], ['🧱', { id: 'dinding', en: 'wall' }], ['🏁', { id: 'tujuan', en: 'goal' }]],
+      caption: { id: 'Pilih arah, hindari dinding, sampai ke tujuan', en: 'Choose a direction, avoid walls, reach the goal' },
+    },
+    activity: {
+      title: { id: 'Pilih cara paling tepat melewati jalan', en: 'Choose the best way to get through the path' },
+      sequence: ['Kiri', 'Kanan', 'Jalan buntu'],
+      options: ['Kiri', 'Kanan', 'Jalan buntu'],
+      answer: 'Kanan',
+    },
+    questions: [
+      {
+        id: 'creative-g34-maze-purpose',
+        type: 'multiple-choice',
+        prompt: { id: 'Tujuan labirin adalah...', en: 'The purpose of a maze is to...' },
+        options: [
+          { id: 'reach', text: { id: 'Mencapai tujuan', en: 'Reach the goal' } },
+          { id: 'sleep', text: { id: 'Tidur', en: 'Sleep' } },
+        ],
+        answer: 'reach',
+        hint: { id: 'Tujuan labirin biasanya di ujung jalur.', en: 'The maze goal is usually at the end of the path.' },
+        explanation: { id: 'Pemain harus memilih jalan yang benar sampai tujuan tercapai.', en: 'Players must choose the correct route to reach the goal.' },
+      },
+      {
+        id: 'creative-g34-maze-wall',
+        type: 'true-false',
+        prompt: { id: 'Dinding membantu pemain bergerak lebih cepat.', en: 'Walls help players move faster.' },
+        answer: false,
+        hint: { id: 'Dinding biasanya menghalangi jalan.', en: 'Walls usually block the path.' },
+        explanation: { id: 'Dinding membatasi jalan, jadi pemain harus memilih arah yang tepat.', en: 'Walls limit routes, so players must choose the correct direction.' },
+      },
+    ],
+    badgeId: 'game-creator',
+  }),
+  createTopic({
+    id: 'creative-g34-proyek-pameran-karyaku',
+    lessonId: 'creative-coding',
+    grade: '3-4',
+    title: { id: 'Proyek: Pameran Karyaku', en: 'Project: My Artwork Showcase' },
+    material: [
+      ['show', { id: 'Karya perlu dipamerkan agar orang lain bisa melihatnya.', en: 'Artwork needs to be showcased so others can see it.' }],
+      ['explain', { id: 'Penjelasan singkat membantu teman memahami hasilmu.', en: 'A short explanation helps friends understand your work.' }],
+      ['proud', { id: 'Pameran adalah saat bangga pada proses dan hasil.', en: 'A showcase is a proud moment for the process and result.' }],
+    ],
+    example: {
+      sequence: [['🖼️', { id: 'karya', en: 'artwork' }], ['🗣️', { id: 'jelaskan', en: 'explain' }], ['🎉', { id: 'bangga', en: 'proud' }]],
+      caption: { id: 'Tampilkan karya lalu jelaskan dan bangga', en: 'Show the work, explain it, and be proud' },
+    },
+    activity: {
+      title: { id: 'Pilih hal yang paling penting saat pameran', en: 'Choose the most important part of a showcase' },
+      sequence: ['Menjelaskan karya', 'Menyimpan karya', 'Menghapus karya'],
+      options: ['Menjelaskan karya', 'Menyimpan karya', 'Menghapus karya'],
+      answer: 'Menjelaskan karya',
+    },
+    questions: [
+      {
+        id: 'creative-g34-showcase-purpose',
+        type: 'multiple-choice',
+        prompt: { id: 'Kenapa karya perlu dipamerkan?', en: 'Why do we show artwork?' },
+        options: [
+          { id: 'share', text: { id: 'Agar orang lain bisa melihat dan belajar', en: 'So others can see and learn from it' } },
+          { id: 'hide', text: { id: 'Agar cepat hilang', en: 'So it disappears quickly' } },
+        ],
+        answer: 'share',
+        hint: { id: 'Pameran membantu orang lain melihat karya kita.', en: 'A showcase lets others see the work.' },
+        explanation: { id: 'Karya jadi lebih berarti saat dibagikan dan dijelaskan.', en: 'Artwork becomes more meaningful when it is shared and explained.' },
+      },
+      {
+        id: 'creative-g34-showcase-true',
+        type: 'true-false',
+        prompt: { id: 'Pameran adalah momen untuk bangga pada proses.', en: 'A showcase is a moment to be proud of the process.' },
+        answer: true,
+        hint: { id: 'Kita sudah bekerja keras untuk membuat karya.', en: 'We worked hard to make the artwork.' },
+        explanation: { id: 'Setiap tahap membuat karya punya nilai dan patut dibanggakan.', en: 'Every step in making the work has value and deserves pride.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+];
+
+const creativeG56Subtopics = [
+  createTopic({
+    id: 'creative-g56-halaman-web-html-css',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Halaman Web (HTML & CSS)', en: 'Web Page (HTML & CSS)' },
+    material: [
+      ['html', { id: 'HTML mengatur struktur halaman.', en: 'HTML structures the page.' }],
+      ['css', { id: 'CSS mengatur warna, jarak, dan tata letak.', en: 'CSS controls color, spacing, and layout.' }],
+      ['design', { id: 'Desain yang rapi membuat halaman lebih mudah dibaca.', en: 'Clean design makes pages easier to read.' }],
+    ],
+    example: {
+      sequence: [['🧱', { id: 'struktur', en: 'structure' }], ['🎨', { id: 'tata letak', en: 'layout' }], ['💻', { id: 'halaman', en: 'page' }]],
+      caption: { id: 'Struktur + warna + layout = halaman web', en: 'Structure + color + layout = web page' },
+    },
+    activity: {
+      title: { id: 'Pilih elemen yang mengatur tampilan halaman', en: 'Choose the element that controls page appearance' },
+      sequence: ['HTML', 'CSS', 'Keyboard'],
+      options: ['HTML', 'CSS', 'Keyboard'],
+      answer: 'CSS',
+    },
+    questions: [
+      {
+        id: 'creative-g56-web-html',
+        type: 'multiple-choice',
+        prompt: { id: 'HTML biasanya mengatur...', en: 'HTML usually determines...' },
+        options: [
+          { id: 'structure', text: { id: 'Struktur halaman', en: 'Page structure' } },
+          { id: 'sun', text: { id: 'Matahari', en: 'The sun' } },
+        ],
+        answer: 'structure',
+        hint: { id: 'HTML membangun kerangka halaman.', en: 'HTML builds the page framework.' },
+        explanation: { id: 'HTML membuat struktur seperti judul, paragraf, dan gambar.', en: 'HTML creates structure like headings, paragraphs, and images.' },
+      },
+      {
+        id: 'creative-g56-web-css',
+        type: 'true-false',
+        prompt: { id: 'CSS membantu mengatur tampilan halaman.', en: 'CSS helps control the page appearance.' },
+        answer: true,
+        hint: { id: 'CSS membuat warna, ukuran, dan jarak.', en: 'CSS controls colors, sizes, and spacing.' },
+        explanation: { id: 'CSS membuat halaman lebih menarik dan mudah dibaca.', en: 'CSS makes a page more attractive and easier to read.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g56-animasi-dan-interaksi',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Animasi dan Interaksi', en: 'Animation and Interaction' },
+    material: [
+      ['motion', { id: 'Animasi bisa membuat elemen bergerak saat halaman dibuka atau disentuh.', en: 'Animation can make elements move when a page opens or is touched.' }],
+      ['interaction', { id: 'Interaksi menjadikan halaman lebih hidup dan responsif.', en: 'Interaction makes the page feel more alive and responsive.' }],
+      ['feedback', { id: 'Feedback visual memberi tanda bahwa aksi sudah terjadi.', en: 'Visual feedback tells the user that an action happened.' }],
+    ],
+    example: {
+      sequence: [['✨', { id: 'bergerak', en: 'move' }], ['🖱️', { id: 'klik', en: 'click' }], ['🎯', { id: 'reaksi', en: 'reaction' }]],
+      caption: { id: 'Klik → animasi → reaksi', en: 'Click → animation → reaction' },
+    },
+    activity: {
+      title: { id: 'Pilih yang paling memicu interaksi', en: 'Choose what best triggers interaction' },
+      sequence: ['Klik', 'Teks', 'Warna'],
+      options: ['Klik', 'Teks', 'Warna'],
+      answer: 'Klik',
+    },
+    questions: [
+      {
+        id: 'creative-g56-interaction-what',
+        type: 'multiple-choice',
+        prompt: { id: 'Interaksi biasanya terjadi saat...', en: 'Interaction usually happens when...' },
+        options: [
+          { id: 'click', text: { id: 'Pengguna mengklik atau menyentuh', en: 'The user clicks or taps' } },
+          { id: 'rain', text: { id: 'Hujan turun', en: 'It rains' } },
+        ],
+        answer: 'click',
+        hint: { id: 'Interaksi berarti ada input dari pengguna.', en: 'Interaction means there is user input.' },
+        explanation: { id: 'Klik atau sentuhan adalah contoh input yang memicu reaksi.', en: 'A click or tap is an example of input that triggers a reaction.' },
+      },
+      {
+        id: 'creative-g56-animation-true',
+        type: 'true-false',
+        prompt: { id: 'Animasi membuat halaman terasa lebih hidup.', en: 'Animation makes a page feel more alive.' },
+        answer: true,
+        hint: { id: 'Gerakan menarik perhatian.', en: 'Movement captures attention.' },
+        explanation: { id: 'Animasi menambahkan dinamika yang membuat pengalaman lebih menarik.', en: 'Animation adds dynamics that make the experience more engaging.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g56-data-dan-daftar',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Data dan Daftar', en: 'Data and Lists' },
+    material: [
+      ['list', { id: 'Daftar menyimpan banyak data dalam satu tempat.', en: 'A list stores many pieces of data in one place.' }],
+      ['sort', { id: 'Kita bisa mengurutkan data agar lebih mudah dibaca.', en: 'We can sort data to make it easier to read.' }],
+      ['loop', { id: 'Perulangan membantu memproses semua data di daftar.', en: 'Loops help process all items in a list.' }],
+    ],
+    example: {
+      sequence: [['📃', { id: 'daftar', en: 'list' }], ['🔁', { id: 'ulang', en: 'repeat' }], ['📊', { id: 'hasil', en: 'result' }]],
+      caption: { id: 'Daftar + loop = proses data lebih cepat', en: 'List + loop = faster data processing' },
+    },
+    activity: {
+      title: { id: 'Pilih cara terbaik untuk mengolah daftar', en: 'Choose the best way to process a list' },
+      sequence: ['Urutkan', 'Loop', 'Hapus'],
+      options: ['Urutkan', 'Loop', 'Hapus'],
+      answer: 'Loop',
+    },
+    questions: [
+      {
+        id: 'creative-g56-list-loop',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa manfaat daftar?', en: 'What is the benefit of a list?' },
+        options: [
+          { id: 'many', text: { id: 'Menyimpan banyak item', en: 'Store many items' } },
+          { id: 'one', text: { id: 'Hanya menyimpan satu item', en: 'Store only one item' } },
+        ],
+        answer: 'many',
+        hint: { id: 'Daftar cocok untuk banyak data.', en: 'Lists are good for many items.' },
+        explanation: { id: 'Daftar membantu kita mengatur banyak data dalam satu wadah.', en: 'A list helps organize many pieces of data in one place.' },
+      },
+      {
+        id: 'creative-g56-list-sort',
+        type: 'true-false',
+        prompt: { id: 'Mengurutkan data membuatnya lebih mudah dibaca.', en: 'Sorting data makes it easier to read.' },
+        answer: true,
+        hint: { id: 'Urutan yang rapi memudahkan pencarian.', en: 'A clean order makes searching easier.' },
+        explanation: { id: 'Data terurut membantu kita melihat pola dan mencari informasi dengan cepat.', en: 'Ordered data helps us see patterns and find information quickly.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g56-proyek-website-profilku',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Proyek: Website Profilku', en: 'Project: My Profile Website' },
+    material: [
+      ['profile', { id: 'Website profil menampilkan identitas dan minat.', en: 'A profile website shows identity and interests.' }],
+      ['content', { id: 'Konten harus jelas dan mudah dibaca.', en: 'Content should be clear and easy to read.' }],
+      ['design', { id: 'Tata letak membantu orang lain memahami profilmu.', en: 'Layout helps others understand your profile.' }],
+    ],
+    example: {
+      sequence: [['👤', { id: 'profil', en: 'profile' }], ['📎', { id: 'konten', en: 'content' }], ['🌐', { id: 'website', en: 'website' }]],
+      caption: { id: 'Profil + konten + tata letak = website', en: 'Profile + content + layout = website' },
+    },
+    activity: {
+      title: { id: 'Pilih elemen yang paling penting untuk profil', en: 'Choose the most important element in a profile' },
+      sequence: ['Nama', 'Hobi', 'Tombol'],
+      options: ['Nama', 'Hobi', 'Tombol'],
+      answer: 'Nama',
+    },
+    questions: [
+      {
+        id: 'creative-g56-profile-identity',
+        type: 'multiple-choice',
+        prompt: { id: 'Apa yang biasanya ditampilkan di website profil?', en: 'What is usually shown on a profile website?' },
+        options: [
+          { id: 'about', text: { id: 'Tentang diri dan minat', en: 'About the person and their interests' } },
+          { id: 'chair', text: { id: 'Kursi', en: 'A chair' } },
+        ],
+        answer: 'about',
+        hint: { id: 'Profil biasanya menjelaskan siapa kita.', en: 'A profile usually explains who we are.' },
+        explanation: { id: 'Website profil bisa menampilkan nama, minat, dan proyek yang dibuat.', en: 'A profile website can show a name, interests, and projects.' },
+      },
+      {
+        id: 'creative-g56-profile-layout',
+        type: 'true-false',
+        prompt: { id: 'Tata letak membantu orang lain membaca situs dengan lebih mudah.', en: 'Layout helps people read a site more easily.' },
+        answer: true,
+        hint: { id: 'Tata letak membuat setiap bagian terlihat rapi.', en: 'Layout keeps each section neat.' },
+        explanation: { id: 'Struktur yang jelas membuat informasi lebih mudah dipahami.', en: 'A clear structure makes information easier to understand.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+  createTopic({
+    id: 'creative-g56-proyek-game-tebak-angka',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Proyek: Game Tebak Angka', en: 'Project: Number Guessing Game' },
+    material: [
+      ['random', { id: 'Angka acak membuat permainan selalu menantang.', en: 'Random numbers make the game challenging every time.' }],
+      ['guess', { id: 'Tebakan dibandingkan dengan angka rahasia.', en: 'The guess is compared to the secret number.' }],
+      ['repeat', { id: 'Permainan bisa dimainkan berulang sampai target tercapai.', en: 'The game can be replayed until the goal is reached.' }],
+    ],
+    example: {
+      sequence: [['🎯', { id: 'target', en: 'target' }], ['❔', { id: 'tebak', en: 'guess' }], ['✅', { id: 'benar', en: 'correct' }]],
+      caption: { id: 'Tebak → cek → menang', en: 'Guess → check → win' },
+    },
+    activity: {
+      title: { id: 'Pilih langkah yang benar', en: 'Choose the correct step' },
+      sequence: ['Buat angka rahasia', 'Tebak angka', 'Cek jawaban'],
+      options: ['Buat angka rahasia', 'Tebak angka', 'Cek jawaban'],
+      answer: 'Tebak angka',
+    },
+    questions: [
+      {
+        id: 'creative-g56-guess-random',
+        type: 'multiple-choice',
+        prompt: { id: 'Kenapa kita memakai angka acak?', en: 'Why use random numbers?' },
+        options: [
+          { id: 'challenge', text: { id: 'Agar permainan lebih menantang', en: 'To make the game more challenging' } },
+          { id: 'sleep', text: { id: 'Agar lebih mengantuk', en: 'To make it more sleepy' } },
+        ],
+        answer: 'challenge',
+        hint: { id: 'Angka acak membuat setiap permainan baru.', en: 'Random numbers make each game fresh.' },
+        explanation: { id: 'Dengan angka acak, setiap ronde bisa berbeda dan seru.', en: 'With random numbers, each round can be different and exciting.' },
+      },
+      {
+        id: 'creative-g56-guess-check',
+        type: 'true-false',
+        prompt: { id: 'Setelah tebakan, kita harus mengecek apakah benar.', en: 'After guessing, we should check whether it is correct.' },
+        answer: true,
+        hint: { id: 'Kita perlu tahu apakah tebakan tepat.', en: 'We need to know whether the guess is correct.' },
+        explanation: { id: 'Pengecekan menentukan apakah pemain menang atau perlu mencoba lagi.', en: 'Checking determines whether the player wins or tries again.' },
+      },
+    ],
+    badgeId: 'game-creator',
+  }),
+  createTopic({
+    id: 'creative-g56-proyek-pameran-dan-presentasi-karya',
+    lessonId: 'creative-coding',
+    grade: '5-6',
+    title: { id: 'Proyek: Pameran dan Presentasi Karya', en: 'Project: Showcase and Presentation' },
+    material: [
+      ['prepare', { id: 'Persiapan presentasi membantu audiens memahami tujuan karya.', en: 'Presentation preparation helps the audience understand the purpose of the work.' }],
+      ['feedback', { id: 'Umpan balik membantu memperbaiki karya sebelum dipamerkan.', en: 'Feedback helps improve the project before it is showcased.' }],
+      ['share', { id: 'Presentasi adalah cara membagikan proses dan hasilmu.', en: 'A presentation is a way to share your process and result.' }],
+    ],
+    example: {
+      sequence: [['🧠', { id: 'persiapkan', en: 'prepare' }], ['📢', { id: 'presentasi', en: 'presentation' }], ['🎉', { id: 'bangga', en: 'proud' }]],
+      caption: { id: 'Siapkan → presentasi → bangga', en: 'Prepare → present → be proud' },
+    },
+    activity: {
+      title: { id: 'Pilih hal yang paling membantu presentasi', en: 'Choose the most helpful part of a presentation' },
+      sequence: ['Menjelaskan karya', 'Menyembunyikan ide', 'Menghapus layar'],
+      options: ['Menjelaskan karya', 'Menyembunyikan ide', 'Menghapus layar'],
+      answer: 'Menjelaskan karya',
+    },
+    questions: [
+      {
+        id: 'creative-g56-showcase-prepare',
+        type: 'multiple-choice',
+        prompt: { id: 'Kenapa presentasi perlu dipersiapkan?', en: 'Why do we prepare a presentation?' },
+        options: [
+          { id: 'clear', text: { id: 'Agar audiens lebih paham', en: 'So the audience understands better' } },
+          { id: 'blur', text: { id: 'Agar tampilan kabur', en: 'So it looks blurry' } },
+        ],
+        answer: 'clear',
+        hint: { id: 'Presentasi yang jelas membuat orang memahami karya.', en: 'A clear presentation helps people understand the work.' },
+        explanation: { id: 'Persiapan membuat cerita karya lebih mudah dipahami.', en: 'Preparation makes the story of the project easier to understand.' },
+      },
+      {
+        id: 'creative-g56-showcase-proud',
+        type: 'true-false',
+        prompt: { id: 'Presentasi adalah waktu untuk bangga pada proses dan hasil.', en: 'Presentation is a time to be proud of the process and result.' },
+        answer: true,
+        hint: { id: 'Kita sudah bekerja keras dan membuat sesuatu yang berarti.', en: 'We worked hard and created something meaningful.' },
+        explanation: { id: 'Pameran dan presentasi adalah momen untuk menghargai usaha.', en: 'Showcases and presentations are moments to honor the effort.' },
+      },
+    ],
+    badgeId: 'creative-coder',
+  }),
+];
+
 const learningUnits = [
   ...logicG12Subtopics,
-  logicG34Algorithms,
-  logicG56LoopsBugs,
+  ...logicG34Subtopics,
+  ...logicG56Subtopics,
   basicG12Directions,
   ...basicCodingSubtopics,
-  basicG34SequenceEvents,
-  basicG56IfElseFix,
+  ...basicG34Subtopics,
+  ...basicG56Subtopics,
   creativeG12Character,
   ...creativeCodingSubtopics,
-  creativeG34StoryMiniGame,
-  creativeG56ScoreProject,
+  ...creativeG34Subtopics,
+  ...creativeG56Subtopics,
 ];
 
 export default learningUnits;

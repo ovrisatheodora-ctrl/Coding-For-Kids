@@ -14,6 +14,156 @@
   padding-bottom: 80px;
 }
 
+.games-units-page {
+  isolation: isolate;
+}
+
+.games-units-page .learning-units-grid[data-game-count="2"] .game-unit-card:first-child {
+  grid-column: 2 / span 2;
+}
+
+.games-units-page .learning-units-grid[data-game-count="2"] .game-unit-card:nth-child(2) {
+  grid-column: 4 / span 2;
+}
+
+.games-units-page .learning-units-grid[data-game-count="6"] .game-unit-card:nth-child(4),
+.games-units-page .learning-units-grid[data-game-count="6"] .game-unit-card:nth-child(5) {
+  grid-column: span 2;
+}
+
+.game-unit-card {
+  text-decoration: none;
+}
+
+.games-units-page .game-unit-card--soon {
+  border-color: #777;
+  background: #ECEBE4;
+  box-shadow: 6px 6px 0 #777;
+  color: #5b5b5b;
+  cursor: default;
+}
+
+.games-units-page .game-unit-card--soon:hover {
+  transform: none;
+  box-shadow: 6px 6px 0 #777;
+}
+
+.games-units-page .game-unit-card--soon .learning-unit-icon {
+  border-color: #777;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 3px 3px 0 #777;
+}
+
+.games-units-page .game-unit-card--soon .learning-unit-tags span {
+  border-color: #888;
+  color: #5b5b5b;
+}
+
+.games-units-page .game-unit-card--soon .learning-unit-tags span:first-child {
+  background: #fff;
+}
+
+.games-units-page .game-unit-card--soon .learning-unit-meta {
+  color: #5b5b5b;
+}
+
+.games-units-page .game-unit-card--soon .learning-unit-copy {
+  padding-bottom: 0;
+}
+
+.game-unit-card .learning-unit-icon img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.game-unit-card .learning-unit-meta {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.game-unit-card .learning-unit-go {
+  font-size: 1rem;
+}
+
+.game-unit-levels {
+  position: absolute;
+  right: 14px;
+  padding: 4px 7px;
+  border: 1.5px solid var(--outline);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.58rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.game-unit-coming-soon {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border: 2px solid #888;
+  border-radius: 999px;
+  background: #E4E3DC;
+  box-shadow: 0 3px 0 #888;
+  color: #5b5b5b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.game-unit-coming-soon img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  transform: scale(1.55);
+  transform-origin: center;
+  margin-left: 4px;
+}
+
+.game-unit-levels {
+  right: auto;
+  bottom: 14px;
+  left: 18px;
+  background: var(--banana);
+}
+
+.game-unit-card .learning-unit-copy {
+  padding-bottom: 18px;
+}
+
+.games-back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px 18px;
+  border: 2px solid var(--outline);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--outline);
+  color: var(--outline);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.games-back-link:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--outline);
+}
+
+.games-back-link:focus-visible {
+  outline: 3px solid var(--outline);
+  outline-offset: 4px;
+}
+
 .games-banner {
   animation: slide-up 0.5s ease both;
 }
@@ -302,7 +452,10 @@ a.game-card:hover {
   width: 64px;
   height: 64px;
   object-fit: contain;
+  transform: translate(var(--game-art-offset-x, 0px), var(--game-art-offset-y, 0px)) scale(var(--game-art-scale, 1));
 }
+
+
 
 .game-card-info {
   display: flex;
@@ -424,6 +577,16 @@ a.game-card:hover {
 }
 
 @media (max-width: 980px) {
+  .games-units-page .learning-units-grid[data-game-count="6"] .game-unit-card {
+    grid-column: auto;
+  }
+
+  .games-units-page .learning-units-grid[data-game-count="2"] .game-unit-card,
+  .games-units-page .learning-units-grid[data-game-count="2"] .game-unit-card:first-child,
+  .games-units-page .learning-units-grid[data-game-count="2"] .game-unit-card:nth-child(2) {
+    grid-column: auto;
+  }
+
   .games-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

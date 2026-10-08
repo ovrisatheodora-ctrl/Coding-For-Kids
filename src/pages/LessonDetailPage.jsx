@@ -114,7 +114,7 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
               </span>
             </div>
             <img
-              className={`ld-banner-image${lessonId === 'logic-algorithms' ? ' ld-banner-image--logic' : ''}${lessonId === 'basic-coding' ? ' ld-banner-image--basic' : ''}`}
+              className="ld-banner-image ld-banner-image--category"
               src={LESSON_ILLUSTRATIONS[lessonId]}
               alt=""
               aria-hidden="true"

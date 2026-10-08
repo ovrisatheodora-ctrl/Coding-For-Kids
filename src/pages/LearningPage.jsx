@@ -3,9 +3,8 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { getLearningUnit } from '../lessons';
 import {
   ActivityStep,
-  ExampleStep,
   FeedbackStep,
-  MaterialStep,
+  LessonIntroStep,
   ProgressBar,
   QuizStep,
   RewardStep,
@@ -13,7 +12,7 @@ import {
 import { completeUnit, getProgress, rewardCorrectAnswer } from '../data/progress';
 import './LearningPage.css';
 
-const STEPS = ['material', 'example', 'activity', 'quiz', 'feedback', 'reward'];
+const STEPS = ['intro', 'activity', 'quiz', 'feedback', 'reward'];
 
 function LearningPage({ t, lang, isGame = false }) {
   const { lessonId } = useParams();
@@ -44,7 +43,7 @@ function LearningPage({ t, lang, isGame = false }) {
   }
 
   function goToStep(nextStep) {
-    if (nextStep < 0 || nextStep >= STEPS.length) return;
+    if (nextStep < 0 || nextStep >= STEPS.length || nextStep > currentStep + 1) return;
     updateStep(nextStep);
   }
 
@@ -64,7 +63,7 @@ function LearningPage({ t, lang, isGame = false }) {
     setProgress(result.progress);
     setSaveFailed((failed) => failed || !result.saved);
     setStarsEarned(totalStars);
-    goToStep(4);
+    goToStep(3);
   }
 
   function resetUnit() {
@@ -80,21 +79,14 @@ function LearningPage({ t, lang, isGame = false }) {
   return (
     <main id="main-content" className="learning-page">
       <div className="learning-shell">
-        <Link
-          to={`/lessons/${lessonId}/units?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
-          className="learning-back-btn"
-          aria-label={lang === 'en' ? 'Back to topics' : 'Kembali ke subtema'}
-        >
-          {lang === 'en' ? '← Back to topics' : '← Kembali ke subtema'}
-        </Link>
-        <header className="learning-header">
-          <div className="learning-header-title">
-            <span className="learning-header-icon" aria-hidden="true">📚</span>
-            <div>
-              <p>{learning.modeLabel}</p>
-              {unit && <h1>{unit.title[lang] || unit.title.id}</h1>}
-            </div>
-          </div>
+        <div className="learning-topbar">
+          <Link
+            to={`/lessons/${lessonId}/units?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
+            className="learning-back-btn"
+            aria-label={lang === 'en' ? 'Back to topics' : 'Kembali ke subtema'}
+          >
+            {lang === 'en' ? '← Back to topics' : '← Kembali ke subtema'}
+          </Link>
           <div className="learning-header-meta">
             <span className="learning-grade-chip">{learning.gradeLabel(grade)}</span>
             <span className="learning-score-chip" aria-label={`${learning.xpLabel}: ${progress.xp}`}>
@@ -104,7 +96,7 @@ function LearningPage({ t, lang, isGame = false }) {
               ⭐ {progress.stars}
             </span>
           </div>
-        </header>
+        </div>
 
         {unit ? (
           <>
@@ -117,20 +109,17 @@ function LearningPage({ t, lang, isGame = false }) {
             {saveFailed && <p className="learning-save-warning" role="status">{learning.saveWarning}</p>}
             <div className="learning-stage" key={`${unit.id}-${STEPS[currentStep]}`}>
               {currentStep === 0 && (
-                <MaterialStep unit={unit} lang={lang} />
+                <LessonIntroStep unit={unit} lang={lang} labels={learning} />
               )}
               {currentStep === 1 && (
-                <ExampleStep unit={unit} lang={lang} title={learning.steps[1]} />
-              )}
-              {currentStep === 2 && (
                 <ActivityStep
                   activity={unit.activity}
                   lang={lang}
                   labels={learning}
-                  onContinue={() => goToStep(3)}
+                  onContinue={() => goToStep(2)}
                 />
               )}
-              {currentStep === 3 && (
+              {currentStep === 2 && (
                 <QuizStep
                   questions={unit.questions}
                   lang={lang}
@@ -139,15 +128,15 @@ function LearningPage({ t, lang, isGame = false }) {
                   onComplete={finishQuiz}
                 />
               )}
-              {currentStep === 4 && (
+              {currentStep === 3 && (
                 <FeedbackStep
                   labels={learning}
                   correctCount={earnedQuestionIds.length}
                   questionCount={unit.questions.length}
-                  onContinue={() => goToStep(5)}
+                  onContinue={() => goToStep(4)}
                 />
               )}
-              {currentStep === 5 && (
+              {currentStep === 4 && (
                 <RewardStep
                   labels={learning}
                   xpEarned={xpEarned}
@@ -159,14 +148,13 @@ function LearningPage({ t, lang, isGame = false }) {
                 />
               )}
             </div>
-            <div className="learning-step-footer">
-              <button className="btn btn-secondary" type="button" disabled={currentStep === 0} onClick={() => goToStep(currentStep - 1)} aria-label="Sebelumnya">
-                ← Sebelumnya
-              </button>
-              <button className="btn btn-primary" type="button" disabled={currentStep === STEPS.length - 1} onClick={() => goToStep(currentStep + 1)} aria-label="Lanjut">
-                Lanjut →
-              </button>
-            </div>
+            {currentStep === 0 && (
+              <div className="learning-step-footer">
+                <button className="btn btn-primary" type="button" onClick={() => goToStep(currentStep + 1)} aria-label={learning.continue}>
+                  {learning.continue}
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <section className="learning-card learning-coming-soon" aria-labelledby="learning-coming-title">

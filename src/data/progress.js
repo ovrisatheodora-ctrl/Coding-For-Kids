@@ -25,6 +25,7 @@ export function getProgress() {
       xp: Number.isFinite(stored.xp) && stored.xp >= 0 ? stored.xp : defaults.xp,
       stars: Number.isFinite(stored.stars) && stored.stars >= 0 ? stored.stars : defaults.stars,
       badges: Array.isArray(stored.badges) ? stored.badges : [],
+      completedGames: Array.isArray(stored.completedGames) ? stored.completedGames : [],
       completedUnits: Array.isArray(stored.completedUnits) ? stored.completedUnits : [],
       lessonStars: stored.lessonStars && typeof stored.lessonStars === 'object' ? stored.lessonStars : {},
       language: stored.language === 'en' ? 'en' : 'id',

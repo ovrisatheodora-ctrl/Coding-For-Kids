@@ -176,18 +176,11 @@
   pointer-events: none;
 }
 
-.ld-banner-image--logic {
+.ld-banner-image--category {
   right: -8px;
   bottom: -8px;
   height: 112%;
   max-width: 56%;
-}
-
-.ld-banner-image--basic {
-  right: -12px;
-  bottom: -10px;
-  height: 116%;
-  max-width: 58%;
 }
 
 /* Body */
@@ -541,7 +534,7 @@
     margin-top: 18px;
   }
 
-  .ld-banner-image--logic {
+  .ld-banner-image--category {
     width: min(88%, 400px);
     height: auto;
     max-width: 100%;

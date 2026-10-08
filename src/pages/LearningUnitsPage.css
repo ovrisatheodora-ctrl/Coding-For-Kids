@@ -104,6 +104,13 @@
   font-size: 40px;
 }
 
+.learning-unit-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translate(var(--unit-icon-offset-x, 0px), var(--unit-icon-offset-y, 0px)) scale(var(--unit-icon-scale, 1));
+}
+
 .learning-unit-copy {
   display: flex;
   min-width: 0;

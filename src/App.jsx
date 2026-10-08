@@ -72,7 +72,11 @@ function AppInner() {
   const handleLangChange = (newLang) => {
     setLang(newLang);
     saveLang(newLang);
-    if (location.pathname.endsWith('/learn') || location.pathname.endsWith('/game')) {
+    if (
+      location.pathname.endsWith('/learn')
+      || location.pathname.endsWith('/game')
+      || location.pathname.startsWith('/games/')
+    ) {
       const searchParams = new URLSearchParams(location.search);
       searchParams.set('lang', newLang);
       navigate(
@@ -100,7 +104,7 @@ function AppInner() {
           <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} onLangChange={handleLangChange} />} />
           <Route path="/lessons/:lessonId/units"     element={<LearningUnitsPage t={t} lang={lang} />} />
           <Route path="/lessons/:lessonId/learn"     element={<LearningPage key={learningSessionKey} t={t} lang={lang} />} />
-          <Route path="/lessons/:lessonId/game"      element={<LearningPage t={t} lang={lang} isGame />} />
+          <Route path="/lessons/:lessonId/game"      element={<GamesPage t={t} />} />
           <Route path="/games"                       element={<GamesPage t={t} />} />
           <Route path="/games/:gameId"               element={<GamesPage t={t} />} />
           <Route path="/about"                       element={<AboutPage t={t} />} />
