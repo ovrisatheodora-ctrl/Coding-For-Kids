@@ -26,7 +26,13 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
       tabIndex={0}
       role="button"
       aria-label={`Lesson ${card.number}: ${card.title}`}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleExplore()}
+      onClick={handleExplore}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleExplore();
+        }
+      }}
     >
       <span className="lesson-card-number">{card.number}</span>
       <span className="lesson-card-star" aria-hidden="true">★</span>
@@ -53,8 +59,12 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
       </div>
 
       <button
+        type="button"
         className="btn lesson-card-btn"
-        onClick={handleExplore}
+        onClick={(event) => {
+          event.stopPropagation();
+          handleExplore();
+        }}
         aria-label={`${exploreLabel} ${card.title}`}
       >
         <ArrowLabel>{exploreLabel}</ArrowLabel>

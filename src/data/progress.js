@@ -9,6 +9,7 @@ const defaults = {
   completedUnits: [],
   completedGames: [],
   highScores: {},
+  lessonStars: {},
   grade: null,
   language: 'id',
 };
@@ -25,6 +26,7 @@ export function getProgress() {
       stars: Number.isFinite(stored.stars) && stored.stars >= 0 ? stored.stars : defaults.stars,
       badges: Array.isArray(stored.badges) ? stored.badges : [],
       completedUnits: Array.isArray(stored.completedUnits) ? stored.completedUnits : [],
+      lessonStars: stored.lessonStars && typeof stored.lessonStars === 'object' ? stored.lessonStars : {},
       language: stored.language === 'en' ? 'en' : 'id',
     };
   } catch (error) {
@@ -97,13 +99,27 @@ export function completeLesson(lessonId) {
   return p;
 }
 
-export function completeUnit(unitId, badgeId) {
+export function completeUnit(unitId, badgeId, stars = 0) {
   const progress = getProgress();
   if (!progress.completedUnits.includes(unitId)) {
     progress.completedUnits.push(unitId);
   }
   if (badgeId && !progress.badges.includes(badgeId)) {
     progress.badges.push(badgeId);
+  }
+  if (stars > 0) {
+    const currentBest = Number(progress.lessonStars?.[unitId] || 0);
+    progress.lessonStars = progress.lessonStars || {};
+    progress.lessonStars[unitId] = Math.max(currentBest, stars);
+  }
+  const saved = saveProgress(progress);
+  return { progress, saved };
+}
+
+export function completeGame(gameId) {
+  const progress = getProgress();
+  if (!progress.completedGames.includes(gameId)) {
+    progress.completedGames.push(gameId);
   }
   const saved = saveProgress(progress);
   return { progress, saved };

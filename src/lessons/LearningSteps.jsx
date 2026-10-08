@@ -5,21 +5,24 @@ function localized(value, lang) {
   return value[lang] || value.id;
 }
 
-export function ProgressBar({ steps, currentStep, label }) {
+export function ProgressBar({ steps, currentStep, label, onStepChange }) {
   return (
     <nav className="learning-progress" aria-label={label}>
       {steps.map((step, index) => (
-        <span
+        <button
           key={step.id}
+          type="button"
           className={`learning-progress__step${index <= currentStep ? ' is-active' : ''}`}
           aria-current={index === currentStep ? 'step' : undefined}
           title={step.label}
+          onClick={() => onStepChange?.(index)}
+          aria-label={`${step.label} ${index + 1}`}
         >
           <span className="learning-progress__dot" aria-hidden="true">
             {index < currentStep ? '✓' : index + 1}
           </span>
           <span className="learning-progress__label">{step.label}</span>
-        </span>
+        </button>
       ))}
     </nav>
   );
@@ -59,48 +62,167 @@ export function ExampleStep({ unit, lang, title }) {
 }
 
 export function ActivityStep({ activity, lang, labels, onContinue }) {
-  const [choice, setChoice] = useState('');
+  const [slots, setSlots] = useState([]);
+  const [message, setMessage] = useState('');
+  const [locked, setLocked] = useState(false);
+  const [choice, setChoice] = useState(null);
   const [result, setResult] = useState('');
+  const normalizedActivity = activity?.type === 'order'
+    ? activity
+    : {
+        ...activity,
+        title: activity?.title || { id: labels.completePattern, en: labels.completePattern },
+        type: activity?.type || 'pick',
+        sequence: Array.isArray(activity?.sequence) ? activity.sequence : Array.isArray(activity?.items) ? activity.items.map((item) => item.emoji || item.symbol || item.label?.id || item.id) : [],
+        options: Array.isArray(activity?.opts) ? activity.opts : Array.isArray(activity?.options) ? activity.options : [],
+        answer: activity?.answer ?? activity?.ok ?? 0,
+      };
+
+  if (normalizedActivity.type === 'order') {
+    const orderedItems = Array.isArray(normalizedActivity.items) ? normalizedActivity.items : [];
+    const correctOrder = Array.isArray(normalizedActivity.answer) ? normalizedActivity.answer : [];
+    const slotCount = Math.max(correctOrder.length, 1);
+    const currentSlots = slots.length === slotCount ? slots : Array(slotCount).fill(null);
+
+    function removeFromSlot(slotIndex) {
+      if (locked) return;
+      setSlots((current) => {
+        const next = [...(current.length === slotCount ? current : Array(slotCount).fill(null))];
+        next[slotIndex] = null;
+        return next;
+      });
+    }
+
+    function placeItem(itemId) {
+      if (locked) return;
+      const nextIndex = currentSlots.findIndex((slot) => slot === null);
+      if (nextIndex === -1) return;
+
+      const next = [...currentSlots];
+      next[nextIndex] = itemId;
+      setSlots(next);
+
+      if (next.every((value) => value !== null)) {
+        const isCorrect = next.every((value, index) => value === correctOrder[index]);
+        if (isCorrect) {
+          setLocked(true);
+          setMessage(localized(normalizedActivity.success, lang));
+          return;
+        }
+
+        setMessage(localized(normalizedActivity.retry, lang));
+        setSlots(Array(slotCount).fill(null));
+      }
+    }
+
+    const availableItems = orderedItems.filter((item) => !currentSlots.includes(item.id));
+
+    return (
+      <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
+        <div className="learning-step-kicker">🧩</div>
+        <h1 id="learning-step-title" className="learning-step-title">{localized(normalizedActivity.title, lang)}</h1>
+        <div className="learning-order-board" aria-label={labels.completePattern}>
+          <div className="learning-order-slots">
+            {currentSlots.map((slotValue, index) => {
+              const item = orderedItems.find((entry) => entry.id === slotValue);
+              return (
+                <button
+                  key={`slot-${index}`}
+                  type="button"
+                  className={`learning-order-slot${slotValue ? ' is-filled' : ''}`}
+                  onClick={() => slotValue && removeFromSlot(index)}
+                  aria-label={slotValue ? `${index + 1}. ${item?.label ? localized(item.label, lang) : ''}` : `${index + 1}. ${labels.itemNumber(index + 1)}`}
+                >
+                  {item ? (
+                    <>
+                      <span className="learning-order-slot-emoji" aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
+                      <span>{item.label ? localized(item.label, lang) : item.id}</span>
+                    </>
+                  ) : (
+                    <span>{index + 1}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          <div className="learning-order-options">
+            {availableItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="learning-order-option"
+                onClick={() => placeItem(item.id)}
+              >
+                <span aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
+                <span>{localized(item.label, lang)}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        {message && <p className={`learning-inline-feedback${locked ? ' is-correct' : ' is-wrong'}`} role="status">{message}</p>}
+        {locked ? (
+          <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+        ) : (
+          <button className="btn btn-primary" type="button" onClick={() => setMessage('')} disabled={!currentSlots.some((slot) => slot !== null)}>
+            {labels.check}
+          </button>
+        )}
+      </section>
+    );
+  }
+
   const isCorrect = result === 'correct';
 
   function checkChoice() {
-    setResult(choice === activity.answer ? 'correct' : 'wrong');
+    const answerIndex = Number.isInteger(normalizedActivity.answer)
+      ? normalizedActivity.answer
+      : Number.isInteger(normalizedActivity.ok)
+        ? normalizedActivity.ok
+        : null;
+    const selectedOption = normalizedActivity.options[choice];
+    const selectedValue = typeof selectedOption === 'string'
+      ? selectedOption
+      : selectedOption?.[lang] || selectedOption?.id;
+    const isAnswerCorrect = answerIndex === null
+      ? selectedValue === normalizedActivity.answer
+      : choice === answerIndex;
+    setResult(isAnswerCorrect ? 'correct' : 'wrong');
   }
 
   return (
     <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
       <div className="learning-step-kicker">🧩</div>
-      <h1 id="learning-step-title" className="learning-step-title">{localized(activity.title, lang)}</h1>
+      <h1 id="learning-step-title" className="learning-step-title">{localized(normalizedActivity.title, lang)}</h1>
       <div className="learning-activity-sequence" aria-label={labels.completePattern}>
-        {activity.sequence.map((item, index) => (
+        {normalizedActivity.sequence.map((item, index) => (
           <span className="learning-activity-tile" key={`${item}-${index}`} aria-hidden="true">{item}</span>
         ))}
       </div>
       <div className="learning-choice-grid">
-        {activity.options.map((option) => (
+        {normalizedActivity.options.map((option, index) => (
           <button
-            className={`learning-choice learning-choice--large${choice === option ? ' is-selected' : ''}`}
+            className={`learning-choice learning-choice--large${choice === index ? ' is-selected' : ''}`}
             type="button"
-            key={option}
+            key={typeof option === 'string' ? option : option.id || index}
             onClick={() => {
-              setChoice(option);
+              setChoice(index);
               setResult('');
             }}
-            aria-pressed={choice === option}
+            aria-pressed={choice === index}
           >
-            {option}
+            {typeof option === 'string' ? option : localized(option, lang)}
           </button>
         ))}
       </div>
       {result && (
         <p className={`learning-inline-feedback${isCorrect ? ' is-correct' : ' is-wrong'}`} role="status">
-          {isCorrect ? localized(activity.success, lang) : localized(activity.hint, lang)}
+          {isCorrect ? localized(normalizedActivity.success, lang) : localized(normalizedActivity.hint, lang)}
         </p>
       )}
       {isCorrect ? (
         <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
       ) : (
-        <button className="btn btn-primary" type="button" onClick={checkChoice} disabled={!choice}>
+        <button className="btn btn-primary" type="button" onClick={checkChoice} disabled={choice === null}>
           {labels.check}
         </button>
       )}
@@ -293,6 +415,32 @@ function localizedMessage(question, name, lang) {
   return localized(question[name], lang);
 }
 
+function normalizeQuizQuestion(question, index) {
+  if (!Array.isArray(question)) {
+    return question;
+  }
+
+  const [prompt, options, answerIndex = 0] = question;
+  return {
+    id: `quiz-${index}`,
+    type: 'multiple-choice',
+    prompt: typeof prompt === 'string' ? { id: prompt, en: prompt } : prompt,
+    options: (Array.isArray(options) ? options : []).map((option, optionIndex) => {
+      const optionId = `option-${optionIndex}`;
+      if (typeof option === 'string') {
+        return { id: optionId, text: { id: option, en: option } };
+      }
+      return {
+        id: option?.id || optionId,
+        text: option?.text || { id: String(option), en: String(option) },
+      };
+    }),
+    answer: `option-${Number(answerIndex) || 0}`,
+    hint: { id: 'Coba pikirkan lagi.', en: 'Try again.' },
+    explanation: { id: 'Yuk cek kembali langkahnya.', en: 'Let’s review the steps again.' },
+  };
+}
+
 export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [value, setValue] = useState('');
@@ -300,7 +448,7 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
   const [outcome, setOutcome] = useState('');
   const [showHint, setShowHint] = useState(false);
 
-  const question = questions[questionIndex];
+  const question = normalizeQuizQuestion(questions[questionIndex], questionIndex);
   const revealed = outcome === 'revealed';
 
   function checkAnswer() {

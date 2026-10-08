@@ -32,7 +32,30 @@ const STATIC_HINTS = {
   },
 };
 
-function AiTutor({ t, currentContext = null }) {
+function detectReplyLanguage(message, fallbackLang = 'id') {
+  const text = (message || '').toLowerCase();
+  if (!text.trim()) return fallbackLang;
+
+  const idWords = [
+    'apa', 'bagaimana', 'kenapa', 'tolong', 'bantu', 'saya', 'aku', 'kamu',
+    'yang', 'ini', 'itu', 'kode', 'algoritma', 'pola', 'perintah', 'lanjut',
+    'jelaskan', 'contoh', 'petunjuk', 'mudah', 'seru', 'game', 'belajar',
+  ];
+  const enWords = [
+    'what', 'how', 'why', 'please', 'help', 'i', 'you', 'this', 'that',
+    'code', 'algorithm', 'pattern', 'command', 'explain', 'example', 'hint',
+    'easy', 'fun', 'game', 'learn', 'teach', 'can you', 'please', 'show me',
+  ];
+
+  const idScore = idWords.reduce((score, word) => score + (text.includes(word) ? 1 : 0), 0);
+  const enScore = enWords.reduce((score, word) => score + (text.includes(word) ? 1 : 0), 0);
+
+  if (idScore > enScore) return 'id';
+  if (enScore > idScore) return 'en';
+  return fallbackLang;
+}
+
+function AiTutor({ t, currentContext = null, lang = 'id' }) {
   const ai = t.aiTutor;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -41,6 +64,7 @@ function AiTutor({ t, currentContext = null }) {
   const [input, setInput] = useState('');
   const [hintLevel, setHintLevel] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [conversationLang, setConversationLang] = useState(lang === 'en' ? 'en' : 'id');
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const inputRef = useRef(null);
@@ -52,7 +76,6 @@ function AiTutor({ t, currentContext = null }) {
   const [fabPosition, setFabPosition] = useState(null);
   const [panelPosition, setPanelPosition] = useState(null);
   const [isDraggingFab, setIsDraggingFab] = useState(false);
-  const lang = t === t ? 'id' : 'en'; // detect lang from t object
 
   const handlePanelWheel = (event) => {
     const messagesContainer = messagesContainerRef.current;
@@ -157,10 +180,16 @@ function AiTutor({ t, currentContext = null }) {
     setMessages([{ role: 'assistant', text: ai.greeting }]);
   }, [ai.greeting]);
 
+  useEffect(() => {
+    setConversationLang(lang === 'en' ? 'en' : 'id');
+  }, [lang]);
+
   const sendMessage = async () => {
     const text = input.trim();
     if (!text || loading) return;
 
+    const nextLang = detectReplyLanguage(text, conversationLang);
+    setConversationLang(nextLang);
     setInput('');
     setMessages((prev) => [...prev, { role: 'user', text }]);
     setLoading(true);
@@ -174,7 +203,7 @@ function AiTutor({ t, currentContext = null }) {
           message: text,
           hintLevel,
           context: currentContext,
-          lang: ai === t.aiTutor ? 'id' : 'en',
+          lang: nextLang,
         }),
       });
 
@@ -182,10 +211,8 @@ function AiTutor({ t, currentContext = null }) {
       const data = await res.json();
       setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
     } catch {
-      // Fallback to static hints
-      const fallbackLang = Object.keys(STATIC_HINTS[hintLevel]).includes('id') ? 'id' : 'en';
       const fallbackText =
-        STATIC_HINTS[hintLevel]?.[fallbackLang] ||
+        STATIC_HINTS[hintLevel]?.[nextLang] ||
         STATIC_HINTS[1].id;
 
       setMessages((prev) => [
@@ -213,8 +240,7 @@ function AiTutor({ t, currentContext = null }) {
         4: 'Please show me the full solution!',
       },
     };
-    const isId = ai.btnLabel.includes('TANYA');
-    const userMsg = hintTexts[isId ? 'id' : 'en'][level];
+    const userMsg = hintTexts[conversationLang || lang || 'id'][level];
     setInput(userMsg);
   };
 

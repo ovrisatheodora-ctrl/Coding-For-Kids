@@ -1,7 +1,17 @@
-import patternUnit from './pattern-unit';
+import learningUnits from './lesson-units';
 
-const learningUnits = [patternUnit];
+export function getLearningUnit(lessonId, grade, unitId) {
+  return learningUnits.find((unit) => (
+    unit.lessonId === lessonId
+    && unit.grade === grade
+    && (!unitId || unit.id === unitId)
+  )) || null;
+}
 
-export function getLearningUnit(lessonId, grade) {
-  return learningUnits.find((unit) => unit.lessonId === lessonId && unit.grade === grade) || null;
+export function getLearningUnits(lessonId, grade) {
+  return learningUnits.filter((unit) => (
+    unit.lessonId === lessonId
+    && unit.grade === grade
+    && unit.showInCatalog !== false
+  ));
 }

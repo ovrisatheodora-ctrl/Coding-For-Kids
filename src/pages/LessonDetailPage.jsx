@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom';
 import grade12Asset from '../assets/Grade 1-2.png';
 import grade34Asset from '../assets/Grade 3-4.png';
 import grade56Asset from '../assets/Grade 5-6.png';
@@ -39,13 +39,14 @@ const LESSON_META = {
 function LessonDetailPage({ t, lang: appLang, onLangChange }) {
   const { lessonId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const meta = LESSON_META[lessonId];
   const ld = t.lessonDetail;
   const lesson = t.lessonCards.find((card) => card.id === lessonId);
   const description = ld.descriptions[lessonId];
 
-  const [selectedGrade, setSelectedGrade] = useState(null);
-  const [selectedLang, setSelectedLang] = useState(null);
+  const [selectedGrade, setSelectedGrade] = useState(() => searchParams.get('grade'));
+  const [selectedLang, setSelectedLang] = useState(() => searchParams.get('lang'));
   const languageSectionRef = useRef(null);
   const pathSectionRef = useRef(null);
 
@@ -85,7 +86,8 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
     saveGrade(selectedGrade);
     saveLang(selectedLang);
     onLangChange(selectedLang);
-    navigate(`/lessons/${lessonId}/${path}?grade=${selectedGrade}&lang=${selectedLang}`);
+    const destination = path === 'learn' ? 'units' : path;
+    navigate(`/lessons/${lessonId}/${destination}?grade=${selectedGrade}&lang=${selectedLang}`);
   };
 
   return (

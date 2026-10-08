@@ -11,6 +11,7 @@ import './styles/global.css';
 const HomePage        = lazy(() => import('./pages/HomePage'));
 const LessonsPage     = lazy(() => import('./pages/LessonsPage'));
 const LessonDetailPage= lazy(() => import('./pages/LessonDetailPage'));
+const LearningUnitsPage = lazy(() => import('./pages/LearningUnitsPage'));
 const LearningPage    = lazy(() => import('./pages/LearningPage'));
 const GamesPage       = lazy(() => import('./pages/GamesPage'));
 const AboutPage       = lazy(() => import('./pages/AboutPage'));
@@ -61,6 +62,12 @@ function AppInner() {
   });
 
   const t = i18n[lang] || i18n.id;
+  const routeParams = new URLSearchParams(location.search);
+  const learningSessionKey = [
+    routeParams.get('grade') || '',
+    routeParams.get('lang') || '',
+    routeParams.get('unit') || '',
+  ].join('|');
 
   const handleLangChange = (newLang) => {
     setLang(newLang);
@@ -91,7 +98,8 @@ function AppInner() {
           <Route path="/"                            element={<HomePage t={t} />} />
           <Route path="/lessons"                     element={<LessonsPage t={t} />} />
           <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} onLangChange={handleLangChange} />} />
-          <Route path="/lessons/:lessonId/learn"     element={<LearningPage t={t} lang={lang} />} />
+          <Route path="/lessons/:lessonId/units"     element={<LearningUnitsPage t={t} lang={lang} />} />
+          <Route path="/lessons/:lessonId/learn"     element={<LearningPage key={learningSessionKey} t={t} lang={lang} />} />
           <Route path="/lessons/:lessonId/game"      element={<LearningPage t={t} lang={lang} isGame />} />
           <Route path="/games"                       element={<GamesPage t={t} />} />
           <Route path="/games/:gameId"               element={<GamesPage t={t} />} />
@@ -103,7 +111,7 @@ function AppInner() {
       <Footer t={t} lang={lang} onLangChange={handleLangChange} />
 
       {/* Global floating AI Tutor */}
-      <AiTutor t={t} />
+      <AiTutor t={t} lang={lang} />
     </>
   );
 }

@@ -1,85 +1,110 @@
+import aboutIllustration from '../assets/Playful_Pink_Idea_Cube.png';
+import mascotIllustration from '../assets/Maskot_Coding_For_Kids.png';
 import './AboutPage.css';
 
-function AboutPage({ t }) {
-  const isId = Object.keys(t.nav).includes('home') && t.nav.home === 'Beranda';
+const STEP_ICONS = ['📚', '👀', '✍️', '🧩', '💬', '🏆'];
+const STEP_COLORS = [
+  'var(--sour-apple)',
+  'var(--summer-sky)',
+  'var(--blossom)',
+  'var(--sour-apple)',
+  'var(--summer-sky)',
+  'var(--blossom)',
+];
 
+function AboutPage({ t }) {
   return (
     <main id="main-content" className="about-page">
-      <div className="about-banner">
-        <div className="container">
-          <h1 className="about-title">
-            {isId ? 'TENTANG CODING FOR KIDS' : 'ABOUT CODING FOR KIDS'}
-          </h1>
-        </div>
-      </div>
-
-      <div className="about-body container">
-        {/* Mission */}
-        <section className="about-section about-mission">
-          <div className="about-section-icon">🎯</div>
-          <h2 className="about-section-title">
-            {isId ? 'Misi Kami' : 'Our Mission'}
-          </h2>
-          <p>
-            {isId
-              ? 'Coding for Kids adalah platform belajar coding interaktif untuk siswa SD kelas 1–6. Kami percaya bahwa setiap anak bisa belajar coding dengan cara yang menyenangkan melalui permainan, aktivitas kreatif, dan tantangan yang seru!'
-              : 'Coding for Kids is an interactive coding learning platform for elementary students in Grades 1–6. We believe every child can learn coding in a fun way through games, creative activities, and exciting challenges!'}
-          </p>
-        </section>
-
-        {/* Core Loop */}
-        <section className="about-section">
-          <h2 className="about-section-title">
-            {isId ? 'Cara Belajar' : 'How We Learn'}
-          </h2>
-          <div className="about-flow">
-            {['LEARN', 'TRY', 'PLAY', 'SOLVE', 'WIN', 'CREATE'].map((step, i) => (
-              <div key={step} className="about-flow-step">
-                <div className="about-flow-num" style={{ background: ['#C7EF8E','#CCF6FF','#C7EF8E','#FFD1F3','#FFD1F3','#FFD1F3'][i] }}>
-                  {['📚','✍️','🎮','🧩','🏆','🎨'][i]}
-                </div>
-                <span className="about-flow-label">{step}</span>
-                {i < 5 && <span className="about-flow-arrow" aria-hidden="true">→</span>}
+      <div className="about-shell container">
+        <section className="about-intro" aria-labelledby="about-title">
+          <div className="about-intro-copy">
+            <div className="about-intro-icon">
+              <img src={aboutIllustration} alt="" />
+            </div>
+            <div>
+              <h1 id="about-title" className="about-title">{t.about.title}</h1>
+              <p>{t.about.intro}</p>
+            </div>
+          </div>
+          <div className="about-stats">
+            {t.about.stats.map((stat) => (
+              <div className="about-stat" key={stat.text}>
+                <span aria-hidden="true">{stat.icon}</span>
+                <strong>{stat.text}</strong>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Features */}
-        <section className="about-section">
-          <h2 className="about-section-title">
-            {isId ? 'Fitur Unggulan' : 'Key Features'}
+        <section className="about-section about-learning" aria-labelledby="about-learning-title">
+          <h2 id="about-learning-title" className="about-section-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z" />
+            </svg>
+            {t.about.howTitle}
+          </h2>
+          <div className="about-learning-layout">
+            <div className="about-steps">
+              {t.about.steps.map((step, index) => (
+                <article className="about-step" key={step.title}>
+                  <div className="about-step-capsule" style={{ '--step-color': STEP_COLORS[index] }}>
+                    <span>{index + 1}</span>
+                    <span aria-hidden="true">{STEP_ICONS[index]}</span>
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </article>
+              ))}
+            </div>
+            <aside className="about-mascot">
+              <img src={mascotIllustration} alt="" />
+              <p>{t.about.mascotCaption}</p>
+            </aside>
+          </div>
+        </section>
+
+        <section className="about-section" aria-labelledby="about-features-title">
+          <h2 id="about-features-title" className="about-section-title">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z" />
+            </svg>
+            {t.about.featuresTitle}
           </h2>
           <div className="about-features">
-            {[
-              { icon: '🎮', title: isId ? 'Game Interaktif' : 'Interactive Games', desc: isId ? '18 game coding seru untuk semua grade.' : '18 fun coding games for all grades.' },
-              { icon: '🤖', title: isId ? 'Asisten AI' : 'AI Assistant', desc: isId ? 'Cobi membantumu berpikir, bukan memberikan jawaban langsung.' : 'Cobi helps you think, not just give answers.' },
-              { icon: '🏆', title: isId ? 'Gamifikasi' : 'Gamification', desc: isId ? 'XP, bintang, badge, dan papan skor!' : 'XP, stars, badges, and leaderboards!' },
-              { icon: '📚', title: isId ? 'Kurikulum Terstruktur' : 'Structured Curriculum', desc: isId ? '3 topik utama untuk kelas 1–6.' : '3 main topics for Grades 1–6.' },
-              { icon: '🌏', title: isId ? 'Bilingual' : 'Bilingual', desc: isId ? 'Tersedia dalam Bahasa Indonesia dan Inggris.' : 'Available in Bahasa Indonesia and English.' },
-              { icon: '📱', title: isId ? 'Responsif' : 'Responsive', desc: isId ? 'Belajar di mana saja — desktop, tablet, atau HP.' : 'Learn anywhere — desktop, tablet, or mobile.' },
-            ].map((f, i) => (
-              <div key={i} className="about-feature-card card">
-                <span className="about-feature-icon">{f.icon}</span>
-                <h3 className="about-feature-title">{f.title}</h3>
-                <p className="about-feature-desc">{f.desc}</p>
-              </div>
+            {t.about.features.map((feature, index) => (
+              <article
+                className="about-feature-card"
+                key={feature.title}
+                style={{ '--feature-color': STEP_COLORS[(index + 1) % STEP_COLORS.length] }}
+              >
+                <span className="about-feature-icon" aria-hidden="true">{feature.icon}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.desc}</p>
+                <span className="about-feature-go" aria-hidden="true">→</span>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* Badges */}
-        <section className="about-section">
-          <h2 className="about-section-title">
-            {isId ? 'Koleksi Badge' : 'Badge Collection'}
-          </h2>
+        <section className="about-section" aria-labelledby="about-badges-title">
+          <div className="about-badges-heading">
+            <h2 id="about-badges-title" className="about-section-title">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z" />
+              </svg>
+              {t.about.badgesTitle}
+            </h2>
+            <span>{t.about.badgesCaption}</span>
+          </div>
           <div className="about-badges">
             {t.badges.map((badge) => (
-              <div key={badge.id} className="about-badge-card">
-                <span className="about-badge-icon">{badge.icon}</span>
-                <span className="about-badge-name">{badge.name}</span>
-                <span className="about-badge-desc">{badge.desc}</span>
-              </div>
+              <article className="about-badge-card" key={badge.id}>
+                <span className="about-badge-icon" aria-hidden="true">{badge.icon}</span>
+                <span className="about-badge-copy">
+                  <strong>{badge.name}</strong>
+                  <span>{badge.desc}</span>
+                </span>
+              </article>
             ))}
           </div>
         </section>

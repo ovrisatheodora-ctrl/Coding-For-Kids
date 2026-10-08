@@ -8,8 +8,36 @@
   margin: 0 auto;
 }
 
-.learning-breadcrumb {
-  margin-bottom: 24px;
+.learning-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 11px 20px;
+  border: 3px solid var(--outline);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 0 var(--outline);
+  color: var(--outline);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.learning-back-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 0 6px 0 var(--outline);
+}
+
+.learning-back-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 2px 0 var(--outline);
+}
+
+.learning-back-btn:focus-visible {
+  outline: 3px solid var(--outline);
+  outline-offset: 3px;
 }
 
 .learning-header {
@@ -96,8 +124,12 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
   color: #555;
   text-align: center;
+  cursor: pointer;
 }
 
 .learning-progress__dot {
@@ -120,6 +152,12 @@
 .learning-progress__label {
   font-size: 0.76rem;
   font-weight: 800;
+}
+
+.learning-progress__step:focus-visible {
+  outline: 3px solid var(--outline);
+  outline-offset: 3px;
+  border-radius: 12px;
 }
 
 .learning-stage {
@@ -566,6 +604,13 @@
   margin-top: 22px;
 }
 
+.learning-step-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 34px;
+}
+
 .learning-save-warning {
   margin: 18px auto 0;
   padding: 10px 14px;
@@ -629,6 +674,10 @@
     min-height: 340px;
     gap: 18px;
     padding: 26px 18px;
+  }
+
+  .learning-step-footer {
+    margin-top: 28px;
   }
 }
 

@@ -3,7 +3,7 @@
 Status: Complete
 
 - [x] Replace the Learning Mode placeholder with a reusable, lazy-loaded, data-driven lesson flow.
-- [x] Add one complete Logic & Algorithms, Grade 1–2 unit: Mengenal Pola.
+- [x] Add complete Logic & Algorithms, Grade 1–2 units for all five subtopics.
 - [x] Add the six steps: material, visual example, interactive activity, quiz, feedback, and reward.
 - [x] Support multiple choice, true/false, sequence ordering, matching, and pattern completion.
 - [x] Add bilingual lesson content and UI strings; default language remains Bahasa Indonesia.
@@ -11,6 +11,11 @@ Status: Complete
 - [x] Show friendly coming-soon screens for other lesson/grade combinations.
 - [x] Verify the development flow, language switching, rewards, persistence, and unsupported routes.
 - [x] Run the production build and targeted lint.
+- [x] Expand the lesson registry so all 3 lesson cards have working material access across grades 1–2, 3–4, and 5–6.
+- [x] Add nine complete learning units across Logic & Algorithms, Basic Coding, and Creative Coding to replace the remaining coming-soon placeholders.
+- [x] Add five bilingual Grade 1–2 subtopics each for Basic Coding and Creative Coding & Projects.
+- [x] Match the About page to the supplied introduction, learning steps, feature cards, and badge collection reference.
+- [x] Verify the production build and targeted lint after the curriculum and About page updates.
 
 Scope note: Game Mode, game content, and the AI Tutor backend remain outside Phase 3.
 
@@ -36,5 +41,9 @@ Recent UX polish:
 - Added subtle content reveal animations to lesson details, Games, About, and the homepage lessons section when Start Learning is clicked.
 - Matched page content reveal animations to the Lessons cards' slide-up effect (0.5s ease with staggered sections).
 - Removed Twemoji rendering from Ask AI and restored native platform emojis for recommendations and greetings at the user's request.
+- Fixed the grade 1–2 Logic & Algorithms learning flow so the stepper is clickable, order-based activity data is handled correctly, multi-choice quiz arrays are normalized, and route-driven progression works cleanly from activity through quiz, feedback, and reward screens.
+- Added a subtopic selection screen after choosing Learn, with all five Grade 1–2 Logic & Algorithms units linked to their own lessons and best-star counts.
+- Styled the subtopic cards in pastel colors and reused the exact illustrated starfield and lined-paper background from the Home hero.
+- Removed the extra header/card corner decorations from the subtopic page and moved its Back button slightly lower.
 
 If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.
