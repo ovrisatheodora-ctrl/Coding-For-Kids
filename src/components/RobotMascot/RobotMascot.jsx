@@ -1,4 +1,4 @@
-import mascot from '../../assets/Maskot_Coding_For_Kids.png';
+import mascot from '../../assets/Maskot_Coding_For_Kids.webp';
 import './RobotMascot.css';
 
 function RobotMascot() {

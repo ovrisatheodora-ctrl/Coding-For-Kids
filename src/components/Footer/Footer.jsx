@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/Logo_Coding.png';
+import logo from '../../assets/Logo_Coding.webp';
 import instagramLogo from '../../assets/Logo Insta.svg';
 import linkedInLogo from '../../assets/Logo LinkId.svg';
 import whatsAppLogo from '../../assets/Logo WA.svg';

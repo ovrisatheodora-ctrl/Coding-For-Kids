@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
-import logo from '../../assets/Logo_Coding.png';
+import logo from '../../assets/Logo_Coding.webp';
 import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './Navbar.css';
 

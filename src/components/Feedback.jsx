@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import correctIcon from '../assets/icon-benar.png';
-import wrongIcon from '../assets/icon-salah.png';
+import correctIcon from '../assets/icon-benar.webp';
+import wrongIcon from '../assets/icon-salah.webp';
 import './Feedback.css';
 
 function Feedback({ tipe, pesan, xp, bintang, petunjuk, labelPetunjuk }) {

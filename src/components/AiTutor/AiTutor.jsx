@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import aiMascot from '../../assets/Maskot AI.png';
+import aiMascot from '../../assets/Maskot AI.webp';
 import './AiTutor.css';
 
 const FAB_POSITION_KEY = 'cfk_ai_tutor_position';

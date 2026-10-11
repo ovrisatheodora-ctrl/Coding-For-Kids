@@ -1,5 +1,5 @@
-import aboutIllustration from '../assets/Playful_Pink_Idea_Cube.png';
-import mascotIllustration from '../assets/Maskot_Coding_For_Kids.png';
+import aboutIllustration from '../assets/Playful_Pink_Idea_Cube.webp';
+import mascotIllustration from '../assets/Maskot_Coding_For_Kids.webp';
 import PastelBackdrop from '../components/PastelBackdrop';
 import './AboutPage.css';
 
