@@ -1,16 +1,16 @@
 import { motion, useReducedMotion } from 'motion/react';
 import './Testimonials.css';
 
-import user1 from '../../assets/user1.svg';
-import user2 from '../../assets/user2.svg';
-import user3 from '../../assets/user3.svg';
-import user4 from '../../assets/user4.svg';
-import user5 from '../../assets/user5.svg';
-import user6 from '../../assets/user6.svg';
-import user7 from '../../assets/user7.svg';
-import user8 from '../../assets/user8.svg';
-import user9 from '../../assets/user9.svg';
-import user10 from '../../assets/user10.svg';
+import user1 from '../../assets/user1.webp';
+import user2 from '../../assets/user2.webp';
+import user3 from '../../assets/user3.webp';
+import user4 from '../../assets/user4.webp';
+import user5 from '../../assets/user5.webp';
+import user6 from '../../assets/user6.webp';
+import user7 from '../../assets/user7.webp';
+import user8 from '../../assets/user8.webp';
+import user9 from '../../assets/user9.webp';
+import user10 from '../../assets/user10.webp';
 
 const AVATARS = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
 const COLORS = ['#C7EF8E', '#CCF6FF', '#FFD1F3'];

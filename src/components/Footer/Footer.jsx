@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/Logo_Coding.webp';
-import instagramLogo from '../../assets/Logo Insta.svg';
-import linkedInLogo from '../../assets/Logo LinkId.svg';
-import whatsAppLogo from '../../assets/Logo WA.svg';
-import starAsset from '../../assets/IOS Star.svg';
+import instagramLogo from '../../assets/Logo Insta.webp';
+import linkedInLogo from '../../assets/Logo LinkId.webp';
+import whatsAppLogo from '../../assets/Logo WA.webp';
+import starAsset from '../../assets/IOS Star.webp';
 import './Footer.css';
 
 const FOOTER_LINKS = [

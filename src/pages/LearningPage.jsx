@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getLearningUnit } from '../lessons';
-import iosLightning from '../assets/IOS Petir.svg';
-import iosStar from '../assets/IOS Star.svg';
+import iosLightning from '../assets/IOS Petir.webp';
+import iosStar from '../assets/IOS Star.webp';
 import PastelBackdrop from '../components/PastelBackdrop';
 import {
   ActivityStep,

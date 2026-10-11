@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import iosBook from '../assets/IOS BOOK.svg';
-import iosEyes from '../assets/IOS Eyes.svg';
-import iosLamp from '../assets/IOS Lamp.svg';
-import iosLightning from '../assets/IOS Petir.svg';
-import iosStar from '../assets/IOS Star.svg';
+import iosBook from '../assets/IOS BOOK.webp';
+import iosEyes from '../assets/IOS Eyes.webp';
+import iosLamp from '../assets/IOS Lamp.webp';
+import iosLightning from '../assets/IOS Petir.webp';
+import iosStar from '../assets/IOS Star.webp';
 import ArrowLabel from '../components/ArrowLabel';
 import Feedback from '../components/Feedback';
 
