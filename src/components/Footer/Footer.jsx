@@ -44,14 +44,14 @@ function Footer({ t, lang, onLangChange }) {
         <div className="footer-grid">
           <div className="footer-column footer-brand">
             <Link to="/" className="footer-brand-lockup">
-              <img src={logo} alt="" width="84" height="84" />
+              <img src={logo} alt="" width="84" height="84" loading="lazy" decoding="async" />
               <span className="footer-logo">
                 <span>{f.logo}</span>
                 <span>{f.logoLine2}</span>
               </span>
             </Link>
             <p className="footer-tagline">
-              <img className="footer-tagline-star" src={starAsset} alt="" aria-hidden="true" />
+              <img className="footer-tagline-star" src={starAsset} alt="" aria-hidden="true" loading="lazy" decoding="async" />
               {f.tagline}
             </p>
           </div>
@@ -107,7 +107,7 @@ function Footer({ t, lang, onLangChange }) {
                   title={name}
                   className={`footer-social footer-social--${name.toLowerCase()}`}
                 >
-                  <img src={image} alt="" aria-hidden="true" />
+                  <img src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 </a>
               ))}
             </div>

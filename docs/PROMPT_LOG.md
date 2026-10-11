@@ -1515,3 +1515,12 @@ Prompt: Please replace ALL feedback boxes in the Coding for Kids website with on
 Tool: Copilot (VS Code Chat)
 Prompt: lebihh besarkann
 Reference: screenshot highlighting the cat and robot illustrations in the Games banner.
+
+#246 - 2026-10-11 18:39 WIB
+Tool: Copilot (VS Code Chat)
+Prompt: eh gimana nih...
+Reference: Lighthouse results showing Performance 56, Accessibility 100, Best Practices 100, and SEO 92.
+
+#247 - 2026-10-11 18:39 WIB
+Tool: Copilot (VS Code Chat)
+Prompt: bantu saya perbaiki web ini agar ketika saya cek di light house bisa teratasi dan score naik. apakah kamu memerlukan apa saja yang harus diperbaiki?

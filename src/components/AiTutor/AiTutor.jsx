@@ -341,7 +341,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
       <button
         ref={fabRef}
         className={`ai-tutor-fab${open ? ' open' : ''}${isDraggingFab ? ' dragging' : ''}`}
-        style={fabPosition ? { left: fabPosition.x, top: fabPosition.y } : undefined}
+        style={fabPosition ? { left: fabPosition.x, top: fabPosition.y, right: 'auto', bottom: 'auto' } : undefined}
         onClick={() => {
           if (suppressClickRef.current) {
             suppressClickRef.current = false;
@@ -357,9 +357,8 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
         aria-label={ai.btnLabel}
         aria-expanded={open}
         title={ai.btnLabel}
-        disabled={!fabPosition}
       >
-        <img src={aiMascot} alt="" aria-hidden="true" draggable="false" />
+        <img src={aiMascot} alt="" aria-hidden="true" draggable="false" width="176" height="176" />
       </button>
 
       {/* Panel */}

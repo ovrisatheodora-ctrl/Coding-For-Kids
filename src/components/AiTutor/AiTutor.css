@@ -3,6 +3,11 @@
 /* Floating action button */
 .ai-tutor-fab {
   position: fixed;
+  /* CSS default position (bottom-right) — overridden by JS once loaded.
+     Prevents layout shift: the button paints here first, then JS may
+     reposition it within the fixed layer (no document-flow impact). */
+  right: 28px;
+  bottom: 28px;
   width: 176px;
   height: 176px;
   z-index: 900;
@@ -14,6 +19,7 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  contain: layout style;
 }
 
 .ai-tutor-fab img {

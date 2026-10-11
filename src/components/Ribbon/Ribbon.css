@@ -25,7 +25,19 @@
 
 .ribbon-track {
   display: flex;
+  /* Pure CSS marquee — runs on compositor thread, no JS layout reads */
+  width: max-content;
+  animation: ribbon-scroll 28s linear infinite;
   will-change: transform;
+}
+
+.ribbon-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes ribbon-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .ribbon-content {
@@ -59,8 +71,12 @@
   color: var(--banana);
 }
 
-/* Reduce motion: just show static */
+/* Reduce motion: show static */
 @media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    animation: none;
+  }
+
   .ribbon-content {
     flex-wrap: wrap;
     justify-content: center;

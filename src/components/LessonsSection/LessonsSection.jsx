@@ -36,7 +36,8 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
     >
       <span className="lesson-card-number">{card.number}</span>
       <span className="lesson-card-star" aria-hidden="true">★</span>
-      <img className="card-illustration" src={illustration} alt="" aria-hidden="true" />
+      <img className="card-illustration" src={illustration} alt="" aria-hidden="true"
+        width="240" height="240" loading="lazy" decoding="async" />
 
       <div className="lesson-card-body">
         <h3 className="lesson-card-title">{card.title}</h3>

@@ -13,7 +13,10 @@ function localized(value, lang) {
 
 function feedbackText(value) {
   return (value || '')
-    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\uFE0F\u200D]/gu, '')
+    .replace(/\p{Extended_Pictographic}/gu, '')
+    .replace(/\p{Emoji_Modifier}/gu, '')
+    .replace(/\uFE0F/gu, '')
+    .replace(/\u200D/gu, '')
     .replace(/\s+/g, ' ')
     .trim();
 }

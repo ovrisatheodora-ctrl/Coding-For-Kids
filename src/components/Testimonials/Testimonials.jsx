@@ -1,4 +1,3 @@
-import { motion, useReducedMotion } from 'motion/react';
 import './Testimonials.css';
 
 import user1 from '../../assets/user1.webp';
@@ -75,7 +74,6 @@ function TestimonialMarquee({ cards, duration, ratingLabel, reverse = false }) {
 
 function Testimonials({ t }) {
   const { sectionTitle, sectionSubtitle, cards, ratingLabel } = t.testimonials;
-  const shouldReduceMotion = useReducedMotion();
 
   const prepared = cards.map((card, index) => ({
     ...card,
@@ -93,16 +91,12 @@ function Testimonials({ t }) {
       <div className="container">
         <div className="testimonials-header">
           <span className="testimonials-deco testimonials-deco--left" aria-hidden="true">✦</span>
-          <motion.h2
-            className="section-title"
+          <h2
+            className="section-title testimonials-title-anim"
             id="testimonials-title"
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.8 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
           >
             {sectionTitle}
-          </motion.h2>
+          </h2>
           <span className="testimonials-deco testimonials-deco--right" aria-hidden="true">↗</span>
           <p className="section-subtitle testimonials-subtitle">{sectionSubtitle}</p>
         </div>

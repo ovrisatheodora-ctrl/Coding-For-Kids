@@ -130,5 +130,7 @@ Recent UX polish:
 - Made Back from the quiz return to the activity stage, preserving existing Back destinations elsewhere.
 - Made Back from Feedback return to Quiz and Back from Reward return to Feedback; Reward Next continues to return to the subtopic list.
 - Enlarged the cat and robot illustrations in the Games banner while retaining its responsive layout.
+- Replaced activity, quiz, and playable-game answer feedback boxes with one compact, accessible, reusable feedback banner and second-attempt hints.
+- Served the existing Nunito/Lilita fonts locally instead of requesting Google Fonts at runtime, and deferred off-screen footer images.
 
 If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.
