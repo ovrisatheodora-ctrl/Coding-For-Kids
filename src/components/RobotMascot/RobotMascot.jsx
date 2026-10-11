@@ -4,7 +4,8 @@ import './RobotMascot.css';
 function RobotMascot() {
   return (
     <div className="robot-wrapper" aria-hidden="true">
-      <img className="robot-image" src={mascot} alt="" />
+      <img className="robot-image" src={mascot} alt="" width="1000" height="658"
+     fetchPriority="high" decoding="async" />
       <div className="mascot-code-card">
         <div className="mascot-code-dots">
           <span />
