@@ -1,0 +1,59 @@
+.pastel-backdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  background-color: #fffdf5;
+  background-image:
+    radial-gradient(ellipse 58% 42% at 50% 60%, #fff 0%, rgba(255, 255, 255, 0.92) 40%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(ellipse 48% 34% at 62% 4%, #9fdff0 0%, transparent 72%),
+    radial-gradient(ellipse 40% 30% at 100% 6%, #aee3f2 0%, transparent 72%),
+    radial-gradient(ellipse 42% 36% at 2% 6%, #fbfbc4 0%, transparent 74%),
+    radial-gradient(ellipse 28% 18% at 0% 36%, #b9e9f2 0%, transparent 72%),
+    radial-gradient(ellipse 30% 26% at 100% 36%, #fff4cf 0%, transparent 72%),
+    radial-gradient(ellipse 52% 30% at 0% 100%, #f4a3c8 0%, transparent 72%),
+    radial-gradient(ellipse 46% 28% at 100% 96%, #fbd2c6 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.pastel-backdrop__symbols {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.pastel-backdrop__sparkle {
+  position: absolute;
+  top: var(--sparkle-y);
+  left: var(--sparkle-x);
+  width: var(--sparkle-size);
+  height: var(--sparkle-size);
+  transform: translate(-50%, -50%);
+  fill: #fff;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.95));
+  animation: pastel-sparkle-twinkle 3.5s ease-in-out var(--sparkle-delay) infinite;
+}
+
+.pastel-backdrop__sparkle--large {
+  width: calc(var(--sparkle-size) * 4);
+  height: calc(var(--sparkle-size) * 4);
+}
+
+@keyframes pastel-sparkle-twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pastel-backdrop__sparkle {
+    animation: none;
+  }
+}

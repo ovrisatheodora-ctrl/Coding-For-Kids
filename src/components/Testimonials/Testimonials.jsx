@@ -74,7 +74,7 @@ function TestimonialMarquee({ cards, duration, ratingLabel, reverse = false }) {
 }
 
 function Testimonials({ t }) {
-  const { sectionTitle, cards, ratingLabel } = t.testimonials;
+  const { sectionTitle, sectionSubtitle, cards, ratingLabel } = t.testimonials;
   const shouldReduceMotion = useReducedMotion();
 
   const prepared = cards.map((card, index) => ({
@@ -104,6 +104,7 @@ function Testimonials({ t }) {
             {sectionTitle}
           </motion.h2>
           <span className="testimonials-deco testimonials-deco--right" aria-hidden="true">↗</span>
+          <p className="section-subtitle testimonials-subtitle">{sectionSubtitle}</p>
         </div>
       </div>
 

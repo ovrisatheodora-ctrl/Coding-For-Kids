@@ -42,7 +42,7 @@
 
 .learning-units-back:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 var(--outline);
+  box-shadow: 1px 1px 0 var(--outline);
 }
 
 .learning-units-back:focus-visible,
@@ -78,11 +78,12 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.learning-unit-card:nth-child(4) {
+.learning-units-grid[data-unit-count="4"] .learning-unit-card:nth-child(4),
+.learning-units-grid[data-unit-count="5"] .learning-unit-card:nth-child(4) {
   grid-column: 2 / span 2;
 }
 
-.learning-unit-card:nth-child(5) {
+.learning-units-grid[data-unit-count="5"] .learning-unit-card:nth-child(5) {
   grid-column: 4 / span 2;
 }
 

@@ -19,6 +19,28 @@ import whatIsCodingAsset from '../assets/Card What is coding.svg';
 import commandBlocksAsset from '../assets/Card Meet cmd.svg';
 import runProgramAsset from '../assets/Card run progm.svg';
 import moveCharacterAsset from '../assets/Card move crth.svg';
+import commandBlockG34Asset from '../assets/Card Command Block.svg';
+import variablesG34Asset from '../assets/Card Variables.svg';
+import conditionsG34Asset from '../assets/Card Conditions.svg';
+import loopsG34Asset from '../assets/Card Loops.svg';
+import eventsG34Asset from '../assets/Card Events.svg';
+import blocksToCodeG56Asset from '../assets/Card From Block.svg';
+import variablesG56Asset from '../assets/Card Variables and.svg';
+import conditionsG56Asset from '../assets/Card Conditions and.svg';
+import functionsG56Asset from '../assets/Card Function.svg';
+import animationMotionG34Asset from '../assets/Card Animation and.svg';
+import drawingWithCodeG34Asset from '../assets/Card Drawing with.svg';
+import soundInteractionG34Asset from '../assets/Card Sound and.svg';
+import interactiveQuizG34Asset from '../assets/Card Interactive quiz.svg';
+import mazeGameG34Asset from '../assets/Card Maze game.svg';
+import artworkShowcaseG34Asset from '../assets/Card My art.svg';
+import webPageG56Asset from '../assets/Card Web page.svg';
+import animationInteractionG56Asset from '../assets/Card Animation and Inter.svg';
+import dataListsG56Asset from '../assets/Card data.svg';
+import profileWebsiteG56Asset from '../assets/Card My profile.svg';
+import numberGuessingG56Asset from '../assets/Card Number.svg';
+import showcasePresentationG56Asset from '../assets/Card Show case.svg';
+import cardPalette from '../data/cardPalette';
 import './LearningUnitsPage.css';
 
 const SUBTOPIC_STYLE = {
@@ -42,11 +64,33 @@ const SUBTOPIC_STYLE = {
   'basic-g12-menjalankan-program': { iconAsset: runProgramAsset, iconScale: 1.35, iconOffsetX: -2, iconOffsetY: -2, color: 'var(--sour-apple)', difficulty: 'easy' },
   'basic-g12-gerakkan-karakter': { iconAsset: moveCharacterAsset, iconScale: 1.35, color: 'var(--summer-sky)', difficulty: 'medium' },
   'basic-g12-ulangi-blok': { iconAsset: loopLearnAsset, iconScale: 1.05, iconOffsetY: 2, color: 'var(--blossom)', difficulty: 'medium' },
+  'basic-g34-blok-perintah-dan-program': { iconAsset: commandBlockG34Asset, iconScale: 1.25, iconOffsetY: -2, color: 'var(--blossom)', difficulty: 'easy' },
+  'basic-g34-variabel-kotak-penyimpan': { iconAsset: variablesG34Asset, iconScale: 1.15, color: 'var(--summer-sky)', difficulty: 'easy' },
+  'basic-g34-kondisi-dengan-blok': { iconAsset: conditionsG34Asset, iconScale: 1.15, iconOffsetX: 2, color: 'var(--sour-apple)', difficulty: 'easy' },
+  'basic-g34-perulangan-dengan-blok': { iconAsset: loopsG34Asset, iconScale: 1.2, iconOffsetX: 2, iconOffsetY: 0, color: 'var(--banana)', difficulty: 'easy' },
+  'basic-g34-kejadian-klik-dan-tombol': { iconAsset: eventsG34Asset, iconScale: 1.2, iconOffsetX: 4, iconOffsetY: 4, color: '#FFC9B8', difficulty: 'easy' },
+  'basic-g56-dari-blok-ke-kode-teks': { iconAsset: blocksToCodeG56Asset, iconScale: 1.3, iconOffsetY: -4, color: 'var(--blossom)', difficulty: 'easy' },
+  'basic-g56-variabel-dan-tipe-data': { iconAsset: variablesG56Asset, iconScale: 1.3, color: 'var(--summer-sky)', difficulty: 'easy' },
+  'basic-g56-kondisi-dan-operator': { iconAsset: conditionsG56Asset, iconScale: 1.3, color: 'var(--sour-apple)', difficulty: 'easy' },
+  'basic-g56-perulangan-for-while': { iconAsset: loopsG34Asset, iconScale: 1.35, color: 'var(--banana)', difficulty: 'easy' },
+  'basic-g56-fungsi': { iconAsset: functionsG56Asset, iconScale: 1.3, iconOffsetX: -4, color: '#FFC9B8', difficulty: 'easy' },
   'creative-g12-warnai-panggung': { icon: '🎭', color: 'var(--blossom)', difficulty: 'easy' },
   'creative-g12-menggambar-kode': { icon: '✏️', color: 'var(--summer-sky)', difficulty: 'easy' },
   'creative-g12-animasi': { icon: '🎞️', color: 'var(--sour-apple)', difficulty: 'medium' },
   'creative-g12-bunyi-musik': { icon: '🎵', color: 'var(--summer-sky)', difficulty: 'easy' },
   'creative-g12-cerita-interaktif': { icon: '📖', color: 'var(--blossom)', difficulty: 'medium' },
+  'creative-g34-animasi-dan-gerak': { iconAsset: animationMotionG34Asset, iconScale: 1.15, color: 'var(--blossom)', difficulty: 'easy' },
+  'creative-g34-menggambar-dengan-kode': { iconAsset: drawingWithCodeG34Asset, iconScale: 1.15, color: 'var(--summer-sky)', difficulty: 'easy' },
+  'creative-g34-suara-dan-interaksi': { iconAsset: soundInteractionG34Asset, iconScale: 1.15, iconOffsetY: -2, color: 'var(--sour-apple)', difficulty: 'easy' },
+  'creative-g34-proyek-kuis-interaktif': { iconAsset: interactiveQuizG34Asset, iconScale: 1.15, color: 'var(--banana)', difficulty: 'easy' },
+  'creative-g34-proyek-game-labirin': { iconAsset: mazeGameG34Asset, iconScale: 1.15, color: '#FFC9B8', difficulty: 'easy' },
+  'creative-g34-proyek-pameran-karyaku': { iconAsset: artworkShowcaseG34Asset, iconScale: 1.15, color: 'var(--blossom)', difficulty: 'easy' },
+  'creative-g56-halaman-web-html-css': { iconAsset: webPageG56Asset, iconScale: 1.15, difficulty: 'easy' },
+  'creative-g56-animasi-dan-interaksi': { iconAsset: animationInteractionG56Asset, iconScale: 1.15, iconOffsetY: 2, difficulty: 'easy' },
+  'creative-g56-data-dan-daftar': { iconAsset: dataListsG56Asset, iconScale: 1.15, difficulty: 'easy' },
+  'creative-g56-proyek-website-profilku': { iconAsset: profileWebsiteG56Asset, iconScale: 1.15, iconOffsetY: 2, difficulty: 'easy' },
+  'creative-g56-proyek-game-tebak-angka': { iconAsset: numberGuessingG56Asset, iconScale: 1.15, iconOffsetY: 2, difficulty: 'easy' },
+  'creative-g56-proyek-pameran-dan-presentasi-karya': { iconAsset: showcasePresentationG56Asset, iconScale: 1.15, iconOffsetY: 2, difficulty: 'easy' },
 };
 
 function LearningUnitsPage({ t, lang }) {
@@ -54,30 +98,40 @@ function LearningUnitsPage({ t, lang }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const grade = searchParams.get('grade') || getProgress().grade || '1-2';
+  const routeLang = searchParams.get('lang') || lang;
   const units = getLearningUnits(lessonId, grade);
   const savedStars = getProgress().lessonStars;
   const gradeLabel = t.lessonDetail.grades.find((item) => item.key === grade)?.label || t.learning.gradeLabel(grade);
-  const backLabel = lang === 'en' ? 'Back' : 'Kembali';
+  const backLabel = t.learning.back;
+  const lessonPath = `/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(routeLang)}`;
   const stepLabel = lang === 'en' ? '6 steps · 10 min' : '6 tahap · 10 menit';
   const difficultyLabels = lang === 'en'
     ? { easy: 'Easy', medium: 'Medium' }
     : { easy: 'Mudah', medium: 'Sedang' };
 
   return (
-    <main id="main-content" className="learning-units-page">
+    <main className="learning-units-page" id="main-content">
       <HeroStarfield className="learning-units-starfield" />
       <div className="learning-units-shell">
         <Link
           className="learning-units-back"
-          to={`/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
+          to={lessonPath}
           aria-label={backLabel}
         >
           ← {backLabel}
         </Link>
         {units.length > 0 ? (
-          <section className="learning-units-grid" aria-label={lang === 'en' ? 'Lesson topics' : 'Daftar subtema'}>
+          <section
+            className="learning-units-grid"
+            data-unit-count={units.length}
+            aria-label={lang === 'en' ? 'Lesson topics' : 'Daftar subtema'}
+          >
             {units.map((unit, index) => {
-              const style = SUBTOPIC_STYLE[unit.id] || { icon: '📚', color: 'var(--summer-sky)', difficulty: 'easy' };
+              const style = SUBTOPIC_STYLE[unit.id] || {
+                icon: '📚',
+                color: cardPalette[index % cardPalette.length],
+                difficulty: 'easy',
+              };
               const starCount = Math.max(0, Math.min(3, Number(savedStars[unit.id]) || 0));
               const unitTitle = unit.title[lang] || unit.title.id;
               const params = new URLSearchParams({ grade, lang, unit: unit.id });

@@ -1,5 +1,6 @@
 import aboutIllustration from '../assets/Playful_Pink_Idea_Cube.png';
 import mascotIllustration from '../assets/Maskot_Coding_For_Kids.png';
+import PastelBackdrop from '../components/PastelBackdrop';
 import './AboutPage.css';
 
 const STEP_ICONS = ['📚', '👀', '✍️', '🧩', '💬', '🏆'];
@@ -15,6 +16,7 @@ const STEP_COLORS = [
 function AboutPage({ t }) {
   return (
     <main id="main-content" className="about-page">
+      <PastelBackdrop />
       <div className="about-shell container">
         <section className="about-intro" aria-labelledby="about-title">
           <div className="about-intro-copy">

@@ -1,5 +1,5 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useLayoutEffect, lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import AiTutor from './components/AiTutor/AiTutor';
@@ -19,12 +19,16 @@ const NotFoundPage    = lazy(() => import('./pages/NotFoundPage'));
 
 // Scroll to top on route change
 function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  useLayoutEffect(() => {
     if (!window.location.hash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const scrollBehavior = location.state?.scrollBehavior === 'instant'
+        ? 'instant'
+        : navigationType === 'POP' ? 'instant' : 'smooth';
+      window.scrollTo({ top: 0, behavior: scrollBehavior });
     }
-  }, [pathname]);
+  }, [location.key, navigationType]);
   return null;
 }
 
@@ -54,6 +58,14 @@ function AppInner() {
   const progress = getProgress();
   const location = useLocation();
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
+  const isFocusedActivity = location.pathname.endsWith('/learn')
+    || /^\/games\/[^/]+$/.test(location.pathname);
+  const [navigationEntry, setNavigationEntry] = useState(() => ({ key: location.key, type: null }));
+  if (navigationEntry.key !== location.key) {
+    setNavigationEntry({ key: location.key, type: navigationType });
+  }
+  const isBackNavigation = navigationEntry.key === location.key && navigationEntry.type === 'POP';
   const [lang, setLang] = useState(() => {
     const routeLanguage = new URLSearchParams(window.location.search).get('lang');
     return routeLanguage === 'en' || routeLanguage === 'id'
@@ -101,7 +113,7 @@ function AppInner() {
         <Routes>
           <Route path="/"                            element={<HomePage t={t} />} />
           <Route path="/lessons"                     element={<LessonsPage t={t} />} />
-          <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} onLangChange={handleLangChange} />} />
+          <Route path="/lessons/:lessonId"           element={<LessonDetailPage t={t} lang={lang} onLangChange={handleLangChange} isBackNavigation={isBackNavigation} />} />
           <Route path="/lessons/:lessonId/units"     element={<LearningUnitsPage t={t} lang={lang} />} />
           <Route path="/lessons/:lessonId/learn"     element={<LearningPage key={learningSessionKey} t={t} lang={lang} />} />
           <Route path="/lessons/:lessonId/game"      element={<GamesPage t={t} />} />
@@ -112,7 +124,7 @@ function AppInner() {
         </Routes>
       </Suspense>
 
-      <Footer t={t} lang={lang} onLangChange={handleLangChange} />
+      {!isFocusedActivity && <Footer t={t} lang={lang} onLangChange={handleLangChange} />}
 
       {/* Global floating AI Tutor */}
       <AiTutor t={t} lang={lang} />

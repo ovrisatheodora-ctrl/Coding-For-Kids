@@ -21,6 +21,13 @@
   text-align: center;
 }
 
+.testimonials-subtitle {
+  grid-column: 2;
+  margin: 0 auto;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .testimonials-deco {
   display: inline-block;
   color: var(--summer-sky);

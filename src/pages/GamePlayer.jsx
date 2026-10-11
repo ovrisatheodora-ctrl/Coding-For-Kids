@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { addStar, addXP, completeGame, getProgress } from '../data/progress';
-import patternAsset from '../assets/Card Pattern Finder.svg';
-import robotAsset from '../assets/Robot Delivery.png';
+import iosLightning from '../assets/IOS Petir.svg';
+import iosStar from '../assets/IOS Star.svg';
+import Feedback from '../components/Feedback';
+import PastelBackdrop from '../components/PastelBackdrop';
+import { navigateBack } from '../utils/navigateBack';
 import './GamePlayer.css';
 
 const PATTERN_LEVELS = [
@@ -34,6 +37,7 @@ const cellKey = (x, y) => `${x}-${y}`;
 function GamePlayer({ t, lang }) {
   const { gameId } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const copy = t.gamesPage;
   const text = copy.gamePlay;
   const [levelIndex, setLevelIndex] = useState(0);
@@ -42,12 +46,13 @@ function GamePlayer({ t, lang }) {
   const [robotState, setRobotState] = useState(null);
   const [carryingPackage, setCarryingPackage] = useState(false);
   const [solved, setSolved] = useState(false);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState(null);
+  const [wrongTries, setWrongTries] = useState(0);
   const [rewarded, setRewarded] = useState(false);
+  const [progress, setProgress] = useState(getProgress);
   const isPatternGame = gameId === 'pattern-adventure';
   const levels = isPatternGame ? PATTERN_LEVELS : ROBOT_LEVELS;
   const level = levels[levelIndex];
-  const gameCopy = copy.content[gameId];
   const lessonId = searchParams.get('fromLesson');
   const grade = searchParams.get('grade') || '1-2';
   const routeLang = searchParams.get('lang') || lang;
@@ -55,18 +60,40 @@ function GamePlayer({ t, lang }) {
     ? `/lessons/${lessonId}/game?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(routeLang)}`
     : '/games';
 
-  function finishGame(successMessage = text.levelComplete) {
+  function finishGame() {
     setSolved(true);
-    setFeedback(successMessage);
-    if (levelIndex === levels.length - 1 && !rewarded) {
+    const isFinalLevel = levelIndex === levels.length - 1;
+    let xpEarned = 0;
+    let starsEarned = 0;
+    if (isFinalLevel && !rewarded) {
       const alreadyCompleted = getProgress().completedGames.includes(gameId);
       completeGame(gameId);
       if (!alreadyCompleted) {
         addXP(50);
         addStar();
+        xpEarned = 50;
+        starsEarned = 1;
       }
+      setProgress(getProgress());
       setRewarded(true);
     }
+    setFeedback({
+      tipe: 'benar',
+      pesan: text.feedbackCorrect,
+      xp: xpEarned,
+      bintang: starsEarned,
+    });
+  }
+
+  function recordWrongAnswer() {
+    const nextWrongTries = wrongTries + 1;
+    setWrongTries(nextWrongTries);
+    setFeedback({
+      tipe: 'salah',
+      pesan: text.feedbackWrong,
+      petunjuk: nextWrongTries >= 2 ? (isPatternGame ? text.patternHint : text.robotHint) : undefined,
+      attempt: nextWrongTries,
+    });
   }
 
   function nextLevel() {
@@ -77,7 +104,8 @@ function GamePlayer({ t, lang }) {
     setRobotState(null);
     setCarryingPackage(false);
     setSolved(false);
-    setFeedback('');
+    setFeedback(null);
+    setWrongTries(0);
   }
 
   function submitPattern() {
@@ -86,13 +114,13 @@ function GamePlayer({ t, lang }) {
       finishGame();
       return;
     }
-    setFeedback(text.tryAgain);
+    recordWrongAnswer();
   }
 
   function appendCommand(command) {
     if (solved) return;
     setCommands((current) => [...current, command]);
-    setFeedback('');
+    setFeedback(null);
     setRobotState(null);
   }
 
@@ -115,7 +143,7 @@ function GamePlayer({ t, lang }) {
         ) {
           setRobotState({ x, y, direction });
           setCarryingPackage(hasPackage);
-          setFeedback(text.robotBlocked);
+          recordWrongAnswer();
           return;
         }
         x = nextX;
@@ -126,14 +154,14 @@ function GamePlayer({ t, lang }) {
       if (hasPackage && sameCell([x, y], level.destination)) {
         setRobotState({ x, y, direction });
         setCarryingPackage(true);
-        finishGame(text.robotDelivered);
+        finishGame();
         return;
       }
     }
 
     setRobotState({ x, y, direction });
     setCarryingPackage(hasPackage);
-    setFeedback(text.robotNotDelivered);
+    recordWrongAnswer();
   }
 
   function retryLevel() {
@@ -142,7 +170,8 @@ function GamePlayer({ t, lang }) {
     setCarryingPackage(false);
     setSelectedAnswer('');
     setSolved(false);
-    setFeedback('');
+    setFeedback(null);
+    setWrongTries(0);
   }
 
   function restartGame() {
@@ -152,26 +181,40 @@ function GamePlayer({ t, lang }) {
   }
 
   const backLink = (
-    <Link className="game-player-back" to={backTo}>
-      ← {lessonId ? copy.backToLesson : text.backToGames}
+    <Link
+      className="game-player-back"
+      to={backTo}
+      onClick={(event) => {
+        event.preventDefault();
+        navigateBack(navigate, backTo);
+      }}
+    >
+      ← {lessonId ? (lang === 'en' ? 'Back' : 'Kembali') : text.backToGames}
     </Link>
   );
 
   return (
     <main id="main-content" className="game-player-page">
+      <PastelBackdrop />
       <div className="game-player-shell">
-        {backLink}
-        <header className="game-player-header">
-          <img src={isPatternGame ? patternAsset : robotAsset} alt="" />
-          <div>
-            <p>{text.levelLabel(levelIndex + 1, levels.length)}</p>
-            <h1>{gameCopy.title}</h1>
+        <div className="game-player-topbar">
+          {backLink}
+          <div className="game-player-header-meta">
+            <span className="game-player-grade-chip">{t.learning.gradeLabel(grade)}</span>
+            <span className="game-player-score-chip" aria-label={`${t.learning.xpLabel}: ${progress.xp}`}>
+              <img className="game-player-score-icon game-player-score-icon--lightning" src={iosLightning} alt="" aria-hidden="true" />
+              {progress.xp} {t.learning.xpLabel}
+            </span>
+            <span className="game-player-score-chip" aria-label={`${t.learning.starsLabel}: ${progress.stars}`}>
+              <img className="game-player-score-icon" src={iosStar} alt="" aria-hidden="true" />
+              {progress.stars}
+            </span>
           </div>
-        </header>
+        </div>
 
         {isPatternGame ? (
           <section className="game-player-card" aria-labelledby="game-player-title">
-            <h2 id="game-player-title">{text.patternGoal}</h2>
+            <h1 id="game-player-title">{text.patternGoal}</h1>
             <p>{text.patternInstructions}</p>
             <ol className="pattern-board" aria-label={text.patternGoal}>
               {level.sequence.map((symbol, index) => (
@@ -190,14 +233,22 @@ function GamePlayer({ t, lang }) {
                   aria-pressed={selectedAnswer === option}
                   onClick={() => {
                     setSelectedAnswer(option);
-                    setFeedback('');
+                    setFeedback(null);
                   }}
                 >
                   {option}
                 </button>
               ))}
             </div>
-            {feedback && <p className={`game-player-feedback${solved ? ' is-success' : ''}`} role="status">{feedback}</p>}
+            <Feedback
+              key={`${levelIndex}-${feedback?.tipe || 'empty'}-${feedback?.attempt ?? wrongTries}`}
+              tipe={feedback?.tipe}
+              pesan={feedback?.pesan}
+              xp={feedback?.xp}
+              bintang={feedback?.bintang}
+              petunjuk={feedback?.petunjuk}
+              labelPetunjuk={text.feedbackHintButton}
+            />
             <div className="game-player-actions">
               {!solved ? (
                 <button className="btn btn-primary" type="button" disabled={!selectedAnswer} onClick={submitPattern}>
@@ -206,13 +257,16 @@ function GamePlayer({ t, lang }) {
               ) : levelIndex < levels.length - 1 ? (
                 <button className="btn btn-primary" type="button" onClick={nextLevel}>{text.nextLevel}</button>
               ) : (
-                <button className="btn btn-primary" type="button" onClick={restartGame}>{text.playAgain}</button>
+                <>
+                  <Link className="btn btn-secondary btn--wide" to={backTo}>{text.backToGameList}</Link>
+                  <button className="btn btn-primary" type="button" onClick={restartGame}>{text.playAgain}</button>
+                </>
               )}
             </div>
           </section>
         ) : (
           <section className="game-player-card" aria-labelledby="game-player-title">
-            <h2 id="game-player-title">{text.robotGoal}</h2>
+            <h1 id="game-player-title">{text.robotGoal}</h1>
             <p>{text.robotInstructions}</p>
             <div className="robot-board" role="img" aria-label={text.robotMapLabel}>
               {Array.from({ length: 25 }, (_, index) => {
@@ -246,7 +300,15 @@ function GamePlayer({ t, lang }) {
                 <li key={`${command}-${index}`}>{text.commands[command]}</li>
               )) : <li className="is-empty">{text.emptyProgram}</li>}
             </ol>
-            {feedback && <p className={`game-player-feedback${solved ? ' is-success' : ''}`} role="status">{feedback}</p>}
+            <Feedback
+              key={`${levelIndex}-${feedback?.tipe || 'empty'}-${feedback?.attempt ?? wrongTries}`}
+              tipe={feedback?.tipe}
+              pesan={feedback?.pesan}
+              xp={feedback?.xp}
+              bintang={feedback?.bintang}
+              petunjuk={feedback?.petunjuk}
+              labelPetunjuk={text.feedbackHintButton}
+            />
             <div className="game-player-actions">
               {!solved ? (
                 <>
@@ -257,7 +319,10 @@ function GamePlayer({ t, lang }) {
               ) : levelIndex < levels.length - 1 ? (
                 <button className="btn btn-primary" type="button" onClick={nextLevel}>{text.nextLevel}</button>
               ) : (
-                <button className="btn btn-primary" type="button" onClick={restartGame}>{text.playAgain}</button>
+                <>
+                  <Link className="btn btn-secondary btn--wide" to={backTo}>{text.backToGameList}</Link>
+                  <button className="btn btn-primary" type="button" onClick={restartGame}>{text.playAgain}</button>
+                </>
               )}
             </div>
           </section>

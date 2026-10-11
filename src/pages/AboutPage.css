@@ -1,10 +1,14 @@
 .about-page {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   padding: 108px 24px 64px;
-  background: var(--cream);
+  background: transparent;
 }
 
 .about-shell {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 38px;

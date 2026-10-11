@@ -1,0 +1,99 @@
+.feedback-slot {
+  display: flex;
+  width: min(100%, 680px);
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-banner {
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--outline);
+  border-radius: 16px;
+  color: var(--outline);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  animation: feedback-pop 0.25s ease both;
+}
+
+.feedback-banner--benar {
+  background: var(--sour-apple);
+}
+
+.feedback-banner--salah {
+  background: var(--blossom);
+}
+
+.feedback-banner__icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  object-fit: contain;
+}
+
+.feedback-banner__message {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.feedback-banner__chip,
+.feedback-banner__hint-button,
+.feedback-banner__hint {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border: 2px solid var(--outline);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.feedback-banner__chip {
+  background: #fff;
+  white-space: nowrap;
+}
+
+.feedback-banner__hint-button {
+  min-height: 32px;
+  padding: 6px 14px;
+  background: var(--summer-sky);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.feedback-banner__hint {
+  max-width: min(100%, 440px);
+  overflow: hidden;
+  border-style: dashed;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes feedback-pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback-banner {
+    animation: none;
+  }
+}

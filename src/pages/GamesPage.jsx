@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import HeroStarfield from '../components/Hero/HeroStarfield';
-import gameIllustration from '../assets/Game.png';
-import mascotIllustration from '../assets/Maskot_Coding_For_Kids.png';
-import grade12Asset from '../assets/Grade 1-2.png';
+import gameIllustration from '../assets/GAME Kucing.svg';
+import mascotIllustration from '../assets/GAME Maskot.svg';
+import championAsset from '../assets/IOS Champion.svg';
+import iosGameAsset from '../assets/IOS Game.svg';
+import starAsset from '../assets/IOS Star.svg';
 import grade34Asset from '../assets/Grade 3-4.png';
 import brainAsset from '../assets/Brain.png';
 import lockAsset from '../assets/lock.png';
@@ -25,7 +27,9 @@ import patternAdventureAsset from '../assets/Card Pattern Finder.svg';
 import quizMakerAsset from '../assets/Card Quiz Marker.svg';
 import webPageMakerAsset from '../assets/Card Web Page Maker.svg';
 import variableVaultAsset from '../assets/Variable Vault.svg';
+import cardPalette from '../data/cardPalette';
 import { getProgress } from '../data/progress';
+import { navigateBack } from '../utils/navigateBack';
 import GamePlayer from './GamePlayer';
 import './GamesPage.css';
 import './LearningUnitsPage.css';
@@ -65,6 +69,7 @@ const readCompletedGames = () => {
 function GamesPage({ t }) {
   const { gameId, lessonId } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const copy = t.gamesPage;
   const grade = searchParams.get('grade') || '1-2';
   const lang = searchParams.get('lang') || 'id';
@@ -109,8 +114,9 @@ function GamesPage({ t }) {
 
   if (isLessonGameList) {
     const games = visibleCategories.flatMap((category) => category.games);
-    const backLabel = copy.backToLesson;
+    const backLabel = t.learning.back;
     const levelLabel = lang === 'en' ? '5 levels' : '5 level';
+    const lessonPath = `/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`;
 
     return (
       <main id="main-content" className="learning-units-page games-units-page">
@@ -118,7 +124,8 @@ function GamesPage({ t }) {
         <div className="learning-units-shell">
           <Link
             className="learning-units-back"
-            to={`/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
+            to={lessonPath}
+            state={{ scrollBehavior: 'instant' }}
           >
             ← {backLabel}
           </Link>
@@ -145,7 +152,12 @@ function GamesPage({ t }) {
                     {...cardProps}
                     key={game.id}
                     className={`learning-unit-card game-unit-card${game.playable ? '' : ' game-unit-card--soon'}`}
-                    style={{ '--unit-color': visibleCategories[0].color }}
+                    style={{
+                      '--unit-color': cardPalette[index % cardPalette.length],
+                      '--unit-icon-scale': game.artScale || 1,
+                      '--unit-icon-offset-x': `${game.artOffsetX || 0}px`,
+                      '--unit-icon-offset-y': `${game.artOffsetY || 0}px`,
+                    }}
                     aria-label={game.playable
                       ? `${index + 1}. ${gameCopy.title}`
                       : `${index + 1}. ${gameCopy.title}, ${copy.comingSoon}`}
@@ -205,17 +217,24 @@ function GamesPage({ t }) {
           <Link
             className="games-back-link"
             to={`/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
+            onClick={(event) => {
+              event.preventDefault();
+              navigateBack(
+                navigate,
+                `/lessons/${lessonId}?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`,
+              );
+            }}
           >
-            ← {copy.backToLesson}
+            ← {t.learning.back}
           </Link>
         )}
         <section className="games-banner" aria-labelledby="games-title">
           <img className="games-banner-art games-banner-art--left" src={gameIllustration} alt="" aria-hidden="true" />
           <div className="games-banner-content">
             <div className="games-banner-deco" aria-hidden="true">
-              <span>🎮</span>
-              <img src={grade12Asset} alt="" />
-              <span>🏆</span>
+              <img className="games-banner-deco-icon games-banner-deco-icon--game" src={iosGameAsset} alt="" />
+              <img src={starAsset} alt="" />
+              <img className="games-banner-deco-icon games-banner-deco-icon--champion" src={championAsset} alt="" />
             </div>
             <h1 id="games-title" className="games-title">
               {isLessonGameList ? copy.chooseGameTitle : copy.title}
@@ -230,7 +249,7 @@ function GamesPage({ t }) {
               role="img"
               aria-label={copy.progressLabel(completedCount, totalGames)}
             >
-              <img className="games-progress-star" src={grade12Asset} alt="" aria-hidden="true" />
+              <img className="games-progress-star" src={starAsset} alt="" aria-hidden="true" />
               <strong>{copy.progressLabel(completedCount, totalGames)}</strong>
               <span className="games-progress-track" aria-hidden="true">
                 <span

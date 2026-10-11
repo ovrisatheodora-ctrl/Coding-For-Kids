@@ -387,13 +387,13 @@
 
 .ld-lang-btn:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 var(--outline);
+  box-shadow: 1px 1px 0 var(--outline);
 }
 
 .ld-lang-btn.selected {
   background: var(--sour-apple);
   transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 var(--outline);
+  box-shadow: 1px 1px 0 var(--outline);
 }
 
 /* Path cards */
