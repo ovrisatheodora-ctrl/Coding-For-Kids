@@ -2491,4 +2491,15 @@ const learningUnits = [
   ...creativeG56Subtopics,
 ];
 
+export const draftLearningUnits = [
+  logicG34Algorithms,
+  logicG56LoopsBugs,
+  basicG34SequenceEvents,
+  basicG56IfElseFix,
+  creativeG34StoryMiniGame,
+  creativeG56ScoreProject,
+  ...creativeG34ProjectSteps,
+  ...creativeG56ProjectSteps,
+];
+
 export default learningUnits;

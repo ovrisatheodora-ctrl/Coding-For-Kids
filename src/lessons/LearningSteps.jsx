@@ -4,6 +4,8 @@ import iosEyes from '../assets/IOS Eyes.webp';
 import iosLamp from '../assets/IOS Lamp.webp';
 import iosLightning from '../assets/IOS Petir.webp';
 import iosStar from '../assets/IOS Star.webp';
+import iosChampion from '../assets/IOS Champion.webp';
+import iosBadgeChampion from '../assets/IOS Badge Champion.webp';
 import ArrowLabel from '../components/ArrowLabel';
 import Feedback from '../components/Feedback';
 
@@ -694,9 +696,11 @@ export function FeedbackStep({ labels, correctCount, questionCount, onContinue }
 export function RewardStep({ labels, xpEarned, starsEarned, badgeName, onNext, onRetry }) {
   return (
     <section className="learning-card learning-reward-card" aria-labelledby="learning-step-title">
-      <div className="learning-reward-illustration" aria-hidden="true">🏆✨</div>
       <p className="learning-reward-kicker">{labels.unitComplete}</p>
-      <h1 id="learning-step-title" className="learning-step-title">{labels.rewardTitle}</h1>
+      <h1 id="learning-step-title" className="learning-step-title">
+        <img className="learning-reward-title-icon" src={iosChampion} alt="" aria-hidden="true" />
+        {labels.rewardTitle}
+      </h1>
       <div className="learning-reward-totals">
         <span>
           <img className="learning-reward-total-icon" src={iosStar} alt="" aria-hidden="true" />
@@ -707,7 +711,12 @@ export function RewardStep({ labels, xpEarned, starsEarned, badgeName, onNext, o
           <span>{labels.xpEarned(xpEarned)}</span>
         </span>
       </div>
-      {badgeName && <div className="learning-badge-sticker"><span aria-hidden="true">🏅</span>{badgeName}</div>}
+      {badgeName && (
+        <div className="learning-badge-sticker">
+          <img className="learning-badge-sticker-icon" src={iosBadgeChampion} alt="" aria-hidden="true" />
+          {badgeName}
+        </div>
+      )}
       <div className="learning-reward-actions">
         <button className="btn learning-reward-next" type="button" onClick={onNext}>{labels.next}</button>
         <button className="btn learning-reward-retry" type="button" onClick={onRetry}>{labels.tryAgain}</button>

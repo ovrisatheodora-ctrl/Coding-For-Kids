@@ -1,6 +1,7 @@
 // api/ai-tutor.js — Vercel Serverless Function
 // AI Tutor endpoint. API keys live ONLY in Vercel environment variables.
 // This function is never called from client-side with keys exposed.
+import process from 'node:process';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -76,6 +77,7 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
 
     return res.status(200).json({ reply });
   } catch (err) {
+    console.error('AI Tutor request failed:', err);
     // Fallback static hints when API fails
     const fallbacks = {
       1: {

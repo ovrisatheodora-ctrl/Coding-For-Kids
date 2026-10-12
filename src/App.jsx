@@ -1,38 +1,40 @@
-import { useState, useLayoutEffect, lazy, Suspense } from 'react';
+import { useState, useLayoutEffect, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
-import AiTutor from './components/AiTutor/AiTutor';
 import i18n from './data/i18n';
 import { getProgress, setLanguage as saveLang } from './data/progress';
 import './styles/global.css';
 
+// Lazy-load AiTutor — it's a floating panel not needed for initial render
+const AiTutor = lazy(() => import('./components/AiTutor/AiTutor'));
+
 // Route-level code splitting
-const HomePage        = lazy(() => import('./pages/HomePage'));
-const LessonsPage     = lazy(() => import('./pages/LessonsPage'));
-const LessonDetailPage= lazy(() => import('./pages/LessonDetailPage'));
+const HomePage         = lazy(() => import('./pages/HomePage'));
+const LessonsPage      = lazy(() => import('./pages/LessonsPage'));
+const LessonDetailPage = lazy(() => import('./pages/LessonDetailPage'));
 const LearningUnitsPage = lazy(() => import('./pages/LearningUnitsPage'));
-const LearningPage    = lazy(() => import('./pages/LearningPage'));
-const GamesPage       = lazy(() => import('./pages/GamesPage'));
-const AboutPage       = lazy(() => import('./pages/AboutPage'));
-const NotFoundPage    = lazy(() => import('./pages/NotFoundPage'));
+const LearningPage     = lazy(() => import('./pages/LearningPage'));
+const GamesPage        = lazy(() => import('./pages/GamesPage'));
+const AboutPage        = lazy(() => import('./pages/AboutPage'));
+const NotFoundPage     = lazy(() => import('./pages/NotFoundPage'));
 
 // Scroll to top on route change
 function ScrollToTop() {
   const location = useLocation();
   const navigationType = useNavigationType();
   useLayoutEffect(() => {
-    if (!window.location.hash) {
+    if (!location.hash) {
       const scrollBehavior = location.state?.scrollBehavior === 'instant'
         ? 'instant'
         : navigationType === 'POP' ? 'instant' : 'smooth';
       window.scrollTo({ top: 0, behavior: scrollBehavior });
     }
-  }, [location.key, navigationType]);
+  }, [location.key, location.hash, location.state?.scrollBehavior, navigationType]);
   return null;
 }
 
-// Loading spinner
+// Loading spinner for route transitions
 function PageLoader() {
   return (
     <div
@@ -61,11 +63,21 @@ function AppInner() {
   const navigationType = useNavigationType();
   const isFocusedActivity = location.pathname.endsWith('/learn')
     || /^\/games\/[^/]+$/.test(location.pathname);
-  const [navigationEntry, setNavigationEntry] = useState(() => ({ key: location.key, type: null }));
-  if (navigationEntry.key !== location.key) {
-    setNavigationEntry({ key: location.key, type: navigationType });
-  }
-  const isBackNavigation = navigationEntry.key === location.key && navigationEntry.type === 'POP';
+
+  // Track back-navigation with a ref to avoid setState-during-render anti-pattern.
+  // navEntryRef holds the previous {key, type}; isBackNavigation state is updated
+  // in a useEffect (after commit) rather than during render.
+  const navEntryRef = useRef({ key: location.key, type: null });
+  const [isBackNavigation, setIsBackNavigation] = useState(false);
+
+  useEffect(() => {
+    const prev = navEntryRef.current;
+    if (prev.key !== location.key) {
+      navEntryRef.current = { key: location.key, type: navigationType };
+      setIsBackNavigation(navigationType === 'POP');
+    }
+  }, [location.key, navigationType]);
+
   const [lang, setLang] = useState(() => {
     const routeLanguage = new URLSearchParams(window.location.search).get('lang');
     return routeLanguage === 'en' || routeLanguage === 'id'
@@ -120,7 +132,7 @@ function AppInner() {
           <Route path="/games"                       element={<GamesPage t={t} />} />
           <Route path="/games/:gameId"               element={<GamesPage t={t} />} />
           <Route path="/about"                       element={<AboutPage t={t} />} />
-          <Route path="*"                            element={<NotFoundPage t={t} />} />
+          <Route path="*"                            element={<NotFoundPage />} />
         </Routes>
       </Suspense>
 
@@ -128,8 +140,10 @@ function AppInner() {
         <Footer t={t} lang={lang} onLangChange={handleLangChange} />
       )}
 
-      {/* Global floating AI Tutor */}
-      <AiTutor t={t} lang={lang} />
+      {/* Global floating AI Tutor — lazy-loaded after main page is interactive */}
+      <Suspense fallback={null}>
+        <AiTutor t={t} lang={lang} />
+      </Suspense>
     </>
   );
 }

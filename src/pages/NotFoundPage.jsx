@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './NotFoundPage.css';
 
-function NotFoundPage({ t }) {
+function NotFoundPage() {
   return (
     <main id="main-content" className="notfound-page">
       <div className="notfound-inner">
