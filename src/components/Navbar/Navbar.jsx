@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
-import logo from '../../assets/Logo_Coding.png';
+import logo from '../../assets/Logo_Coding.webp';
 import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './Navbar.css';
 
@@ -34,7 +34,7 @@ function Navbar({ t, lang, onLangChange }) {
       <nav className="navbar" aria-label="Main navigation">
         {/* Logo */}
         <Link to="/" className="navbar-logo" aria-label="Coding for Kids Home">
-          <img src={logo} alt="" aria-hidden="true" />
+          <img src={logo} alt="" aria-hidden="true" width="162" height="162" />
           <span className="navbar-logo-text">{t.nav.logo}</span>
         </Link>
 

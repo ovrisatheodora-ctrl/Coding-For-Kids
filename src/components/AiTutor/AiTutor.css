@@ -3,6 +3,9 @@
 /* Floating action button */
 .ai-tutor-fab {
   position: fixed;
+  /* JS initializes its draggable viewport coordinates at the bottom-right. */
+  right: 28px;
+  bottom: 28px;
   width: 176px;
   height: 176px;
   z-index: 900;
@@ -14,6 +17,7 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  contain: layout style;
 }
 
 .ai-tutor-fab img {
@@ -199,7 +203,7 @@
 
 .ai-hint-btn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--outline);
+  box-shadow: 1px 1px 0 var(--outline);
 }
 
 .ai-hint-btn.active {
@@ -357,7 +361,7 @@
 
 .ai-send-btn:hover:not(:disabled) {
   transform: translateY(calc(-50% - 1px));
-  box-shadow: 0 2px 0 var(--outline);
+  box-shadow: none;
 }
 
 .ai-send-btn svg {

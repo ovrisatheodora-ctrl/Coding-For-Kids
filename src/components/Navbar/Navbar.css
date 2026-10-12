@@ -109,7 +109,7 @@
 .lang-toggle:hover,
 .navbar-cta:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--outline);
+  box-shadow: 1px 1px 0 var(--outline);
 }
 
 .navbar-cta {

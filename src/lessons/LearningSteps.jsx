@@ -1,8 +1,42 @@
 import { useState } from 'react';
+import iosBook from '../assets/IOS BOOK.webp';
+import iosEyes from '../assets/IOS Eyes.webp';
+import iosLamp from '../assets/IOS Lamp.webp';
+import iosLightning from '../assets/IOS Petir.webp';
+import iosStar from '../assets/IOS Star.webp';
 import ArrowLabel from '../components/ArrowLabel';
+import Feedback from '../components/Feedback';
 
 function localized(value, lang) {
-  return value[lang] || value.id;
+  return value?.[lang] || value?.id || '';
+}
+
+function feedbackText(value) {
+  return (value || '')
+    .replace(/\p{Extended_Pictographic}/gu, '')
+    .replace(/\p{Emoji_Modifier}/gu, '')
+    .replace(/\uFE0F/gu, '')
+    .replace(/\u200D/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function activityHint(value, lang, fallback) {
+  const hint = feedbackText(localized(value, lang));
+  return hint && !/^(hampir|almost|belum tepat|not quite)/i.test(hint) ? hint : fallback;
+}
+
+function shuffledOrder(items, correctOrder) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+
+  if (shuffled.length > 1 && shuffled.every((item, index) => item === correctOrder[index])) {
+    [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+  }
+  return shuffled;
 }
 
 export function ProgressBar({ steps, currentStep, label, onStepChange }) {
@@ -29,7 +63,7 @@ export function ProgressBar({ steps, currentStep, label, onStepChange }) {
   );
 }
 
-export function LessonIntroStep({ unit, lang, labels }) {
+export function LessonIntroStep({ unit, lang, labels, goToStep }) {
   const material = unit.material || [];
   const primaryMaterial = material[0];
   const reminder = material[1] || primaryMaterial;
@@ -42,14 +76,18 @@ export function LessonIntroStep({ unit, lang, labels }) {
     <div className="learning-intro" aria-labelledby="learning-step-title">
       <section className="learning-intro-panel learning-intro-panel--material">
         <div className="learning-intro-tag">
-          <span className="learning-intro-tag-icon" aria-hidden="true">📒</span>
+          <span className="learning-intro-tag-icon">
+            <img src={iosBook} alt="" aria-hidden="true" />
+          </span>
           <span>{labels.materialLabel}</span>
         </div>
         <h1 id="learning-step-title" className="learning-step-title">{localize(unit.title)}</h1>
         {primaryMaterial && <p className="learning-intro-lead">{localize(primaryMaterial.text)}</p>}
         {reminder && (
           <aside className="learning-intro-reminder">
-            <span className="learning-intro-reminder-icon" aria-hidden="true">💡</span>
+            <span className="learning-intro-reminder-icon">
+              <img src={iosLamp} alt="" aria-hidden="true" />
+            </span>
             <span>
               <strong>{labels.rememberLabel}</strong>
               <span>{localize(reminder.text)}</span>
@@ -57,7 +95,10 @@ export function LessonIntroStep({ unit, lang, labels }) {
           </aside>
         )}
         <div className="learning-intro-points">
-          <h2>{labels.keyPointsLabel}</h2>
+          <h2>
+            <img src={iosStar} alt="" aria-hidden="true" />
+            {labels.keyPointsLabel}
+          </h2>
           <ul>
             {keyPoints.length ? keyPoints.map((block) => (
               <li key={block.key}>
@@ -76,18 +117,29 @@ export function LessonIntroStep({ unit, lang, labels }) {
 
       <section className="learning-intro-panel learning-intro-panel--visual" aria-label={labels.exampleLabel}>
         <div className="learning-intro-tag">
-          <span className="learning-intro-tag-icon" aria-hidden="true">👀</span>
+          <span className="learning-intro-tag-icon">
+            <img src={iosEyes} alt="" aria-hidden="true" />
+          </span>
           <span>{labels.exampleLabel}</span>
         </div>
-        <h2 className="learning-intro-example-title">{labels.exampleTitle(localize(unit.title))}</h2>
-        <p className="learning-intro-example-description">{labels.exampleDescription}</p>
+        <h2 className="learning-intro-example-title">
+          {localize(example.heading) || labels.exampleTitle(localize(unit.title))}
+        </h2>
+        <p className="learning-intro-example-description">
+          {localize(example.description) || labels.exampleDescription}
+        </p>
         {exampleSequence.length > 0 ? (
           <ol className="learning-intro-steps">
             {exampleSequence.map((item, index) => (
               <li className="learning-intro-step" key={item.id}>
                 <span className="learning-intro-step-tile" style={{ '--step-color': ['var(--blossom)', 'var(--summer-sky)', 'var(--sour-apple)', 'var(--banana)'][index % 4] }}>
                   <span className="learning-intro-step-number">{index + 1}</span>
-                  <span aria-hidden="true">{item.symbol || '✨'}</span>
+                  <span
+                    className={unit.id === 'basic-g12-ulangi-blok' && index === 3 ? 'learning-intro-step-symbol--compact' : undefined}
+                    aria-hidden="true"
+                  >
+                    {item.symbol || '✨'}
+                  </span>
                 </span>
                 <span>{localize(item.label)}</span>
               </li>
@@ -100,13 +152,30 @@ export function LessonIntroStep({ unit, lang, labels }) {
           <p className="learning-intro-example-caption">{localize(example.caption)}</p>
         )}
       </section>
+
+      <div className="learning-intro-actions">
+        <button
+          className="learning-intro-action learning-intro-action--next"
+          type="button"
+          onClick={() => goToStep?.(1)}
+          aria-label={labels.continueActivity}
+        >
+          {labels.continueActivity}
+        </button>
+      </div>
     </div>
   );
 }
 
 export function ActivityStep({ activity, lang, labels, onContinue }) {
-  const [slots, setSlots] = useState([]);
-  const [message, setMessage] = useState('');
+  const orderedItems = Array.isArray(activity?.items) ? activity.items : [];
+  const correctOrder = Array.isArray(activity?.answer) ? activity.answer : [];
+  const slotCount = Math.max(correctOrder.length, 1);
+  const [slots, setSlots] = useState(() => Array(slotCount).fill(null));
+  const [pool, setPool] = useState(() => shuffledOrder(orderedItems.map((item) => item.id), correctOrder));
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [orderResult, setOrderResult] = useState('');
+  const [wrongTries, setWrongTries] = useState(0);
   const [locked, setLocked] = useState(false);
   const [choice, setChoice] = useState(null);
   const [result, setResult] = useState('');
@@ -122,91 +191,141 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
       };
 
   if (normalizedActivity.type === 'order') {
-    const orderedItems = Array.isArray(normalizedActivity.items) ? normalizedActivity.items : [];
-    const correctOrder = Array.isArray(normalizedActivity.answer) ? normalizedActivity.answer : [];
-    const slotCount = Math.max(correctOrder.length, 1);
-    const currentSlots = slots.length === slotCount ? slots : Array(slotCount).fill(null);
-
-    function removeFromSlot(slotIndex) {
+    function moveItem(itemId, target) {
       if (locked) return;
-      setSlots((current) => {
-        const next = [...(current.length === slotCount ? current : Array(slotCount).fill(null))];
-        next[slotIndex] = null;
-        return next;
-      });
-    }
+      const sourceIndex = slots.indexOf(itemId);
+      if (target === sourceIndex || (target === 'pool' && sourceIndex === -1)) return;
 
-    function placeItem(itemId) {
-      if (locked) return;
-      const nextIndex = currentSlots.findIndex((slot) => slot === null);
-      if (nextIndex === -1) return;
-
-      const next = [...currentSlots];
-      next[nextIndex] = itemId;
-      setSlots(next);
-
-      if (next.every((value) => value !== null)) {
-        const isCorrect = next.every((value, index) => value === correctOrder[index]);
-        if (isCorrect) {
-          setLocked(true);
-          setMessage(localized(normalizedActivity.success, lang));
-          return;
-        }
-
-        setMessage(localized(normalizedActivity.retry, lang));
-        setSlots(Array(slotCount).fill(null));
+      const nextSlots = [...slots];
+      const nextPool = [...pool];
+      if (sourceIndex >= 0) {
+        nextSlots[sourceIndex] = null;
+      } else {
+        const poolIndex = nextPool.indexOf(itemId);
+        if (poolIndex < 0) return;
+        nextPool.splice(poolIndex, 1);
       }
+
+      if (target === 'pool') {
+        nextPool.push(itemId);
+      } else {
+        const displacedItem = nextSlots[target];
+        nextSlots[target] = itemId;
+        if (displacedItem) {
+          if (sourceIndex >= 0) nextSlots[sourceIndex] = displacedItem;
+          else nextPool.push(displacedItem);
+        }
+      }
+
+      setSlots(nextSlots);
+      setPool(nextPool);
+      setSelectedItem(null);
+      setOrderResult('');
     }
 
-    const availableItems = orderedItems.filter((item) => !currentSlots.includes(item.id));
+    function handleDrop(event, target) {
+      event.preventDefault();
+      const itemId = event.dataTransfer.getData('text/plain');
+      if (itemId) moveItem(itemId, target);
+    }
+
+    function handleCheck() {
+      if (slots.some((slot) => slot === null)) {
+        setOrderResult('incomplete');
+        return;
+      }
+
+      const isCorrect = slots.every((value, index) => value === correctOrder[index]);
+      setOrderResult(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect) setWrongTries((tries) => tries + 1);
+      setLocked(isCorrect);
+    }
+
+    function renderOption(itemId) {
+      const item = orderedItems.find((entry) => entry.id === itemId);
+      if (!item) return null;
+      return (
+        <button
+          key={item.id}
+          className={`learning-order-option${selectedItem === item.id ? ' is-selected' : ''}`}
+          type="button"
+          draggable={!locked}
+          aria-pressed={selectedItem === item.id}
+          onClick={(event) => {
+            event.stopPropagation();
+            if (!locked) setSelectedItem(selectedItem === item.id ? null : item.id);
+          }}
+          onDragStart={(event) => {
+            event.currentTarget.classList.add('is-dragging');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', item.id);
+          }}
+          onDragEnd={(event) => event.currentTarget.classList.remove('is-dragging')}
+        >
+          <span className="learning-order-option-emoji" aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
+          <span className="learning-order-option-label">{localized(item.label, lang) || item.id}</span>
+        </button>
+      );
+    }
 
     return (
       <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
         <div className="learning-step-kicker">🧩</div>
         <h1 id="learning-step-title" className="learning-step-title">{localized(normalizedActivity.title, lang)}</h1>
-        <div className="learning-order-board" aria-label={labels.completePattern}>
+        <div className="learning-order-board" aria-label={labels.orderActivityBoardLabel}>
           <div className="learning-order-slots">
-            {currentSlots.map((slotValue, index) => {
+            {slots.map((slotValue, index) => {
               const item = orderedItems.find((entry) => entry.id === slotValue);
               return (
-                <button
+                <div
                   key={`slot-${index}`}
-                  type="button"
-                  className={`learning-order-slot${slotValue ? ' is-filled' : ''}`}
-                  onClick={() => slotValue && removeFromSlot(index)}
-                  aria-label={slotValue ? `${index + 1}. ${item?.label ? localized(item.label, lang) : ''}` : `${index + 1}. ${labels.itemNumber(index + 1)}`}
+                  className={`learning-order-slot${slotValue ? ' is-filled' : ''}${orderResult === 'wrong' && slotValue ? ' has-error' : ''}${orderResult === 'correct' ? ' is-correct' : ''}`}
+                  data-slot={index}
+                  role={slotValue ? 'group' : 'button'}
+                  tabIndex={slotValue ? -1 : 0}
+                  aria-label={`${index + 1}. ${slotValue ? localized(item?.label, lang) : labels.itemNumber(index + 1)}`}
+                  onClick={() => {
+                    if (selectedItem) moveItem(selectedItem, index);
+                    else if (slotValue) moveItem(slotValue, 'pool');
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.target !== event.currentTarget || !['Enter', ' '].includes(event.key)) return;
+                    event.preventDefault();
+                    if (selectedItem) moveItem(selectedItem, index);
+                    else if (slotValue) moveItem(slotValue, 'pool');
+                  }}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={(event) => handleDrop(event, index)}
                 >
-                  {item ? (
-                    <>
-                      <span className="learning-order-slot-emoji" aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
-                      <span>{item.label ? localized(item.label, lang) : item.id}</span>
-                    </>
-                  ) : (
-                    <span>{index + 1}</span>
-                  )}
-                </button>
+                  <span className="learning-order-slot-number" aria-hidden="true">{index + 1}</span>
+                  {item && renderOption(item.id)}
+                </div>
               );
             })}
           </div>
-          <div className="learning-order-options">
-            {availableItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="learning-order-option"
-                onClick={() => placeItem(item.id)}
-              >
-                <span aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
-                <span>{localized(item.label, lang)}</span>
-              </button>
-            ))}
+          <p className="learning-order-instructions">{labels.orderActivityInstructions}</p>
+          <div
+            className="learning-order-pool"
+            onClick={() => selectedItem && moveItem(selectedItem, 'pool')}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => handleDrop(event, 'pool')}
+            aria-label={labels.orderActivityInstructions}
+          >
+            {pool.map(renderOption)}
+            {pool.length === 0 && <span className="learning-order-pool-empty">{labels.emptyOrderPool}</span>}
           </div>
         </div>
-        {message && <p className={`learning-inline-feedback${locked ? ' is-correct' : ' is-wrong'}`} role="status">{message}</p>}
+        <Feedback
+          key={`order-${orderResult}-${wrongTries}`}
+          tipe={orderResult === 'correct' ? 'benar' : orderResult ? 'salah' : undefined}
+          pesan={orderResult === 'correct' ? labels.feedbackCorrect : orderResult === 'incomplete' ? labels.fillOrderSlots : labels.feedbackWrong}
+          petunjuk={orderResult === 'wrong' && wrongTries >= 2 ? labels.orderActivityHint : undefined}
+          labelPetunjuk={labels.feedbackHintButton}
+        />
         {locked ? (
-          <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+          <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
         ) : (
-          <button className="btn btn-primary" type="button" onClick={() => setMessage('')} disabled={!currentSlots.some((slot) => slot !== null)}>
+          <button className="btn btn-primary learning-activity-action learning-order-check-action" type="button" onClick={handleCheck}>
             {labels.check}
           </button>
         )}
@@ -230,6 +349,7 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
       ? selectedValue === normalizedActivity.answer
       : choice === answerIndex;
     setResult(isAnswerCorrect ? 'correct' : 'wrong');
+    if (!isAnswerCorrect) setWrongTries((tries) => tries + 1);
   }
 
   return (
@@ -257,15 +377,19 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
           </button>
         ))}
       </div>
-      {result && (
-        <p className={`learning-inline-feedback${isCorrect ? ' is-correct' : ' is-wrong'}`} role="status">
-          {isCorrect ? localized(normalizedActivity.success, lang) : localized(normalizedActivity.hint, lang)}
-        </p>
-      )}
+      <Feedback
+        key={`activity-${result}-${wrongTries}`}
+        tipe={result ? (isCorrect ? 'benar' : 'salah') : undefined}
+        pesan={isCorrect ? labels.feedbackCorrect : labels.feedbackWrong}
+        petunjuk={result === 'wrong' && wrongTries >= 2
+          ? activityHint(normalizedActivity.hint, lang, labels.activityHint)
+          : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
       {isCorrect ? (
-        <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+        <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
       ) : (
-        <button className="btn btn-primary" type="button" onClick={checkChoice} disabled={choice === null}>
+        <button className="btn btn-primary learning-activity-action" type="button" onClick={checkChoice} disabled={choice === null}>
           {labels.check}
         </button>
       )}
@@ -489,7 +613,6 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
   const [value, setValue] = useState('');
   const [wrongTries, setWrongTries] = useState(0);
   const [outcome, setOutcome] = useState('');
-  const [showHint, setShowHint] = useState(false);
 
   const question = normalizeQuizQuestion(questions[questionIndex], questionIndex);
   const revealed = outcome === 'revealed';
@@ -514,7 +637,6 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
     setValue('');
     setWrongTries(0);
     setOutcome('');
-    setShowHint(false);
   }
 
   return (
@@ -530,32 +652,27 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
           labels={labels}
         />
       )}
-      {outcome === 'correct' && (
-        <div className="learning-answer-feedback is-correct" role="status">
-          <strong>{labels.greatJob}</strong>
-          <span>{labels.xpReward} · {labels.starReward}</span>
-        </div>
-      )}
-      {outcome === 'wrong' && (
-        <div className="learning-answer-feedback is-wrong" role="status">
-          <strong>{labels.almost}</strong>
-          <button className="learning-hint-button" type="button" onClick={() => setShowHint(true)}>
-            💡 {labels.showHint}
-          </button>
-          {showHint && <span className="learning-hint-copy">{localizedMessage(question, 'hint', lang)}</span>}
-        </div>
-      )}
+      <Feedback
+        key={`${question.id}-${wrongTries}-${outcome}`}
+        tipe={outcome ? (outcome === 'correct' ? 'benar' : 'salah') : undefined}
+        pesan={outcome === 'correct' ? labels.feedbackCorrect : labels.feedbackWrong}
+        xp={outcome === 'correct' ? 10 : undefined}
+        bintang={outcome === 'correct' ? 1 : undefined}
+        petunjuk={wrongTries >= 2 && outcome !== 'correct'
+          ? feedbackText(localizedMessage(question, 'hint', lang)) || labels.quizHint
+          : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
       {revealed && (
-        <div className="learning-answer-feedback is-wrong" role="status">
-          <strong>{labels.answerRevealed}</strong>
-          <span><b>{labels.correctAnswer}</b> {formatAnswer(question, lang, labels)}</span>
-          <span>{localizedMessage(question, 'explanation', lang)}</span>
-        </div>
+        <p className="learning-answer-reveal">
+          <strong>{labels.correctAnswer}</strong> {formatAnswer(question, lang, labels)}
+          {' — '}{localizedMessage(question, 'explanation', lang)}
+        </p>
       )}
       {outcome === 'correct' || revealed ? (
-        <button className="btn btn-primary" type="button" onClick={goNext}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+        <button className="btn btn-primary learning-continue-btn" type="button" onClick={goNext}><ArrowLabel>{labels.continue}</ArrowLabel></button>
       ) : (
-        <button className="btn btn-primary" type="button" onClick={checkAnswer} disabled={value === '' || (question.type === 'matching' && Object.keys(value || {}).length !== question.left.length) || (outcome === 'wrong' && !showHint)}>
+        <button className="btn btn-primary" type="button" onClick={checkAnswer} disabled={value === '' || (question.type === 'matching' && Object.keys(value || {}).length !== question.left.length)}>
           {labels.check}
         </button>
       )}
@@ -569,26 +686,31 @@ export function FeedbackStep({ labels, correctCount, questionCount, onContinue }
       <div className="learning-feedback-illustration" aria-hidden="true">🎉</div>
       <h1 id="learning-step-title" className="learning-step-title">{labels.feedbackTitle}</h1>
       <p>{labels.feedbackBody(correctCount, questionCount)}</p>
-      <button className="btn btn-primary" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+      <button className="btn btn-primary learning-continue-btn" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
     </section>
   );
 }
 
-export function RewardStep({ labels, xpEarned, starsEarned, badgeName, onNext, onRetry, onBack }) {
+export function RewardStep({ labels, xpEarned, starsEarned, badgeName, onNext, onRetry }) {
   return (
     <section className="learning-card learning-reward-card" aria-labelledby="learning-step-title">
       <div className="learning-reward-illustration" aria-hidden="true">🏆✨</div>
       <p className="learning-reward-kicker">{labels.unitComplete}</p>
       <h1 id="learning-step-title" className="learning-step-title">{labels.rewardTitle}</h1>
       <div className="learning-reward-totals">
-        <span>⭐ {labels.starsEarned(starsEarned)}</span>
-        <span>⚡ {labels.xpEarned(xpEarned)}</span>
+        <span>
+          <img className="learning-reward-total-icon" src={iosStar} alt="" aria-hidden="true" />
+          <span>{labels.starsEarned(starsEarned)}</span>
+        </span>
+        <span>
+          <img className="learning-reward-total-icon learning-reward-total-icon--lightning" src={iosLightning} alt="" aria-hidden="true" />
+          <span>{labels.xpEarned(xpEarned)}</span>
+        </span>
       </div>
       {badgeName && <div className="learning-badge-sticker"><span aria-hidden="true">🏅</span>{badgeName}</div>}
       <div className="learning-reward-actions">
-        <button className="btn btn-primary" type="button" onClick={onNext}>{labels.next}</button>
-        <button className="btn btn-secondary" type="button" onClick={onRetry}>{labels.tryAgain}</button>
-        <button className="btn btn-purple" type="button" onClick={onBack}>{labels.backToLesson}</button>
+        <button className="btn learning-reward-next" type="button" onClick={onNext}>{labels.next}</button>
+        <button className="btn learning-reward-retry" type="button" onClick={onRetry}>{labels.tryAgain}</button>
       </div>
     </section>
   );

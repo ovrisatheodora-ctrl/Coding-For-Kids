@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getLearningUnit } from '../lessons';
+import iosLightning from '../assets/IOS Petir.webp';
+import iosStar from '../assets/IOS Star.webp';
+import PastelBackdrop from '../components/PastelBackdrop';
 import {
   ActivityStep,
   FeedbackStep,
@@ -25,6 +28,15 @@ function LearningPage({ t, lang, isGame = false }) {
   const stepParam = searchParams.get('step');
   const parsedStep = Number(stepParam || 0);
   const currentStep = Number.isInteger(parsedStep) && parsedStep >= 0 && parsedStep < STEPS.length ? parsedStep : 0;
+  const backTarget = currentStep > 0
+    ? {
+        pathname: `/lessons/${lessonId}/learn`,
+        search: `?${new URLSearchParams({
+          ...Object.fromEntries(searchParams),
+          step: String(currentStep - 1),
+        }).toString()}`,
+      }
+    : `/lessons/${lessonId}/units?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`;
   const [progress, setProgress] = useState(getProgress);
   const [earnedQuestionIds, setEarnedQuestionIds] = useState([]);
   const [xpEarned, setXpEarned] = useState(0);
@@ -78,22 +90,25 @@ function LearningPage({ t, lang, isGame = false }) {
 
   return (
     <main id="main-content" className="learning-page">
+      <PastelBackdrop />
       <div className="learning-shell">
         <div className="learning-topbar">
           <Link
-            to={`/lessons/${lessonId}/units?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`}
+            to={backTarget}
             className="learning-back-btn"
-            aria-label={lang === 'en' ? 'Back to topics' : 'Kembali ke subtema'}
+            aria-label={learning.back}
           >
-            {lang === 'en' ? '← Back to topics' : '← Kembali ke subtema'}
+            ← {learning.back}
           </Link>
           <div className="learning-header-meta">
             <span className="learning-grade-chip">{learning.gradeLabel(grade)}</span>
             <span className="learning-score-chip" aria-label={`${learning.xpLabel}: ${progress.xp}`}>
-              ⚡ {progress.xp} {learning.xpLabel}
+              <img className="learning-score-icon" src={iosLightning} alt="" aria-hidden="true" />
+              {progress.xp} {learning.xpLabel}
             </span>
             <span className="learning-score-chip" aria-label={`${learning.starsLabel}: ${progress.stars}`}>
-              ⭐ {progress.stars}
+              <img className="learning-score-icon" src={iosStar} alt="" aria-hidden="true" />
+              {progress.stars}
             </span>
           </div>
         </div>
@@ -109,7 +124,7 @@ function LearningPage({ t, lang, isGame = false }) {
             {saveFailed && <p className="learning-save-warning" role="status">{learning.saveWarning}</p>}
             <div className="learning-stage" key={`${unit.id}-${STEPS[currentStep]}`}>
               {currentStep === 0 && (
-                <LessonIntroStep unit={unit} lang={lang} labels={learning} />
+                <LessonIntroStep unit={unit} lang={lang} labels={learning} goToStep={goToStep} />
               )}
               {currentStep === 1 && (
                 <ActivityStep
@@ -142,19 +157,13 @@ function LearningPage({ t, lang, isGame = false }) {
                   xpEarned={xpEarned}
                   starsEarned={starsEarned}
                   badgeName={badge?.name || learning.badgeName}
-                  onNext={() => navigate('/lessons')}
+                  onNext={() => navigate(
+                    `/lessons/${lessonId}/units?grade=${encodeURIComponent(grade)}&lang=${encodeURIComponent(lang)}`,
+                  )}
                   onRetry={resetUnit}
-                  onBack={() => navigate(`/lessons/${lessonId}`)}
                 />
               )}
             </div>
-            {currentStep === 0 && (
-              <div className="learning-step-footer">
-                <button className="btn btn-primary" type="button" onClick={() => goToStep(currentStep + 1)} aria-label={learning.continue}>
-                  {learning.continue}
-                </button>
-              </div>
-            )}
           </>
         ) : (
           <section className="learning-card learning-coming-soon" aria-labelledby="learning-coming-title">

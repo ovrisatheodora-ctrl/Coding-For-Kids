@@ -2,9 +2,9 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
 import './LessonsSection.css';
-import playfulIdeaCube from '../../assets/Playful_Pink_Idea_Cube.png';
-import kawaiiRobot from '../../assets/Kawaii_Robot_and_Pastel_Signpost.png';
-import kawaiiCat from '../../assets/Kawaii_Cat_Designing_a_Star.png';
+import playfulIdeaCube from '../../assets/Playful_Pink_Idea_Cube.webp';
+import kawaiiRobot from '../../assets/Kawaii_Robot_and_Pastel_Signpost.webp';
+import kawaiiCat from '../../assets/Kawaii_Cat_Designing_a_Star.webp';
 
 const ILLUSTRATIONS = [playfulIdeaCube, kawaiiRobot, kawaiiCat];
 const CARD_COLORS = ['#FFE98B', '#9BD0FF', '#F7A8CE'];
@@ -36,7 +36,8 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
     >
       <span className="lesson-card-number">{card.number}</span>
       <span className="lesson-card-star" aria-hidden="true">★</span>
-      <img className="card-illustration" src={illustration} alt="" aria-hidden="true" />
+      <img className="card-illustration" src={illustration} alt="" aria-hidden="true"
+        width="240" height="240" loading="lazy" decoding="async" />
 
       <div className="lesson-card-body">
         <h3 className="lesson-card-title">{card.title}</h3>

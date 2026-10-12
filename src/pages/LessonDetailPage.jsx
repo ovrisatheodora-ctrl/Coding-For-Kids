@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom';
-import grade12Asset from '../assets/Grade 1-2.png';
-import grade34Asset from '../assets/Grade 3-4.png';
-import grade56Asset from '../assets/Grade 5-6.png';
-import grade12StarAsset from '../assets/Grade 1-2.png';
-import learnAsset from '../assets/Learn.png';
-import gameAsset from '../assets/Game.png';
-import logicIllustration from '../assets/LOGIKA & ALGORITMA.png';
-import codingIllustration from '../assets/CODING DASAR.png';
-import creativeIllustration from '../assets/CODING KREATIF & PROYEK.png';
+import grade12Asset from '../assets/Grade 1-2.webp';
+import grade34Asset from '../assets/Grade 3-4.webp';
+import grade56Asset from '../assets/Grade 5-6.webp';
+import grade12StarAsset from '../assets/Grade 1-2.webp';
+import learnAsset from '../assets/Learn.webp';
+import gameAsset from '../assets/Game.webp';
+import logicIllustration from '../assets/LOGIKA & ALGORITMA.webp';
+import codingIllustration from '../assets/CODING DASAR.webp';
+import creativeIllustration from '../assets/CODING KREATIF & PROYEK.webp';
 import { setGrade as saveGrade, setLanguage as saveLang } from '../data/progress';
+import { navigateBack } from '../utils/navigateBack';
 import './LessonDetailPage.css';
 
 const GRADE_ASSETS = {
@@ -36,7 +37,7 @@ const LESSON_META = {
   },
 };
 
-function LessonDetailPage({ t, lang: appLang, onLangChange }) {
+function LessonDetailPage({ t, lang: appLang, onLangChange, isBackNavigation }) {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -51,6 +52,8 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
   const pathSectionRef = useRef(null);
 
   useEffect(() => {
+    if (isBackNavigation) return undefined;
+
     const nextSection = selectedLang ? pathSectionRef.current : languageSectionRef.current;
 
     if (selectedGrade && nextSection) {
@@ -67,13 +70,22 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
     }
 
     return undefined;
-  }, [selectedGrade, selectedLang]);
+  }, [isBackNavigation, selectedGrade, selectedLang]);
 
   if (!meta || !lesson) {
     return (
       <main className="lesson-detail-page container">
         <h1>Lesson not found</h1>
-        <Link to="/lessons" className="btn btn-primary">← Back to Lessons</Link>
+        <Link
+          to="/lessons"
+          className="btn btn-primary"
+          onClick={(event) => {
+            event.preventDefault();
+            navigateBack(navigate, '/lessons');
+          }}
+        >
+          ← {t.learning.back}
+        </Link>
       </main>
     );
   }
@@ -94,9 +106,12 @@ function LessonDetailPage({ t, lang: appLang, onLangChange }) {
     <main id="main-content" className="lesson-detail-page">
       {/* Hero banner */}
       <div className="ld-hero-shell container">
-        <Link to="/lessons" className="ld-back">
+        <Link
+          to="/lessons"
+          className="ld-back"
+        >
           <span className="ld-back-arrow" aria-hidden="true">←</span>
-          {ld.backToLessons}
+          {t.learning.back}
         </Link>
 
         <section

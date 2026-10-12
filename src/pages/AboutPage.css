@@ -1,13 +1,19 @@
 .about-page {
-  min-height: 100vh;
-  padding: 108px 24px 64px;
-  background: var(--cream);
+  position: relative;
+  isolation: isolate;
+  min-height: 0;
+  padding: 108px 24px 24px;
+  background: transparent;
 }
 
 .about-shell {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 38px;
+  min-height: 0;
+  padding-bottom: 8px;
 }
 
 .about-intro {
@@ -25,27 +31,8 @@
 }
 
 .about-intro-copy {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.about-intro-icon {
-  display: grid;
-  width: 70px;
-  height: 70px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: var(--border);
-  border-radius: 20px;
-  background: var(--blossom);
-  box-shadow: 3px 3px 0 var(--outline);
-}
-
-.about-intro-icon img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
+  min-width: 0;
+  text-align: left;
 }
 
 .about-title {
@@ -95,6 +82,17 @@
   line-height: 1;
 }
 
+.about-game-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  transform: translateY(5px) scale(2);
+}
+
+.about-game-icon--age {
+  transform: translateY(10px) scale(3);
+}
+
 .about-section {
   animation: slide-up 0.5s ease both;
 }
@@ -114,7 +112,7 @@
 .about-section-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   margin: 0 0 16px;
   color: var(--outline);
   font-family: var(--font-display);
@@ -122,14 +120,26 @@
   font-weight: 900;
 }
 
-.about-section-title svg {
+.about-section-title svg,
+.about-section-star {
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
+}
+
+.about-section-title svg {
   fill: var(--banana);
   stroke: var(--outline);
   stroke-linejoin: round;
   stroke-width: 1.6;
+}
+
+.about-section-star {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  transform: scale(1.625);
 }
 
 .about-learning-layout {
@@ -183,6 +193,17 @@
   line-height: 1;
 }
 
+.about-step-icon img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.about-step-icon--aligned {
+  transform: translateX(-6px) scale(1.25);
+}
+
 .about-step:not(:last-child)::after {
   position: absolute;
   top: 22px;
@@ -221,6 +242,8 @@
   height: 90px;
   margin: 0 auto 6px;
   object-fit: contain;
+  transform: translateX(-55px) scale(2.8);
+  transform-origin: center;
 }
 
 .about-features {
@@ -246,6 +269,33 @@
   margin-bottom: 2px;
   font-size: 2rem;
   line-height: 1;
+}
+
+.about-award-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transform: scale(1.25);
+}
+
+.about-game-feature-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transform: scale(1.4);
+}
+
+.about-feature-icon--games,
+.about-feature-icon--robot,
+.about-feature-icon--phone {
+  transform: scale(1.6);
+}
+
+.about-book-feature-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transform: scale(1.6);
 }
 
 .about-feature-card h3 {
@@ -315,6 +365,20 @@
   font-size: 1.8rem;
 }
 
+.about-badge-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.about-badge-icon--enlarged {
+  transform: scale(1.5);
+}
+
+.about-badge-icon--creative {
+  transform: translateY(-2px) scale(1.35);
+}
+
 .about-badge-copy {
   min-width: 0;
 }
@@ -362,10 +426,6 @@
     grid-template-columns: 1fr;
   }
 
-  .about-intro-copy {
-    padding-right: clamp(120px, 20vw, 150px);
-  }
-
   .about-mascot {
     display: none;
   }
@@ -383,12 +443,6 @@
   .about-page {
     padding-right: 16px;
     padding-left: 16px;
-  }
-
-  .about-intro-copy {
-    align-items: flex-start;
-    flex-direction: column;
-    padding-right: 0;
   }
 
   .about-stats {

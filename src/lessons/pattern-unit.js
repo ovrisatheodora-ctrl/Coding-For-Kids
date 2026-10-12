@@ -10,27 +10,57 @@ const patternUnit = {
     {
       key: 'material-order',
       text: {
-        id: 'Urutan adalah langkah-langkah yang dilakukan satu per satu.',
-        en: 'A sequence is a set of steps done one by one.',
+        id: 'Urutan langkah adalah langkah-langkah yang dilakukan secara berurutan untuk menyelesaikan suatu tugas atau mencapai tujuan.',
+        en: 'Step order is a sequence of actions followed to complete a task or reach a goal.',
       },
     },
     {
       key: 'material-result',
       text: {
-        id: 'Kalau urutannya salah, hasilnya bisa berubah!',
-        en: 'If the order is wrong, the result can change!',
+        id: 'Jika urutan langkah salah, hasilnya juga bisa berbeda atau tidak sesuai dengan yang diharapkan.',
+        en: 'If the steps are in the wrong order, the result may be different from what we expect.',
+      },
+    },
+    {
+      key: 'material-one-at-a-time',
+      text: {
+        id: 'Langkah dilakukan satu per satu.',
+        en: 'Follow the steps one at a time.',
+      },
+    },
+    {
+      key: 'material-no-skipping',
+      text: {
+        id: 'Tidak boleh ada langkah yang terlewat.',
+        en: 'Do not skip any steps.',
+      },
+    },
+    {
+      key: 'material-right-order',
+      text: {
+        id: 'Urutan harus sesuai agar hasilnya benar.',
+        en: 'Keep the steps in the right order to get the correct result.',
       },
     },
   ],
   example: {
+    heading: {
+      id: 'Lihat Contoh Urutan Langkahnya!',
+      en: 'See an Example of the Step Order!',
+    },
+    description: {
+      id: 'Perhatikan gambar di bawah ini. Ini adalah contoh bagaimana urutan langkah yang benar dalam menyelesaikan sebuah tugas.',
+      en: 'Look at the pictures below. They show the correct order of steps for completing a task.',
+    },
     sequence: [
-      { id: 'bangun', symbol: '🛏️', label: { id: 'bangun tidur', en: 'wake up' } },
-      { id: 'sikat', symbol: '🪥', label: { id: 'sikat gigi', en: 'brush teeth' } },
-      { id: 'sekolah', symbol: '🎒', label: { id: 'siap ke sekolah', en: 'ready for school' } },
+      { id: 'prepare', symbol: '🧰', label: { id: 'Ambil alat dan bahan', en: 'Gather tools and materials' } },
+      { id: 'follow', symbol: '📝', label: { id: 'Kerjakan sesuai petunjuk', en: 'Follow the instructions' } },
+      { id: 'check', symbol: '✅', label: { id: 'Periksa hasilnya', en: 'Check the result' } },
+      { id: 'finish', symbol: '🏁', label: { id: 'Selesai!', en: 'Finished!' } },
     ],
     caption: {
-      id: 'Bangun tidur → Sikat gigi → Siap ke sekolah',
-      en: 'Wake up → Brush teeth → Ready for school',
+      id: 'Ambil alat dan bahan → Kerjakan sesuai petunjuk → Periksa hasilnya → Selesai!',
+      en: 'Gather tools and materials → Follow the instructions → Check the result → Finished!',
     },
   },
   activity: {

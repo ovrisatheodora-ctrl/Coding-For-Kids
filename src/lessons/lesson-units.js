@@ -1030,13 +1030,15 @@ const createTopic = ({ id, lessonId, grade, title, material, example, activity, 
   },
   activity: {
     id: `${id}-activity`,
-    type: 'pick',
+    type: activity.type || 'pick',
     title: activity.title,
-    sequence: activity.sequence,
-    options: activity.options,
+    ...(activity.type === 'order'
+      ? { items: activity.items }
+      : { sequence: activity.sequence, options: activity.options }),
     answer: activity.answer,
-    success: { id: '🎉 Hebat, benar!', en: '🎉 Great, correct!' },
-    hint: { id: 'Hampir! Coba lagi ya 💪', en: 'Almost! Try again 💪' },
+    success: activity.success || { id: '🎉 Hebat, benar!', en: '🎉 Great, correct!' },
+    hint: activity.hint || { id: 'Hampir! Coba lagi ya 💪', en: 'Almost! Try again 💪' },
+    retry: activity.retry,
   },
   questions,
   badgeId,
@@ -1058,10 +1060,17 @@ const logicG34Subtopics = [
       caption: { id: 'Pakai sabun → Bilas → Keringkan', en: 'Use soap → Rinse → Dry' },
     },
     activity: {
+      type: 'order',
       title: { id: 'Susun langkah mencuci tangan', en: 'Arrange handwashing steps' },
-      sequence: ['Basahi tangan', 'Pakai sabun', 'Bilas', 'Keringkan'],
-      options: ['Basahi tangan', 'Pakai sabun', 'Bilas', 'Keringkan'],
-      answer: 'Pakai sabun',
+      items: [
+        { id: 'wet', emoji: '💧', label: { id: 'Basahi tangan', en: 'Wet hands' } },
+        { id: 'soap', emoji: '🧼', label: { id: 'Pakai sabun', en: 'Use soap' } },
+        { id: 'rinse', emoji: '🚿', label: { id: 'Bilas', en: 'Rinse' } },
+        { id: 'dry', emoji: '🧻', label: { id: 'Keringkan', en: 'Dry' } },
+      ],
+      answer: ['wet', 'soap', 'rinse', 'dry'],
+      success: { id: '🎉 Hebat! Urutan mencuci tanganmu benar.', en: '🎉 Great! Your handwashing steps are in the right order.' },
+      retry: { id: 'Urutannya belum tepat. Coba susun lagi ya!', en: 'That order is not quite right. Try arranging the steps again!' },
     },
     questions: [
       {

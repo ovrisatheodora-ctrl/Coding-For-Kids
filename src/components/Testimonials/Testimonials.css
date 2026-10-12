@@ -1,4 +1,28 @@
 /* ===== Testimonials ===== */
+
+/* Replace motion.h2 fade-up with a pure CSS animation */
+.testimonials-title-anim {
+  animation: slide-up 0.45s ease-out both;
+  animation-play-state: paused;
+  /* Fire when the element scrolls into view */
+  animation-timeline: view();
+  animation-range: entry 0% entry 50%;
+}
+
+/* Fallback for browsers without animation-timeline */
+@supports not (animation-timeline: view()) {
+  .testimonials-title-anim {
+    animation: slide-up 0.45s ease-out forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-title-anim {
+    animation: none;
+  }
+}
+
+
 .testimonials-section {
   position: relative;
   overflow: hidden;
@@ -19,6 +43,13 @@
   grid-column: 2;
   font-size: clamp(2rem, 4.5vw, 3.4rem);
   text-align: center;
+}
+
+.testimonials-subtitle {
+  grid-column: 2;
+  margin: 0 auto;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .testimonials-deco {

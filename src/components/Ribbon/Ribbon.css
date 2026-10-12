@@ -25,7 +25,15 @@
 
 .ribbon-track {
   display: flex;
+  /* Pure CSS marquee — runs on compositor thread, no JS layout reads */
+  width: max-content;
+  animation: ribbon-scroll 8s linear infinite;
   will-change: transform;
+}
+
+@keyframes ribbon-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(var(--ribbon-shift, -50%)); }
 }
 
 .ribbon-content {
@@ -45,25 +53,22 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #11112F;
-  padding: 0 12px;
-  gap: 12px;
+  padding: 0 24px;
 }
 
-.ribbon-sep {
-  color: var(--banana);
-  font-size: 0.9rem;
-  margin-left: 12px;
-}
-
-.ribbon-item:nth-child(even) .ribbon-sep {
-  color: var(--banana);
-}
-
-/* Reduce motion: just show static */
+/* Reduce motion: show static */
 @media (prefers-reduced-motion: reduce) {
+  .ribbon-track {
+    animation: none;
+  }
+
   .ribbon-content {
     flex-wrap: wrap;
     justify-content: center;
     padding: 14px 24px;
+  }
+
+  .ribbon-content[aria-hidden="true"] {
+    display: none;
   }
 }

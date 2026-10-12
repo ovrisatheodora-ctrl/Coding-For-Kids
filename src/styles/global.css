@@ -3,9 +3,6 @@
    All CSS variables + base resets + utility classes
    ============================================================ */
 
-/* ---------- Google Fonts Import (must be first) ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Lilita+One&family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
-
 /* ---------- CSS Variables / Design Tokens ---------- */
 :root {
   --blossom:   #FFD1F3;
@@ -134,7 +131,7 @@ ul, ol {
 
 .btn:hover {
   transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: var(--shadow-active);
 }
 
 .btn:active {
