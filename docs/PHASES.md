@@ -187,5 +187,9 @@ ing subtopics instead of pinning it to the bottom of the material panel.
 - Added the Lessons-style slide-up entrance animation to the Home hero and disabled it for reduced-motion preferences.
 - Removed stars from the scrolling ribbon, ensured repeated text covers the viewport continuously, and increased its speed again to an 8-second loop.
 - Restored the shared Home/About footer dimensions to their previous sizing after the supplied reference styling made the footer too large; retained the existing shared localized content and controls.
+- Corrected mobile overflow on five-topic lesson grids, allowed progress and testimonial labels to wrap at narrow widths, and retained the existing desktop layouts.
+- Matched the About page's Age-appropriate stat icon scale to its neighboring icons and added compact mobile spacing below the Badge Collection subtitle.
+- Added tablet-specific layouts for the Home hero, About learning process, Games banner, navigation, and footer at 701–1024px without changing wider desktop rules.
+- Removed the crossed-out reward illustration, enlarged the IOS Champion icon beside the reward title, and replaced the badge emoji with a compressed IOS Badge Champion asset.
 
 If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.

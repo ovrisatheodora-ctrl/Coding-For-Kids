@@ -1837,3 +1837,195 @@ Reference: apply the supplied footer layout to About while keeping its content c
 #315 - 2026-10-12 12:26 WIB
 Tool: Copilot (VS Code Chat)
 Prompt: ukurannya bener yg tadi footernya. balikin ke yang tadi
+
+#316 — 2026-10-12 14:31 WIB
+Tool: Copilot (VS Code Chat)
+Prompt:
+Please fix the **responsive layout of the Coding for Kids website specifically for iPad and tablet devices**, based on the provided screenshots.
+
+Currently, the website does not display optimally on iPad. Some elements appear too small, the content layout feels unbalanced, and certain sections may be clipped or improperly aligned. Please identify and fix these issues directly in the existing codebase.
+
+## 1. Main Focus: iPad Responsiveness
+
+- Ensure all pages display proportionally on iPad in both portrait and landscape orientations.
+- Use appropriate tablet breakpoints, particularly for viewport widths between 768px and 1024px.
+- Account for CSS viewport dimensions rather than relying solely on physical device dimensions.
+- Ensure layouts adapt to the available viewport width instead of relying on fixed dimensions that cause overflow.
+- Eliminate unnecessary horizontal scrolling.
+- Prevent elements from being clipped, overlapping, overflowing their containers, or appearing too cramped.
+
+## 2. Fix the Navigation Bar
+
+- Adjust the navbar dimensions, logo, navigation text, and buttons to fit iPad screens proportionally.
+- Improve spacing between navigation elements so they do not appear crowded or overlap.
+- Ensure all navigation items, including Home, Lessons, Games, About, the language selector, and Get Started, remain visible and functional.
+- If space is insufficient, adjust spacing and element sizes responsively. Introduce a hamburger menu only if genuinely necessary, while preserving the existing desktop design as much as possible.
+
+## 3. Fix Each Page Section
+
+### Home Page
+
+- Adjust the hero section, mascot illustrations, headings, descriptions, and buttons to fit the available screen space.
+- Prevent the mascot from overlapping other elements.
+- Maintain a balanced composition without making the content unnecessarily small.
+
+### About Page
+
+- Adjust the information card width to use the available screen space proportionally.
+- Improve the layout of the Learning Process section so that columns, icons, and text are properly aligned.
+- Maintain consistent padding, spacing, and alignment throughout the page.
+
+### Games Page
+
+- Adjust the Petualangan Coding banner, heading, description, mascot illustrations, and progress bar.
+- Ensure all elements remain inside their intended containers without causing overflow.
+- Resize and reposition illustrations responsively while preserving their original aspect ratios.
+Apply similar fixes to any other pages or sections that exhibit responsive layout issues.
+
+## 4. Preserve the Original Design
+
+- Maintain the existing Coding for Kids visual identity, including pastel colors, black outlines, rounded corners, playful shadows, typography, illustrations, and mascots.
+- Do not redesign the website.
+- Do not remove content, replace existing assets, or change working functionality without a clear technical reason.
+- Do not negatively affect the existing desktop layout.
+- Do not simply shrink every element to make everything fit on the screen.
+
+## 5. Technical Requirements
+
+- Inspect the existing HTML, components, and CSS before making changes.
+- Identify the root causes of the responsive issues, such as fixed widths or heights, negative margins, absolute positioning, `100vw` overflow, inflexible grid or flex layouts, or incorrect breakpoints.
+- Use responsive techniques such as Flexbox, CSS Grid, `max-width`, percentage-based sizing, `minmax()`, `clamp()`, and media queries where appropriate.
+- Avoid using `transform: scale()` as the primary solution for shrinking the entire layout.
+- Avoid accumulating redundant CSS overrides. Fix the underlying rules responsible for the problems.
+- Ensure images and illustrations resize responsively while preserving their aspect ratios.
+- Keep interactive elements comfortable to tap on touchscreen devices.
+
+## 6. Testing and Validation
+After implementing the fixes:
+
+- Test the layout at viewport sizes of 768 × 1024, 820 × 1180, and 1024 × 768.
+- Verify both portrait and landscape orientations.
+- Check the navbar, hero section, cards, illustrations, text, buttons, and footer.
+- Inspect the Home, About, Games, and all other relevant pages.
+- Ensure there is no horizontal overflow, overlapping content, or clipped elements.
+- Confirm that the existing mobile and desktop layouts remain functional and visually consistent.
+
+## Implementation Instructions
+**Implement the fixes directly in the relevant files of the existing project. Do not just provide suggestions or example code.**
+
+Before finishing, explain which files were modified, the root causes of the issues, and the changes made.
+
+Prioritize minimal, clean, and maintainable fixes that preserve the original design. The goal is to make the website look natural, polished, and professional on iPad—not merely to force every element to fit on the screen.
+
+#317 — 2026-10-12 14:31 WIB
+Tool: Copilot (VS Code Chat)
+Prompt: ganti emoji menjadi ios sprikle dan ios champion serta asset baru yaitu ios badge champion (sekalian di kompres )
+
+#318 — 2026-10-12 14:31 WIB
+Tool: Copilot (VS Code Chat)
+Prompt: hapus yang saya silang lalu yang saya ceklis besarkan banget agar selaras dengan kalimatnya
+Reference: screenshot showing crossed-out reward illustration and checked reward-title icon.
+
+#319 — 2026-10-12 14:33 WIB
+Tool: Copilot (VS Code Chat)
+Prompt: naikkan lagi assetnya yang ini
+Reference: screenshot pointing to the IOS Champion icon beside the reward title.
+
+#320 — 2026-10-12 16:10 WIB
+Tool: Copilot (VS Code Chat)
+Prompt:
+You are a senior React + Vite engineer. Work directly in this existing project
+(Coding for Kids: React, Vite, GSAP, Motion, React Router). Do not redesign
+anything. Make focused, minimal edits and preserve all existing behavior,
+visuals, animations, routes, translations (src/data/i18n.js), lesson content,
+progress logic (src/data/progress.js), and AI Tutor behavior.
+
+Do the tasks below in order. Inspect the real files before editing.
+
+## TASK 1 - Check repository hygiene first
+1. Run `git status --short | wc -l` (or the PowerShell equivalent) and explain
+   why about 281 files show as changed.
+2. Check whether `dist/` is listed in `.gitignore`. If it is not, add `dist`
+   and `node_modules` to `.gitignore`, and if `dist/` is already tracked, run
+   `git rm -r --cached dist` (do NOT delete files from disk, do NOT commit).
+3. List which changed files are real source changes versus generated files
+   (dist, optimized images, lockfiles). Do not revert anything without asking.
+
+## TASK 2 - Fix the ESLint output (without suppressing rules)
+Run `npm run lint` and fix all 19 problems (18 errors, 1 warning).
+Known items:
+- `src/pages/NotFoundPage.jsx` line ~4: `t` is defined but never used.
+- Several `no-unused-vars` errors in the lessons/projects data around lines
+  734, 891, 954: `creativeG5 6ScoreProject`, `creativeG3 4ProjectSteps`,
+  `creativeG5 6ProjectSteps` (read the exact names in the file) are assigned
+  but never used.
+- `react-hooks/exhaustive-deps` warning in `src/App.jsx` line ~33: missing
+  dependency `location.state?.scrollBehavior`.
+
+Rules:
+- For each unused variable, first search the whole project for any usage
+  (including dynamic access, string keys, and exports). If it is truly unused,
+  remove it. If it looks like unfinished content that should be wired into a
+  lesson, do NOT delete it; tell me and leave it as is.
+- Do NOT use `eslint-disable` comments and do NOT change ESLint config to
+  hide errors.
+- For the hook dependency warning, fix it correctly (add the dependency or
+  restructure with a ref) and verify that scroll-to-section behavior on
+  navigation does not change.
+- Re-run `npm run lint` until it reports 0 errors, and show me the output.
+
+## TASK 3 - Remaining performance issues (from my latest Lighthouse report)
+Current state: CLS 0.001 and TBT 0 ms are already good. The remaining issues:
+- Forced reflow ~63 ms from `src/App.jsx` around line 39.
+- LCP (img.robot-image) is slow; "resource load delay" was ~680 ms.
+- `img.card-illustration` lesson images are served at 480w while displayed at
+  240x240 / 283x240.
+- Footer social icons (`Logo WA.webp`, `Logo Insta.webp`, and probably
+  `Logo LinkId.webp` and `IOS Star.webp`) are 200x200 but displayed at 72x72.
+- `src/data/i18n.js` is about 100 KB and `AiTutor.jsx` about 54 KB.
+
+Do the following:
+1. App.jsx forced reflow: find the code near line 39 that reads layout
+   (offsetWidth, offsetHeight, getBoundingClientRect, scrollTop, etc.)
+   right after a DOM or style change. Batch reads before writes, or move the
+   work into `requestAnimationFrame`/`useLayoutEffect` only if it genuinely
+   helps. Keep the exact same scroll behavior.
+2. Lesson card images: make `sizes`/`srcSet` match the real rendered size so
+   the browser picks the 240w file on normal-DPR screens. Keep explicit
+   width/height with the correct aspect ratio (the robot image is about
+   283x240, not 240x240) to avoid layout shift.
+3. Footer icons: generate 72w and 144w versions (reuse the existing
+   resize script in /scripts, do not install new tools), and use srcSet with
+   explicit width/height. Keep transparency and quality.
+4. i18n: only if it is safe, keep the default language statically available
+   and lazy-load the other language file when the user switches language.
+   Do not delete or alter any translation key. If it is not safe, skip and
+   explain why.
+5. Confirm AiTutor is lazy-loaded with React.lazy/Suspense and that its
+   floating button (`.ai-tutor-fab`) keeps a fixed position with no layout
+   shift. Do not hide or remove it.
+6. Do not touch the hero image (it must stay eager with fetchpriority="high").
+
+## TASK 4 - Validate on the PRODUCTION build (not the dev server)
+1. Run `npm run build` and fix any errors. Show the list of output chunks
+   with sizes (gzip) and name the 3 largest JS chunks.
+2. Run `npm run preview -- --host 127.0.0.1` and open
+   `http://127.0.0.1:4173/`. Do NOT use localhost:5173 for measurements.
+3. If a Lighthouse CLI is already available (npx lighthouse is acceptable only
+   if it runs without installing anything globally), run it in mobile mode
+   against port 4173 and report Performance, FCP, LCP, TBT, CLS, Speed Index.
+   If it cannot run, give me exact manual steps for Chrome DevTools in an
+   Incognito window with extensions disabled.
+4. Check the browser console for errors and failed network requests on these
+   routes: `/`, `/lessons/creative-coding`, and a 404 route. Verify language
+   switching (ID/EN), the AI Tutor button, the testimonials marquee, and the
+   skip-link ("Skip to main content") is visually hidden until focused with Tab.
+
+## RULES
+- Do not commit anything. Leave all changes uncommitted so I can review them.
+- Do not change dependency versions or the package manager.
+- Do not claim a score improvement unless Lighthouse was actually run on the
+  production build and you observed the result.
+- At the end, give a report: root causes, files changed and why, lint result,
+  build chunk sizes, measured metrics (before/after only if both were
+  measured), remaining bottlenecks, and manual steps I still need to do.
