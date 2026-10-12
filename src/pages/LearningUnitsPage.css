@@ -1,7 +1,6 @@
 .learning-units-page {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
+  min-height: 0;      /* content-driven height; no forced 100vh blank space */
   padding: 112px 24px 80px;
   background-color: #F3EEE3;
   background-image:
@@ -230,6 +229,12 @@
   .learning-unit-card:nth-child(5) {
     grid-column: auto;
   }
+
+  .learning-units-grid[data-unit-count="4"] .learning-unit-card:nth-child(4),
+  .learning-units-grid[data-unit-count="5"] .learning-unit-card:nth-child(4),
+  .learning-units-grid[data-unit-count="5"] .learning-unit-card:nth-child(5) {
+    grid-column: auto;
+  }
 }
 
 @media (max-width: 480px) {
@@ -253,6 +258,10 @@
 
   .learning-unit-title {
     font-size: 1rem;
+    display: block;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    -webkit-line-clamp: unset;
   }
 }
 

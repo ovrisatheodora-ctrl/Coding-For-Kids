@@ -2,7 +2,7 @@
   position: relative;
   isolation: isolate;
   min-height: 0;
-  padding: 108px 24px 24px;
+  padding: 108px 24px 64px;  /* increased bottom padding for footer separation */
   background: transparent;
 }
 
@@ -13,7 +13,7 @@
   flex-direction: column;
   gap: 38px;
   min-height: 0;
-  padding-bottom: 8px;
+  padding-bottom: 24px;      /* additional inner bottom padding */
 }
 
 .about-intro {
@@ -402,6 +402,17 @@
   line-height: 1.25;
 }
 
+/* ── 1280px: step capsules start to feel cramped at full width ── */
+@media (max-width: 1280px) {
+  .about-steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .about-step:nth-child(5)::after {
+    display: none;
+  }
+}
+
 @media (max-width: 1100px) {
   .about-steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -421,9 +432,57 @@
   }
 }
 
+@media (max-width: 880px) {
+  .about-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .about-stat {
+    flex-direction: row;
+    justify-content: flex-start;
+    border-left: 0;
+    text-align: left;
+  }
+
+  .about-mascot {
+    display: none;
+  }
+
+  .about-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-badges {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .about-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 20px;
+  }
+}
+
 @media (max-width: 760px) {
   .about-intro {
     grid-template-columns: 1fr;
+  }
+
+  .about-stat > span {
+    display: flex;
+    width: 72px;
+    height: 72px;
+    flex: 0 0 72px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-game-icon--age {
+    transform: translateY(5px) scale(2);
   }
 
   .about-mascot {
@@ -445,6 +504,15 @@
     padding-left: 16px;
   }
 
+  .about-badges-heading {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .about-badges-heading .about-section-title {
+    margin-bottom: 0;
+  }
+
   .about-stats {
     grid-template-columns: 1fr;
     gap: 8px;
@@ -464,6 +532,57 @@
 
   .about-step p {
     max-width: 200px;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+  }
+
+  .about-badges {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .about-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1024px) {
+  .about-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .about-stat {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8px;
+    padding-left: 8px;
+    border-left: 2px solid rgba(17, 17, 17, 0.25);
+    text-align: center;
+  }
+
+  .about-stat:first-child {
+    border-left: 0;
+  }
+
+  .about-learning-layout {
+    gap: clamp(12px, 1.8vw, 18px);
+  }
+
+  .about-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    row-gap: 20px;
+  }
+
+  .about-mascot {
+    display: block;
+    width: clamp(104px, 14vw, 140px);
+    flex-basis: clamp(104px, 14vw, 140px);
   }
 }
 
