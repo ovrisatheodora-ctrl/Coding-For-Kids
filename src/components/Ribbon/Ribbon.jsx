@@ -13,16 +13,27 @@ function Ribbon({ text }) {
     const content = firstContentRef.current;
     if (!wrapper || !content) return undefined;
 
-    const updateCopies = () => {
-      const contentWidth = content.getBoundingClientRect().width;
-      if (!contentWidth) return;
+    // Use ResizeObserver contentRect directly — avoids forced synchronous layout
+    // that happens when reading offsetWidth/getBoundingClientRect after mutations.
+    let wrapperWidth = 0;
+    let contentWidth = 0;
 
-      setCopies(Math.max(2, Math.ceil(wrapper.clientWidth / contentWidth) + 1));
+    const recalc = () => {
+      if (!contentWidth || !wrapperWidth) return;
+      setCopies(Math.max(2, Math.ceil(wrapperWidth / contentWidth) + 1));
       setShift(`-${contentWidth}px`);
     };
 
-    updateCopies();
-    const observer = new ResizeObserver(updateCopies);
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const w = entry.contentRect.width;
+        if (!w) continue;
+        if (entry.target === wrapper) wrapperWidth = w;
+        if (entry.target === content) contentWidth = w;
+      }
+      recalc();
+    });
+
     observer.observe(wrapper);
     observer.observe(content);
     return () => observer.disconnect();

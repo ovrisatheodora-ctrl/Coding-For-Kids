@@ -13,7 +13,7 @@
   fill: var(--star-fill);
   stroke: var(--star-line);
   stroke-linejoin: round;
-  opacity: 0.58;
+  opacity: 0.3;
 }
 
 .hero-paper-star--right {
@@ -23,6 +23,6 @@
 @media (max-width: 700px) {
   .hero-paper-star {
     --star-scale: 0.6;
-    opacity: 0.6;
+    opacity: 0.3;
   }
 }

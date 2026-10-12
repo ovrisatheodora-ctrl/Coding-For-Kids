@@ -2,11 +2,33 @@ import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
 import './LessonsSection.css';
-import playfulIdeaCube from '../../assets/Playful_Pink_Idea_Cube.webp';
-import kawaiiRobot from '../../assets/Kawaii_Robot_and_Pastel_Signpost.webp';
-import kawaiiCat from '../../assets/Kawaii_Cat_Designing_a_Star.webp';
+import playfulIdeaCube240 from '../../assets/optimized/pink-cube-240w.webp';
+import playfulIdeaCube480 from '../../assets/optimized/pink-cube-480w.webp';
+import kawaiiRobot240 from '../../assets/optimized/kawaii-robot-240w.webp';
+import kawaiiRobot480 from '../../assets/optimized/kawaii-robot-480w.webp';
+import kawaiiCat240 from '../../assets/optimized/kawaii-cat-240w.webp';
+import kawaiiCat480 from '../../assets/optimized/kawaii-cat-480w.webp';
 
-const ILLUSTRATIONS = [playfulIdeaCube, kawaiiRobot, kawaiiCat];
+const ILLUSTRATIONS = [
+  {
+    src: playfulIdeaCube240,
+    srcSet: `${playfulIdeaCube240} 240w, ${playfulIdeaCube480} 480w`,
+    width: 240,
+    height: 240,
+  },
+  {
+    src: kawaiiRobot240,
+    srcSet: `${kawaiiRobot240} 240w, ${kawaiiRobot480} 480w`,
+    width: 283,
+    height: 240,
+  },
+  {
+    src: kawaiiCat240,
+    srcSet: `${kawaiiCat240} 240w, ${kawaiiCat480} 480w`,
+    width: 336,
+    height: 240,
+  },
+];
 const CARD_COLORS = ['#FFE98B', '#9BD0FF', '#F7A8CE'];
 const CARD_LEVELS = [2, 2, 2];
 
@@ -36,8 +58,18 @@ function LessonCard({ card, exploreLabel, levelLabel, levelAriaLabel, index, vis
     >
       <span className="lesson-card-number">{card.number}</span>
       <span className="lesson-card-star" aria-hidden="true">★</span>
-      <img className="card-illustration" src={illustration} alt="" aria-hidden="true"
-        width="240" height="240" loading="lazy" decoding="async" />
+      <img
+        className="card-illustration"
+        src={illustration.src}
+        srcSet={illustration.srcSet}
+        sizes="240px"
+        alt=""
+        aria-hidden="true"
+        width={illustration.width}
+        height={illustration.height}
+        loading="lazy"
+        decoding="async"
+      />
 
       <div className="lesson-card-body">
         <h3 className="lesson-card-title">{card.title}</h3>

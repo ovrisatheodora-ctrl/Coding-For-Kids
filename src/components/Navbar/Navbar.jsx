@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
 import logo from '../../assets/Logo_Coding.webp';
+import logo84 from '../../assets/optimized/logo-84w.webp';
+import logo162 from '../../assets/optimized/logo-162w.webp';
 import { scrollToHomeLessons } from '../../utils/scrollToHomeLessons';
 import './Navbar.css';
 
@@ -34,7 +36,16 @@ function Navbar({ t, lang, onLangChange }) {
       <nav className="navbar" aria-label="Main navigation">
         {/* Logo */}
         <Link to="/" className="navbar-logo" aria-label="Coding for Kids Home">
-          <img src={logo} alt="" aria-hidden="true" width="162" height="162" />
+          <img
+            src={logo84}
+            srcSet={`${logo84} 84w, ${logo162} 162w, ${logo} 324w`}
+            sizes="(max-width: 600px) 40px, 81px"
+            alt=""
+            aria-hidden="true"
+            width="162"
+            height="162"
+            decoding="async"
+          />
           <span className="navbar-logo-text">{t.nav.logo}</span>
         </Link>
 

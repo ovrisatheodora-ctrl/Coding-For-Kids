@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowLabel from '../ArrowLabel';
 import RobotMascot from '../RobotMascot/RobotMascot';
@@ -11,6 +11,7 @@ function Hero({ t }) {
   const titleRef = useRef(null);
 
   // Reveal title words without overriding their individual rotations.
+  // Runs after paint so no layout reads happen in the critical path.
   useEffect(() => {
     const words = titleRef.current?.querySelectorAll('.hero-word');
     words?.forEach((el, i) => {
@@ -116,7 +117,7 @@ function Hero({ t }) {
           </svg>
         </div>
 
-        {/* Right: mascot */}
+        {/* Right: mascot — LCP element, loaded eagerly */}
         <div className="hero-mascot">
           <RobotMascot />
         </div>
@@ -125,4 +126,4 @@ function Hero({ t }) {
   );
 }
 
-export default Hero;
+export default memo(Hero);

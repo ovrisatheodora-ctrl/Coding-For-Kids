@@ -222,8 +222,20 @@
   }
 
   .testimonials-header {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 8px;
     margin-bottom: 24px;
+  }
+
+  .testimonials-header .section-title {
+    min-width: 0;
+  }
+
+  .testimonials-subtitle {
+    grid-column: 1 / -1;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .testimonials-deco {

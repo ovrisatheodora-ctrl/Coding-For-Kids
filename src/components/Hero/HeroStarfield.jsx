@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import './HeroStarfield.css';
 
 const heroStars = [
@@ -88,4 +89,4 @@ function HeroStarfield({ className = 'hero-edge-background' }) {
   );
 }
 
-export default HeroStarfield;
+export default memo(HeroStarfield);

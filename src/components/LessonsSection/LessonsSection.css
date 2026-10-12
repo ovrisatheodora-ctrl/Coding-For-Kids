@@ -321,6 +321,16 @@
   }
 }
 
+@media (max-width: 400px) {
+  .lesson-card-body {
+    width: 55%;          /* slightly narrower to ensure illustration doesn't overlap text */
+  }
+
+  .lesson-card {
+    min-height: 200px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lesson-card,
   .card-illustration,

@@ -59,6 +59,16 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* React root: fill flex parent so footer is pushed to the bottom */
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 
 img, svg {
@@ -82,11 +92,22 @@ ul, ol {
   list-style: none;
 }
 
+/* Main content grows so footer stays at page bottom */
+main {
+  flex: 1;
+}
+
 /* ---------- Utility ---------- */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0 16px;
+  }
 }
 
 .section-pad {

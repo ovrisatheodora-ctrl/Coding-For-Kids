@@ -1,17 +1,40 @@
 import './Testimonials.css';
 
-import user1 from '../../assets/user1.webp';
-import user2 from '../../assets/user2.webp';
-import user3 from '../../assets/user3.webp';
-import user4 from '../../assets/user4.webp';
-import user5 from '../../assets/user5.webp';
-import user6 from '../../assets/user6.webp';
-import user7 from '../../assets/user7.webp';
-import user8 from '../../assets/user8.webp';
-import user9 from '../../assets/user9.webp';
-import user10 from '../../assets/user10.webp';
+// Optimized avatar pairs: [60w src, 120w for 2× screens]
+import u1_60 from '../../assets/optimized/user1-60w.webp';
+import u1_120 from '../../assets/optimized/user1-120w.webp';
+import u2_60 from '../../assets/optimized/user2-60w.webp';
+import u2_120 from '../../assets/optimized/user2-120w.webp';
+import u3_60 from '../../assets/optimized/user3-60w.webp';
+import u3_120 from '../../assets/optimized/user3-120w.webp';
+import u4_60 from '../../assets/optimized/user4-60w.webp';
+import u4_120 from '../../assets/optimized/user4-120w.webp';
+import u5_60 from '../../assets/optimized/user5-60w.webp';
+import u5_120 from '../../assets/optimized/user5-120w.webp';
+import u6_60 from '../../assets/optimized/user6-60w.webp';
+import u6_120 from '../../assets/optimized/user6-120w.webp';
+import u7_60 from '../../assets/optimized/user7-60w.webp';
+import u7_120 from '../../assets/optimized/user7-120w.webp';
+import u8_60 from '../../assets/optimized/user8-60w.webp';
+import u8_120 from '../../assets/optimized/user8-120w.webp';
+import u9_60 from '../../assets/optimized/user9-60w.webp';
+import u9_120 from '../../assets/optimized/user9-120w.webp';
+import u10_60 from '../../assets/optimized/user10-60w.webp';
+import u10_120 from '../../assets/optimized/user10-120w.webp';
 
-const AVATARS = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];
+// Each entry: { src, srcSet } — used for responsive avatar delivery
+const AVATARS = [
+  { src: u1_60,  srcSet: `${u1_60} 60w, ${u1_120} 120w` },
+  { src: u2_60,  srcSet: `${u2_60} 60w, ${u2_120} 120w` },
+  { src: u3_60,  srcSet: `${u3_60} 60w, ${u3_120} 120w` },
+  { src: u4_60,  srcSet: `${u4_60} 60w, ${u4_120} 120w` },
+  { src: u5_60,  srcSet: `${u5_60} 60w, ${u5_120} 120w` },
+  { src: u6_60,  srcSet: `${u6_60} 60w, ${u6_120} 120w` },
+  { src: u7_60,  srcSet: `${u7_60} 60w, ${u7_120} 120w` },
+  { src: u8_60,  srcSet: `${u8_60} 60w, ${u8_120} 120w` },
+  { src: u9_60,  srcSet: `${u9_60} 60w, ${u9_120} 120w` },
+  { src: u10_60, srcSet: `${u10_60} 60w, ${u10_120} 120w` },
+];
 const COLORS = ['#C7EF8E', '#CCF6FF', '#FFD1F3'];
 
 function TestimonialCard({ card, color, ratingLabel }) {
@@ -21,11 +44,14 @@ function TestimonialCard({ card, color, ratingLabel }) {
         <img
           className="testimonial-avatar"
           src={card.image}
+          srcSet={card.imageSrcSet || undefined}
+          sizes="60px"
           alt=""
           aria-hidden="true"
           width="60"
           height="60"
           loading="lazy"
+          decoding="async"
         />
         <div className="testimonial-author">
           <span className="testimonial-name">{card.name}</span>
@@ -75,10 +101,14 @@ function TestimonialMarquee({ cards, duration, ratingLabel, reverse = false }) {
 function Testimonials({ t }) {
   const { sectionTitle, sectionSubtitle, cards, ratingLabel } = t.testimonials;
 
-  const prepared = cards.map((card, index) => ({
-    ...card,
-    image: card.image || AVATARS[index % AVATARS.length],
-  }));
+  const prepared = cards.map((card, index) => {
+    const avatar = AVATARS[index % AVATARS.length];
+    return {
+      ...card,
+      image: card.image || avatar.src,
+      imageSrcSet: card.imageSrcSet || avatar.srcSet,
+    };
+  });
   const middle = Math.ceil(prepared.length / 2);
   const rows = [prepared.slice(0, middle), prepared.slice(middle)];
 

@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/Logo_Coding.webp';
-import instagramLogo from '../../assets/Logo Insta.webp';
-import linkedInLogo from '../../assets/Logo LinkId.webp';
-import whatsAppLogo from '../../assets/Logo WA.webp';
-import starAsset from '../../assets/IOS Star.webp';
+import logo84 from '../../assets/optimized/logo-84w.webp';
+import logo162 from '../../assets/optimized/logo-162w.webp';
+import instagramLogo72 from '../../assets/optimized/instagram-72w.webp';
+import instagramLogo144 from '../../assets/optimized/instagram-144w.webp';
+import linkedInLogo72 from '../../assets/optimized/linkedin-72w.webp';
+import linkedInLogo144 from '../../assets/optimized/linkedin-144w.webp';
+import whatsAppLogo72 from '../../assets/optimized/whatsapp-72w.webp';
+import whatsAppLogo144 from '../../assets/optimized/whatsapp-144w.webp';
+import starAsset72 from '../../assets/optimized/ios-star-72w.webp';
+import starAsset144 from '../../assets/optimized/ios-star-144w.webp';
 import './Footer.css';
 
 const FOOTER_LINKS = [
@@ -14,9 +19,9 @@ const FOOTER_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { name: 'LinkedIn', image: linkedInLogo, href: 'https://www.linkedin.com/' },
-  { name: 'WhatsApp', image: whatsAppLogo, href: 'https://www.whatsapp.com/' },
-  { name: 'Instagram', image: instagramLogo, href: 'https://www.instagram.com/' },
+  { name: 'LinkedIn', image: linkedInLogo72, srcSet: `${linkedInLogo72} 72w, ${linkedInLogo144} 144w`, href: 'https://www.linkedin.com/in/theodora-ovrisa-7221743b0?utm_source=share_via&utm_content=profile&utm_medium=member_android' },
+  { name: 'WhatsApp', image: whatsAppLogo72, srcSet: `${whatsAppLogo72} 72w, ${whatsAppLogo144} 144w`, href: 'https://wa.me/qr/GTMR553NN4DEC1' },
+  { name: 'Instagram', image: instagramLogo72, srcSet: `${instagramLogo72} 72w, ${instagramLogo144} 144w`, href: 'https://www.instagram.com/theodoraovri?rpxt=dHF2ZzNkeGdpcjdk' },
 ];
 
 function FooterNavIcon({ icon }) {
@@ -44,14 +49,34 @@ function Footer({ t, lang, onLangChange }) {
         <div className="footer-grid">
           <div className="footer-column footer-brand">
             <Link to="/" className="footer-brand-lockup">
-              <img src={logo} alt="" width="84" height="84" loading="lazy" decoding="async" />
+              <img
+                src={logo84}
+                srcSet={`${logo84} 84w, ${logo162} 162w`}
+                sizes="84px"
+                alt=""
+                width="84"
+                height="84"
+                loading="lazy"
+                decoding="async"
+              />
               <span className="footer-logo">
                 <span>{f.logo}</span>
                 <span>{f.logoLine2}</span>
               </span>
             </Link>
             <p className="footer-tagline">
-              <img className="footer-tagline-star" src={starAsset} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              <img
+                className="footer-tagline-star"
+                src={starAsset72}
+                srcSet={`${starAsset72} 72w, ${starAsset144} 144w`}
+                sizes="26px"
+                alt=""
+                aria-hidden="true"
+                width="72"
+                height="72"
+                loading="lazy"
+                decoding="async"
+              />
               {f.tagline}
             </p>
           </div>
@@ -97,7 +122,7 @@ function Footer({ t, lang, onLangChange }) {
           <div className="footer-column footer-connect">
             <h2 className="footer-heading footer-heading--connect">{f.connectLabel}</h2>
             <div className="footer-socials">
-              {SOCIAL_LINKS.map(({ name, image, href }) => (
+              {SOCIAL_LINKS.map(({ name, image, srcSet, href }) => (
                 <a
                   key={name}
                   href={href}
@@ -107,7 +132,17 @@ function Footer({ t, lang, onLangChange }) {
                   title={name}
                   className={`footer-social footer-social--${name.toLowerCase()}`}
                 >
-                  <img src={image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                  <img
+                    src={image}
+                    srcSet={srcSet}
+                    sizes="48px"
+                    alt=""
+                    aria-hidden="true"
+                    width="72"
+                    height="72"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </a>
               ))}
             </div>

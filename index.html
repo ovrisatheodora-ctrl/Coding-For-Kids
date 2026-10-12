@@ -9,6 +9,7 @@
     <meta name="description" content="Platform belajar coding interaktif untuk anak SD kelas 1–6. Belajar logika, coding dasar, dan coding kreatif melalui game, aktivitas, dan proyek seru!" />
     <meta name="keywords" content="coding untuk anak, belajar coding SD, coding games anak, programming anak, coding for kids" />
     <meta name="author" content="Coding for Kids" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="Coding for Kids ⭐ — Learn. Play. Create. Have Fun!" />
@@ -20,6 +21,22 @@
 
     <!-- Theme color -->
     <meta name="theme-color" content="#FFD1F3" />
+
+    <!--
+      Font display: declare font-display:swap before the JS bundle loads
+      to prevent FOIT (flash of invisible text) on slow connections.
+    -->
+    <style>
+      /* Prevent flash of invisible text while Nunito / Lilita One loads */
+      @font-face {
+        font-family: 'Nunito';
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Lilita One';
+        font-display: swap;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

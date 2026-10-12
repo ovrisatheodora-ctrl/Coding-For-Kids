@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import aiMascot from '../../assets/Maskot AI.webp';
+import { useState, useRef, useEffect } from 'react';
+import aiMascot88 from '../../assets/optimized/ai-mascot-88w.webp';
+import aiMascot176 from '../../assets/optimized/ai-mascot-176w.webp';
 import './AiTutor.css';
 
 const FAB_EDGE_GAP = 12;
@@ -71,17 +72,10 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
   const panelRef = useRef(null);
   const dragRef = useRef(null);
   const suppressClickRef = useRef(false);
-  const [fabPosition, setFabPosition] = useState(() => {
-    const fabSize = window.innerWidth <= 480 ? 144 : 176;
-    return clampFabPosition(
-      window.innerWidth - fabSize - 28,
-      window.innerHeight - fabSize - 28,
-      window.innerWidth,
-      window.innerHeight,
-      fabSize,
-    );
-  });
-  const positionRef = useRef(fabPosition);
+  // Initialise to null; a useEffect below sets the real position after mount,
+  // deferring the window.innerWidth read out of the render/state-init path.
+  const [fabPosition, setFabPosition] = useState(null);
+  const positionRef = useRef(null);
   const [panelPosition, setPanelPosition] = useState(null);
   const [isDraggingFab, setIsDraggingFab] = useState(false);
 
@@ -101,7 +95,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
   };
 
   const updateFabPosition = (x, y) => {
-    const fabSize = fabRef.current?.offsetWidth || 176;
+    const fabSize = window.innerWidth <= 480 ? 144 : 176;
     const nextPosition = clampFabPosition(
       x,
       y,
@@ -113,6 +107,23 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
     setFabPosition(nextPosition);
     return nextPosition;
   };
+
+  // Set initial fab position after mount — deferred to avoid layout reads during render.
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      const fabSize = window.innerWidth <= 480 ? 144 : 176;
+      const initial = clampFabPosition(
+        window.innerWidth - fabSize - 28,
+        window.innerHeight - fabSize - 28,
+        window.innerWidth,
+        window.innerHeight,
+        fabSize,
+      );
+      positionRef.current = initial;
+      setFabPosition(initial);
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -137,11 +148,17 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
 
   // Reset greeting when language changes
   useEffect(() => {
-    setMessages([{ role: 'assistant', text: ai.greeting }]);
+    const frameId = window.requestAnimationFrame(() => {
+      setMessages([{ role: 'assistant', text: ai.greeting }]);
+    });
+    return () => window.cancelAnimationFrame(frameId);
   }, [ai.greeting]);
 
   useEffect(() => {
-    setConversationLang(lang === 'en' ? 'en' : 'id');
+    const frameId = window.requestAnimationFrame(() => {
+      setConversationLang(lang === 'en' ? 'en' : 'id');
+    });
+    return () => window.cancelAnimationFrame(frameId);
   }, [lang]);
 
   const sendMessage = async () => {
@@ -261,16 +278,17 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
     );
   };
 
-  useLayoutEffect(() => {
-    if (!open || !fabPosition || !panelRef.current) return undefined;
+  // Use ResizeObserver measurements to position the panel without sync layout reads.
+  useEffect(() => {
+    const panel = panelRef.current;
+    const fab = fabRef.current;
+    if (!open || !fabPosition || !panel || !fab) return undefined;
+
+    const dimensions = { panelWidth: 0, panelHeight: 0, fabSize: 0 };
 
     const updatePanelPosition = () => {
-      const panel = panelRef.current;
-      if (!panel) return;
-
-      const panelWidth = panel.offsetWidth || 480;
-      const panelHeight = panel.offsetHeight || 560;
-      const fabSize = fabRef.current?.offsetWidth || 176;
+      const { panelWidth, panelHeight, fabSize } = dimensions;
+      if (!panelWidth || !panelHeight || !fabSize) return;
       const safeTop = window.innerWidth <= 768 ? 88 : 112;
       const maxTop = Math.max(16, window.innerHeight - panelHeight - 16);
       const minTop = Math.min(safeTop, maxTop);
@@ -285,12 +303,40 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
         maxTop,
       );
 
-      setPanelPosition({ left, top });
+      const tailY = Math.min(
+        Math.max(fabPosition.y + fabSize / 2 - top, 48),
+        panelHeight - 48,
+      );
+
+      setPanelPosition({ left, top, tailY });
     };
 
-    updatePanelPosition();
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const boxSize = Array.isArray(entry.borderBoxSize)
+          ? entry.borderBoxSize[0]
+          : entry.borderBoxSize;
+        const width = boxSize?.inlineSize ?? entry.contentRect.width;
+        const height = boxSize?.blockSize ?? entry.contentRect.height;
+
+        if (entry.target === panel) {
+          dimensions.panelWidth = width;
+          dimensions.panelHeight = height;
+        } else if (entry.target === fab) {
+          dimensions.fabSize = width;
+        }
+      }
+
+      updatePanelPosition();
+    });
+
+    observer.observe(panel);
+    observer.observe(fab);
     window.addEventListener('resize', updatePanelPosition);
-    return () => window.removeEventListener('resize', updatePanelPosition);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updatePanelPosition);
+    };
   }, [open, fabPosition]);
 
   return (
@@ -316,7 +362,16 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
         aria-expanded={open}
         title={ai.btnLabel}
       >
-        <img src={aiMascot} alt="" aria-hidden="true" draggable="false" width="176" height="176" />
+        <img
+          src={aiMascot88}
+          srcSet={`${aiMascot88} 88w, ${aiMascot176} 176w`}
+          sizes="88px"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+          width="176"
+          height="176"
+        />
       </button>
 
       {/* Panel */}
@@ -333,13 +388,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
               ? `${panelPosition.top}px`
               : `${window.innerWidth <= 768 ? 88 : 112}px`,
             '--ai-tutor-tail-y': panelPosition
-              ? `${Math.min(
-                  Math.max(
-                    fabPosition.y + (fabRef.current?.offsetWidth || 176) / 2 - panelPosition.top,
-                    48,
-                  ),
-                  (panelRef.current?.offsetHeight || 560) - 48,
-                )}px`
+              ? `${panelPosition.tailY}px`
               : undefined,
           }}
         >
@@ -347,7 +396,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
           <div className="ai-tutor-header">
             <div className="ai-tutor-header-left">
               <span className="ai-tutor-avatar">
-                <img src={aiMascot} alt="" aria-hidden="true" />
+                <img src={aiMascot88} srcSet={`${aiMascot88} 88w, ${aiMascot176} 176w`} sizes="48px" alt="" aria-hidden="true" />
               </span>
               <div>
                 <h3 className="ai-tutor-title">{ai.title}</h3>
@@ -377,7 +426,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
               >
                 {msg.role === 'assistant' && (
                   <span className="ai-msg-avatar">
-                    <img src={aiMascot} alt="" aria-hidden="true" />
+                    <img src={aiMascot88} srcSet={`${aiMascot88} 88w, ${aiMascot176} 176w`} sizes="48px" alt="" aria-hidden="true" />
                   </span>
                 )}
                 <div className="ai-msg-bubble">
@@ -390,7 +439,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
             {loading && (
               <div className="ai-msg ai-msg--assistant">
                 <span className="ai-msg-avatar">
-                  <img src={aiMascot} alt="" aria-hidden="true" />
+                  <img src={aiMascot88} srcSet={`${aiMascot88} 88w, ${aiMascot176} 176w`} sizes="48px" alt="" aria-hidden="true" />
                 </span>
                 <div className="ai-msg-bubble ai-msg-bubble--loading">
                   <span className="ai-typing-dot" />

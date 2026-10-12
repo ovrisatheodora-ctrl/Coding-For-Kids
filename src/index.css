@@ -21,6 +21,18 @@
   top: 16px;
 }
 
+@media (max-width: 768px) {
+  .skip-link:focus {
+    top: 100px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .skip-link:focus {
+    top: 104px;
+  }
+}
+
 /* Spinning keyframe for loader */
 @keyframes spin {
   from { transform: rotate(0deg); }
