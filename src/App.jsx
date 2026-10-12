@@ -124,7 +124,9 @@ function AppInner() {
         </Routes>
       </Suspense>
 
-      {!isFocusedActivity && <Footer t={t} lang={lang} onLangChange={handleLangChange} />}
+      {(!isFocusedActivity || location.pathname === '/about') && (
+        <Footer t={t} lang={lang} onLangChange={handleLangChange} />
+      )}
 
       {/* Global floating AI Tutor */}
       <AiTutor t={t} lang={lang} />

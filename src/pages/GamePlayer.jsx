@@ -189,7 +189,7 @@ function GamePlayer({ t, lang }) {
         navigateBack(navigate, backTo);
       }}
     >
-      ← {lessonId ? (lang === 'en' ? 'Back' : 'Kembali') : text.backToGames}
+      ← {lang === 'en' ? 'Back' : 'Kembali'}
     </Link>
   );
 

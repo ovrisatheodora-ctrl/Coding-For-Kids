@@ -3,9 +3,7 @@
 /* Floating action button */
 .ai-tutor-fab {
   position: fixed;
-  /* CSS default position (bottom-right) — overridden by JS once loaded.
-     Prevents layout shift: the button paints here first, then JS may
-     reposition it within the fixed layer (no document-flow impact). */
+  /* JS initializes its draggable viewport coordinates at the bottom-right. */
   right: 28px;
   bottom: 28px;
   width: 176px;

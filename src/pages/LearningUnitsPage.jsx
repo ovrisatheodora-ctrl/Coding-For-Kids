@@ -141,7 +141,7 @@ function LearningUnitsPage({ t, lang }) {
                   key={unit.id}
                   className="learning-unit-card"
                   style={{
-                    '--unit-color': style.color,
+                    '--unit-color': style.color || cardPalette[index % cardPalette.length],
                     '--unit-icon-scale': style.iconScale || 1,
                     '--unit-icon-offset-x': `${style.iconOffsetX || 0}px`,
                     '--unit-icon-offset-y': `${style.iconOffsetY || 0}px`,

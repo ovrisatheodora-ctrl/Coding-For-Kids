@@ -66,7 +66,8 @@ Recent UX polish:
 - Matched the Grade 1–2 “Step Order” intro panel content and four-step visual example to the supplied reference, and added the three bottom actions for returning to topics, returning to Lessons, and continuing to Activity.
 - Set the learning page content shell to the navbar's 1100px maximum width so the learning cards align with the navbar.
 - Added a small gap below the visual example steps so the dashed caption no longer touches the diagram.
-- Let Key Points follow the Remember content naturally across learning subtopics instead of pinning it to the bottom of the material panel.
+- Let Key Points follow the Remember content naturally across learn
+ing subtopics instead of pinning it to the bottom of the material panel.
 - Kept the Grade 1–2 “Repeat with Blocks” example tiles the same size and reduced only the three-clap result icon to fit.
 - Balanced the last row of 4- and 5-card subtopic grids while keeping 6-card lists in a consistent 3-by-2 layout.
 - Varied Learn cards without a custom color and game-list cards across the Blossom, Summer Sky, Sour Apple, Banana, and coral palette.
@@ -132,5 +133,59 @@ Recent UX polish:
 - Enlarged the cat and robot illustrations in the Games banner while retaining its responsive layout.
 - Replaced activity, quiz, and playable-game answer feedback boxes with one compact, accessible, reusable feedback banner and second-attempt hints.
 - Served the existing Nunito/Lilita fonts locally instead of requesting Google Fonts at runtime, and deferred off-screen footer images.
+- Ensured every lesson subtopic card receives a pastel background color, including cards without an explicit color in their illustration configuration.
+- Made Learn and playable game cards size to their content, collapsed empty feedback space, and harmonized card surfaces with coordinated pastel title accents and responsive actions.
+- Kept the shared footer visible on the About page.
+- Replaced the Bug Hunter emoji in the About page Badge Collection with the existing Bug Hunter game artwork.
+- Replaced the Junior Coder emoji in the About page Badge Collection with the laptop artwork used by the Basic Coding game category.
+- Replaced the Problem Solver emoji in the About page Badge Collection with the Brain artwork used by the Logic & Algorithms game category.
+- Replaced the Creative Coder emoji in the About page Badge Collection with the matching Color Studio artwork from the Games catalog.
+- Replaced the Gamification feature and Game Creator badge emoji with the IOS Champion asset; retained the Basic Coding asset for Junior Coder as clarified.
+- Replaced the Robot Explorer badge emoji with the robot artwork used in the Basic Coding subtopic card.
+- Replaced the section heading stars for Key Features and Badge Collection with the IOS Star asset.
+- Positioned the Ask AI button at the bottom-right whenever the website is opened.
+- Replaced the game controller emojis in the About page stats and Interactive Games feature with the IOS Game asset.
+- Matched the activity and quiz action button dimensions to the compact Check Answer button shown as the sizing reference.
+- Simplified the game player back link label from “Back to Games” to “Back” (localized in Indonesian).
+- Kept the navbar brand logo on the same two-line layout in both Indonesian and English.
+- Moved and enlarged the cat and mascot artwork outward on the Games banner, with responsive offsets for tablet and mobile layouts.
+- Replaced the Structured Curriculum emoji in the About page feature card with the IOS BOOK asset in both languages.
+- Replaced the Material & Example step emoji in the About page learning path with the IOS BOOK asset.
+- Replaced the Activity step emoji in the About page learning path with the IOS Eyes asset.
+- Replaced the Cara Belajar section's drawn star with the IOS Star asset.
+- Replaced the About page introduction illustration with the Coding for Kids logo asset.
+- Placed the cat game artwork on the left and the robot mascot game artwork on the right side of the Games banner.
+- Shifted the cat artwork a little farther left across desktop, tablet, and mobile Games banners.
+- Shifted the robot mascot artwork slightly left across desktop, tablet, and mobile Games banners.
+- Replaced the remaining About page stats, learning-step, feature-card, and selected badge emojis with the matching supplied iOS-style WebP assets.
+- Enlarged the About feature-card illustration assets to match the displayed size of the Gamification trophy.
+- Set the About badge artwork to a consistent 40px display size, using the Bug Hunter badge as the reference.
+- Enlarged the Pattern Finder and Game Creator badge assets to improve their visible size within the collection.
+- Matched the About feature-card icons' visible scale to the IOS World icon, keeping its scale as the reference and balancing the larger trophy.
+- Enlarged the Robot Explorer and Creative Coder badge artwork to match the increased badge icon scale.
+- Slightly reduced and raised the Creative Coder badge icon independently.
+- Enlarged the IOS Puzzle artwork in the Feedback step capsule.
+- Nudged the enlarged IOS Puzzle artwork slightly left inside its capsule.
+- Shifted the IOS Puzzle artwork another 3px left inside the Feedback capsule.
+- Matched the size and left alignment of every learning-step icon to the IOS Puzzle reference.
+- Enlarged the IOS Star assets beside the How to Learn, Key Features, and Badge Collection headings.
+- Further enlarged the About section-heading IOS Star assets to 52px on desktop and 44px on mobile, increasing the spacing around headings for balance.
+- Preserved the original About heading and section layout while enlarging only the IOS Star artwork visually with a CSS transform.
+- Added a small gap between About section-heading stars and their titles without changing star size or surrounding section spacing.
+- Enlarged only the three About stats icons visually while preserving their layout slots, panel size, dividers, and labels.
+- Restored the About learning mascot to its original compact side placement and removed the mascot caption in both languages.
+- Visually enlarged only the About mascot image with a transform, keeping its 90px layout slot and surrounding learning layout unchanged.
+- Further enlarged the About stats icons and mascot visually only, preserving their original layout slots and surrounding content.
+- Further enlarged and shifted the About mascot image left using only its transform, preserving its layout slot and all other elements.
+- Shifted the About mascot a little farther left with only its image transform.
+- Enlarged the three About stats icons and lowered them slightly using transforms only; preserved the stats layout and labels.
+- Enlarged and lowered only the About Age-appropriate icon further, keeping its original layout slot and leaving other stats icons unchanged.
+- Removed the logo icon from the About intro; heading and description are left-aligned and use the freed space.
+- Kept CTA star decorations above the button during hover and press states with explicit stacking order.
+- Added a continuous slow rotation to only the plus-shaped homepage hero decoration, disabled when reduced motion is preferred.
+- Kept the shared footer on the About page and removed the CTA banner there, matching the provided reference.
+- Added the Lessons-style slide-up entrance animation to the Home hero and disabled it for reduced-motion preferences.
+- Removed stars from the scrolling ribbon, ensured repeated text covers the viewport continuously, and increased its speed again to an 8-second loop.
+- Restored the shared Home/About footer dimensions to their previous sizing after the supplied reference styling made the footer too large; retained the existing shared localized content and controls.
 
 If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.

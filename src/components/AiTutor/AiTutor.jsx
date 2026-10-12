@@ -2,7 +2,6 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import aiMascot from '../../assets/Maskot AI.webp';
 import './AiTutor.css';
 
-const FAB_POSITION_KEY = 'cfk_ai_tutor_position';
 const FAB_EDGE_GAP = 12;
 
 function clampFabPosition(x, y, width, height, fabSize) {
@@ -70,10 +69,19 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
   const inputRef = useRef(null);
   const fabRef = useRef(null);
   const panelRef = useRef(null);
-  const positionRef = useRef(null);
   const dragRef = useRef(null);
   const suppressClickRef = useRef(false);
-  const [fabPosition, setFabPosition] = useState(null);
+  const [fabPosition, setFabPosition] = useState(() => {
+    const fabSize = window.innerWidth <= 480 ? 144 : 176;
+    return clampFabPosition(
+      window.innerWidth - fabSize - 28,
+      window.innerHeight - fabSize - 28,
+      window.innerWidth,
+      window.innerHeight,
+      fabSize,
+    );
+  });
+  const positionRef = useRef(fabPosition);
   const [panelPosition, setPanelPosition] = useState(null);
   const [isDraggingFab, setIsDraggingFab] = useState(false);
 
@@ -106,59 +114,11 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
     return nextPosition;
   };
 
-  const saveFabPosition = (position) => {
-    try {
-      localStorage.setItem(FAB_POSITION_KEY, JSON.stringify(position));
-    } catch (error) {
-      console.error('Unable to save the AI Tutor button position.', error);
-    }
-  };
-
   useEffect(() => {
-    const fabSize = fabRef.current?.offsetWidth || 176;
-    let initialPosition;
-
-    try {
-      const savedPosition = localStorage.getItem(FAB_POSITION_KEY);
-      if (savedPosition) {
-        const parsedPosition = JSON.parse(savedPosition);
-        if (
-          Number.isFinite(parsedPosition?.x) &&
-          Number.isFinite(parsedPosition?.y)
-        ) {
-          initialPosition = clampFabPosition(
-            parsedPosition.x,
-            parsedPosition.y,
-            window.innerWidth,
-            window.innerHeight,
-            fabSize,
-          );
-        } else {
-          console.error('Stored AI Tutor button position is invalid.');
-        }
-      }
-    } catch (error) {
-      console.error('Unable to read the AI Tutor button position.', error);
-    }
-
-    if (!initialPosition) {
-      initialPosition = clampFabPosition(
-        window.innerWidth - fabSize - 28,
-        window.innerHeight - fabSize - 28,
-        window.innerWidth,
-        window.innerHeight,
-        fabSize,
-      );
-    }
-
-    positionRef.current = initialPosition;
-    setFabPosition(initialPosition);
-
     const handleResize = () => {
       const position = positionRef.current;
       if (!position) return;
-      const resizedPosition = updateFabPosition(position.x, position.y);
-      saveFabPosition(resizedPosition);
+      updateFabPosition(position.x, position.y);
     };
 
     window.addEventListener('resize', handleResize);
@@ -278,7 +238,6 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
 
     if (drag.moved) {
       suppressClickRef.current = true;
-      saveFabPosition(positionRef.current);
       window.setTimeout(() => {
         suppressClickRef.current = false;
       }, 0);
@@ -296,11 +255,10 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
     if (!direction || !positionRef.current) return;
 
     event.preventDefault();
-    const nextPosition = updateFabPosition(
+    updateFabPosition(
       positionRef.current.x + direction[0],
       positionRef.current.y + direction[1],
     );
-    saveFabPosition(nextPosition);
   };
 
   useLayoutEffect(() => {

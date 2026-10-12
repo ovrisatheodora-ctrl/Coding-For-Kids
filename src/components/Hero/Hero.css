@@ -22,6 +22,7 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: 40px;
   align-items: center;
+  animation: slide-up 0.5s ease both;
 }
 
 .hero-content {
@@ -330,6 +331,14 @@
   right: -5%;
   bottom: 8%;
   width: 88px;
+  transform-origin: center;
+  animation: hero-plus-spin 10s linear infinite;
+}
+
+@keyframes hero-plus-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero-mascot {
@@ -474,6 +483,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-inner {
+    animation: none;
+  }
+
+  .hero-sticker--plus {
+    animation: none;
+  }
+
   .hero-buttons .btn {
     transition: none;
   }
