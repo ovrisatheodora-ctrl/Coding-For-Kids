@@ -64,12 +64,13 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
   try {
     // Gemini API via Google AI
     const apiKey = process.env.GEMINI_API_KEY;
+    const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY not configured');
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
