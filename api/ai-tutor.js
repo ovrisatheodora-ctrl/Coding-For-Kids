@@ -76,54 +76,58 @@ function checkAiTutorRateLimit(req) {
   return status;
 }
 
-export default async function handler(req, res) {
+export async function handleAiTutorRequest(req) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return { status: 405, body: { error: 'Method not allowed' } };
   }
   if (process.env.AI_TUTOR_ENABLED !== 'true') {
     console.error('AI Tutor request failed.', 'disabled', 0);
-    return res.status(503).json({ error: 'AI Tutor is unavailable' });
+    return { status: 503, body: { error: 'AI Tutor is unavailable' } };
   }
 
+  // Node server callers must parse JSON with a 32 KiB read limit before calling.
   const body = req.body;
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
-    return res.status(400).json({ error: 'Invalid request body' });
+    return { status: 400, body: { error: 'Invalid request body' } };
   }
   if (Buffer.byteLength(JSON.stringify(body)) > 32 * 1024) {
-    return res.status(413).json({ error: 'Request body too large' });
+    return { status: 413, body: { error: 'Request body too large' } };
   }
 
   const { message, hintLevel = 1, context = null, lang = 'id' } = body;
   if (typeof message !== 'string' || !message.trim() || message.length > 2000) {
-    return res.status(400).json({ error: 'Invalid message' });
+    return { status: 400, body: { error: 'Invalid message' } };
   }
   if (!Number.isInteger(hintLevel) || hintLevel < 1 || hintLevel > 4) {
-    return res.status(400).json({ error: 'Invalid hint level' });
+    return { status: 400, body: { error: 'Invalid hint level' } };
   }
   if (lang !== 'id' && lang !== 'en') {
-    return res.status(400).json({ error: 'Invalid language' });
+    return { status: 400, body: { error: 'Invalid language' } };
   }
 
   let contextText = 'Homepage general help';
   if (context !== null) {
     if (typeof context !== 'object' || Array.isArray(context)) {
-      return res.status(400).json({ error: 'Invalid context' });
+      return { status: 400, body: { error: 'Invalid context' } };
     }
     try {
       contextText = JSON.stringify(context);
     } catch {
-      return res.status(400).json({ error: 'Invalid context' });
+      return { status: 400, body: { error: 'Invalid context' } };
     }
     if (contextText.length > 2000) {
-      return res.status(400).json({ error: 'Context is too long' });
+      return { status: 400, body: { error: 'Context is too long' } };
     }
   }
 
   const rateLimitStatus = checkAiTutorRateLimit(req);
   if (rateLimitStatus !== 0) {
-    return res.status(rateLimitStatus).json({
-      error: rateLimitStatus === 429 ? 'Too many requests' : 'AI Tutor is temporarily unavailable',
-    });
+    return {
+      status: rateLimitStatus,
+      body: {
+        error: rateLimitStatus === 429 ? 'Too many requests' : 'AI Tutor is temporarily unavailable',
+      },
+    };
   }
 
   // Build child-safe system prompt
@@ -203,7 +207,7 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
         ? '💡 Coba pikirkan lagi ya! Aku tahu kamu bisa!'
         : '💡 Try thinking about it again! I know you can do it!');
 
-    return res.status(200).json({ reply });
+    return { status: 200, body: { reply } };
   } catch {
     console.error('AI Tutor request failed.', failureCategory, upstreamStatus);
     // Fallback static hints when API fails
@@ -229,6 +233,11 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
     const level = Math.min(Math.max(hintLevel, 1), 4);
     const reply = fallbacks[level]?.[lang] || fallbacks[1].id;
 
-    return res.status(200).json({ reply, fallback: true });
+    return { status: 200, body: { reply, fallback: true } };
   }
+}
+
+export default async function handler(req, res) {
+  const result = await handleAiTutorRequest(req);
+  return res.status(result.status).json(result.body);
 }
