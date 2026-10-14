@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="medal" x1="26" y1="20" x2="96" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF6A8"/>
+      <stop offset=".52" stop-color="#FFC83D"/>
+      <stop offset="1" stop-color="#E78B20"/>
+    </linearGradient>
+    <linearGradient id="left-ribbon" x1="40" y1="65" x2="50" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CCF6FF"/>
+      <stop offset="1" stop-color="#65CDE4"/>
+    </linearGradient>
+    <linearGradient id="right-ribbon" x1="82" y1="65" x2="76" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD1F3"/>
+      <stop offset="1" stop-color="#F18BC7"/>
+    </linearGradient>
+  </defs>
+  <path d="m40 62-8 52 20-12 13 18 8-48-33-10Z" fill="#111" transform="translate(2 3)"/>
+  <path d="m80 62 8 52-20-12-13 18-8-48 33-10Z" fill="#111" transform="translate(2 3)"/>
+  <path d="m40 62-8 52 20-12 13 18 8-48-33-10Z" fill="url(#left-ribbon)" stroke="#111" stroke-linejoin="round" stroke-width="4"/>
+  <path d="m80 62 8 52-20-12-13 18-8-48 33-10Z" fill="url(#right-ribbon)" stroke="#111" stroke-linejoin="round" stroke-width="4"/>
+  <circle cx="64" cy="49" r="35" fill="#111" transform="translate(2 3)"/>
+  <circle cx="64" cy="49" r="35" fill="url(#medal)" stroke="#111" stroke-width="4"/>
+  <circle cx="64" cy="49" r="25" fill="#FFE985" stroke="#B85F1D" stroke-width="3"/>
+  <path d="m64 29 6 12 13 2-9.5 9.2 2.3 13L64 59l-11.8 6.2 2.3-13L45 43l13-2 6-12Z" fill="#FFFDF5" stroke="#111" stroke-linejoin="round" stroke-width="3"/>
+  <path d="m30 28 2.5 5.5L38 36l-5.5 2.5L30 44l-2.5-5.5L22 36l5.5-2.5L30 28Z" fill="#FFD1F3" stroke="#111" stroke-linejoin="round" stroke-width="2"/>
+  <path d="m98 43 2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2 2-4.5Z" fill="#CCF6FF" stroke="#111" stroke-linejoin="round" stroke-width="2"/>
+</svg>

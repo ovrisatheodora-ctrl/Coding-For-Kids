@@ -33,11 +33,30 @@
   --font-display: 'Nunito', 'Fredoka One', 'Poppins', system-ui, sans-serif;
   --font-body:    'Nunito', 'Poppins', system-ui, sans-serif;
 
+  /* Shared fluid type scale */
+  --font-size-body: clamp(0.9rem, 1.3vw + 0.3rem, 1.02rem);
+  --font-size-question: clamp(0.96rem, 0.7vw + 0.56rem, 1.15rem);
+  --font-size-question-lg: clamp(1.08rem, 0.8vw + 0.6rem, 1.38rem);
+  --font-size-option: clamp(0.78rem, 0.7vw + 0.42rem, 0.94rem);
+  --font-size-helper: clamp(0.82rem, 0.8vw + 0.42rem, 0.96rem);
+  --font-size-code: clamp(0.7rem, 0.8vw + 0.22rem, 0.82rem);
+  --font-size-chip: clamp(0.72rem, 0.7vw + 0.38rem, 0.82rem);
+  --font-size-step: clamp(0.68rem, 0.6vw + 0.3rem, 0.76rem);
+
   /* Spacing */
   --section-pad: 80px 24px;
   --max-width:   1200px;
 }
 
+@media (min-width: 768px) {
+  :root {
+    --font-size-body: clamp(0.94rem, 0.7vw + 0.62rem, 1.08rem);
+    --font-size-question: clamp(1rem, 0.5vw + 0.7rem, 1.24rem);
+    --font-size-question-lg: clamp(1.18rem, 0.6vw + 0.72rem, 1.58rem);
+    --font-size-option: clamp(0.82rem, 0.55vw + 0.52rem, 0.98rem);
+    --font-size-step: clamp(0.72rem, 0.4vw + 0.38rem, 0.82rem);
+  }
+}
 
 /* ---------- Base Reset ---------- */
 *, *::before, *::after {
@@ -61,6 +80,21 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  text-rendering: optimizeLegibility;
+}
+
+html, body, #root {
+  min-width: 0;
+}
+
+p, li, span, button, input, select, textarea {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
 }
 
 /* React root: fill flex parent so footer is pushed to the bottom */

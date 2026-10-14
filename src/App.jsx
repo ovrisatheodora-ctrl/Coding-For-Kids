@@ -78,23 +78,21 @@ function AppInner() {
     }
   }, [location.key, navigationType]);
 
-  const [lang, setLang] = useState(() => {
-    const routeLanguage = new URLSearchParams(window.location.search).get('lang');
-    return routeLanguage === 'en' || routeLanguage === 'id'
-      ? routeLanguage
-      : progress.language || 'id';
-  });
+  const [selectedLang, setSelectedLang] = useState(() => progress.language || 'id');
+  const routeLanguage = new URLSearchParams(location.search).get('lang');
+  const lang = routeLanguage === 'en' || routeLanguage === 'id'
+    ? routeLanguage
+    : selectedLang;
 
   const t = i18n[lang] || i18n.id;
   const routeParams = new URLSearchParams(location.search);
   const learningSessionKey = [
     routeParams.get('grade') || '',
-    routeParams.get('lang') || '',
     routeParams.get('unit') || '',
   ].join('|');
 
   const handleLangChange = (newLang) => {
-    setLang(newLang);
+    setSelectedLang(newLang);
     saveLang(newLang);
     if (
       location.pathname.endsWith('/learn')
@@ -142,7 +140,7 @@ function AppInner() {
 
       {/* Global floating AI Tutor — lazy-loaded after main page is interactive */}
       <Suspense fallback={null}>
-        <AiTutor t={t} lang={lang} />
+        <AiTutor t={t} lang={lang} compact={isFocusedActivity} />
       </Suspense>
     </>
   );

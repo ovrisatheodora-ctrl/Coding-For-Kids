@@ -181,7 +181,7 @@ function GamesPage({ t }) {
                         >
                           {[0, 1, 2].map((star) => (
                             <svg key={star} className={isComplete ? '' : 'is-off'} viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2 3.7-6.2-3.7 1.6-7L2 9.2l7.1-.6z" />
+                              <path d="M12 2 14.9 8.6 22 9.2 16.6 14 18.2 21 12 17.3 5.8 21 7.4 14 2 9.2 9.1 8.6 12 2Z" />
                             </svg>
                           ))}
                         </span>

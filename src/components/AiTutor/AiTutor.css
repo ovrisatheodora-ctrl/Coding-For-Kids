@@ -30,6 +30,11 @@
   -webkit-user-drag: none;
 }
 
+.ai-tutor-fab.compact {
+  width: 88px;
+  height: 88px;
+}
+
 .ai-tutor-fab:hover {
   transform: translate(-2px, -2px);
 }
@@ -394,6 +399,11 @@
   .ai-tutor-fab {
     width: 144px;
     height: 144px;
+  }
+
+  .ai-tutor-fab.compact {
+    width: 72px;
+    height: 72px;
   }
 }
 

@@ -121,6 +121,9 @@ Introduce basic programming concepts through visual and interactive activities.
 - Coding means giving instructions to a computer
 - Beri Perintah
 - Give the Character a Command
+- Kenal Blok Perintah and Menjalankan Program
+- Gerakkan Karakter with simple movement commands
+- Ulangi dengan Blok for repeated instructions
 - Arah & Gerakan
 - Up, down, left, right
 - Robot Maze
@@ -129,14 +132,22 @@ Introduce basic programming concepts through visual and interactive activities.
 - Sequence / Urutan Perintah
 - Arranging code blocks
 - Susun Kode
+- Variables as named storage boxes
+- Conditions with if / else blocks
+- Loops with blocks
 - Event / Pemicu
 - When an event happens, an action occurs
 - Trigger Challenge
 
 ## Grade 5–6
+- Translate visual blocks into short text code
+- Variables and data types
 - If / Else
 - Conditions and branching
 - Coding Decision
+- Comparison and logical operators
+- for and while loops, including stopping conditions
+- Functions, parameters, and return values
 - Debugging Coding
 - Run
 - Observe
@@ -157,6 +168,11 @@ Allow children to use coding concepts creatively.
 - Expression
 - Name
 - Create Your Character
+- Warnai Panggung
+- Menggambar dengan Kode
+- Animasi Sederhana
+- Bunyi dan Musik
+- Cerita Interaktif
 - Gerakan & Suara
 - Movement
 - Simple animation
@@ -164,6 +180,12 @@ Allow children to use coding concepts creatively.
 - Make It Move
 
 ## Grade 3–4
+- Animasi dan Gerak
+- Menggambar dengan Kode
+- Bunyi dan Interaksi
+- Project: Kuis Interaktif
+- Project: Game Labirin
+- Project: Galeri Karyaku
 - Cerita Interaktif
 - Character
 - Plot
@@ -179,6 +201,12 @@ Allow children to use coding concepts creatively.
 - Mini Game Builder
 
 ## Grade 5–6
+- Halaman Web (HTML dan CSS)
+- Animasi dan Interaksi
+- Data dan List
+- Project: Website Profilku
+- Project: Tebak Angka
+- Project: Presentasi Interaktif
 - Skor & Variabel Sederhana
 - Variables as stored information
 - Score

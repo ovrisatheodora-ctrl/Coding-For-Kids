@@ -55,7 +55,7 @@ function detectReplyLanguage(message, fallbackLang = 'id') {
   return fallbackLang;
 }
 
-function AiTutor({ t, currentContext = null, lang = 'id' }) {
+function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
   const ai = t.aiTutor;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -95,7 +95,9 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
   };
 
   const updateFabPosition = (x, y) => {
-    const fabSize = window.innerWidth <= 480 ? 144 : 176;
+    const fabSize = compact
+      ? (window.innerWidth <= 480 ? 72 : 88)
+      : (window.innerWidth <= 480 ? 144 : 176);
     const nextPosition = clampFabPosition(
       x,
       y,
@@ -111,7 +113,9 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
   // Set initial fab position after mount — deferred to avoid layout reads during render.
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
-      const fabSize = window.innerWidth <= 480 ? 144 : 176;
+      const fabSize = compact
+        ? (window.innerWidth <= 480 ? 72 : 88)
+        : (window.innerWidth <= 480 ? 144 : 176);
       const initial = clampFabPosition(
         window.innerWidth - fabSize - 28,
         window.innerHeight - fabSize - 28,
@@ -123,7 +127,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
       setFabPosition(initial);
     });
     return () => window.cancelAnimationFrame(frameId);
-  }, []);
+  }, [compact]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -134,7 +138,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [compact]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -344,7 +348,7 @@ function AiTutor({ t, currentContext = null, lang = 'id' }) {
       {/* Floating button */}
       <button
         ref={fabRef}
-        className={`ai-tutor-fab${open ? ' open' : ''}${isDraggingFab ? ' dragging' : ''}`}
+        className={`ai-tutor-fab${compact ? ' compact' : ''}${open ? ' open' : ''}${isDraggingFab ? ' dragging' : ''}`}
         style={fabPosition ? { left: fabPosition.x, top: fabPosition.y, right: 'auto', bottom: 'auto' } : undefined}
         onClick={() => {
           if (suppressClickRef.current) {

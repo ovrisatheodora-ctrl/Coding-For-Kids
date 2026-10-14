@@ -14,6 +14,7 @@ Status: Complete
 - [x] Expand the lesson registry so all 3 lesson cards have working material access across grades 1–2, 3–4, and 5–6.
 - [x] Add nine complete learning units across Logic & Algorithms, Basic Coding, and Creative Coding to replace the remaining coming-soon placeholders.
 - [x] Add five bilingual Grade 1–2 subtopics each for Basic Coding and Creative Coding & Projects.
+- [x] Expand Creative Coding & Projects subtopics across all grades with matching, ordering, debugging, and choice activities; shuffled quizzes; IOS visuals; and privacy reminders.
 - [x] Match the About page to the supplied introduction, learning steps, feature cards, and badge collection reference.
 - [x] Verify the production build and targeted lint after the curriculum and About page updates.
 
@@ -43,6 +44,8 @@ Recent UX polish:
 - Slightly widened the Ask AI popup and shifted it right to sit closer to the mascot while staying within viewport bounds.
 - Nudged the popup left, compacted its pink header, strengthened the close icon, removed the robot emoji from the assistant title, and matched the send control to the gray outline example.
 - Routed mouse-wheel scrolling over the Ask AI popup to its chat history and contained scroll chaining so the underlying page stays still.
+- Preserved the current Learn activity, quiz question, and in-progress answers when switching languages instead of remounting the lesson.
+- Centered the activity and quiz question prompts and reduced the read-aloud control to an accessible speaker icon.
 - Changed the Ask AI header bubble from pink to blue.
 - Changed the active hint button to banana yellow and user chat bubbles to blue.
 - Changed the Ask AI header bubble to green.
@@ -58,6 +61,7 @@ Recent UX polish:
 - Matched page content reveal animations to the Lessons cards' slide-up effect (0.5s ease with staggered sections).
 - Removed Twemoji rendering from Ask AI and restored native platform emojis for recommendations and greetings at the user's request.
 - Fixed the grade 1–2 Logic & Algorithms learning flow so the stepper is clickable, order-based activity data is handled correctly, multi-choice quiz arrays are normalized, and route-driven progression works cleanly from activity through quiz, feedback, and reward screens.
+- Fixed the Grade 5–6 Logic & Algorithms order activity so the workflow exercise uses the proper `type: 'order'` data shape and draggable item IDs, allowing the drag-and-drop sequence to render and behave as intended.
 - Added a subtopic selection screen after choosing Learn, with all five Grade 1–2 Logic & Algorithms units linked to their own lessons and best-star counts.
 - Styled the subtopic cards in pastel colors and reused the exact illustrated starfield and lined-paper background from the Home hero.
 - Removed the extra header/card corner decorations from the subtopic page and moved its Back button slightly lower.
@@ -191,5 +195,42 @@ ing subtopics instead of pinning it to the bottom of the material panel.
 - Matched the About page's Age-appropriate stat icon scale to its neighboring icons and added compact mobile spacing below the Badge Collection subtitle.
 - Added tablet-specific layouts for the Home hero, About learning process, Games banner, navigation, and footer at 701–1024px without changing wider desktop rules.
 - Removed the crossed-out reward illustration, enlarged the IOS Champion icon beside the reward title, and replaced the badge emoji with a compressed IOS Badge Champion asset.
+- Clarified the Grade 5–6 sorting activity by asking which number is second after sorting from smallest to largest, and added a matching hint in both languages.
+- Reduced the Grade 5–6 true/false quiz choice cards and constrained their row width, without changing other quiz or activity choices.
+- Rebuilt the Grade 5–6 systematic debugging activity as a real drag-and-drop ordering task, clarified decomposition choices in Indonesian and English, and constrained long text in activity sequence tiles to prevent overlap.
+- Rewrote the Grade 5–6 AND activity as a direct True AND True question, with its operator and answer choices translated for the selected language.
+- Repaired Grade 3–4 Command Blocks: replaced the misleading single-choice “arrange” prompt with a bilingual drag-and-drop sequence matching the example (Start → Move → Say).
+- Expanded Grade 1–2 Logic & Algorithms “Step Order” with four sequential drag-and-drop activities and five bilingual multiple-choice questions covering morning, toothbrushing, mealtime, dressing, and planting sequences.
+- Expanded Grade 5–6 Logic & Algorithms with bilingual, age-appropriate lessons for flowcharts, AND/OR/NOT logic, sorting and searching, decomposition, and systematic debugging; added their interactive activities, visual examples, feedback reasons, and practice questions that do not count toward scores.
+- Expanded Basic Coding across Grades 1–2, 3–4, and 5–6 with two interactive activities and five shuffled quiz questions per subtopic; added matching interactions and reused IOS visual assets for the lesson examples.
+- Unified Learn/Game question title sizing and alignment, placed the read-aloud control next to the question, and balanced responsive answer-card sizes across activity types.
+- Raised the Learn question read-aloud control to the indicated position with a fluid offset that avoids title overlap on phones.
+- Adjusted the mobile prompt grid so question text has flexible width beside the read-aloud button and remains centered without horizontal overflow.
+- Removed the redundant secondary activity explanation box while retaining the primary feedback banner and quiz answer explanations.
+- Gave the loop demo's “Jalankan” button its own responsive sizing so its label stays inside the button on mobile.
+- Reduced oversized numeric labels in flowchart activity tiles while keeping all tile dimensions aligned.
+- Styled mixed-number ranges such as “1 … 8 … 16” as compact text inside sorting/searching activity tiles.
+- Kept multi-emoji sequences on one line and sized them to fit inside their activity tiles.
+- Centered IOS artwork inside the visual-example tiles by centering its wrapper as well as the image.
+- Removed decorative feedback status icons while keeping the feedback message and optional hint control.
+- Preserved plain-string activity option labels during localization so numeric choices render instead of appearing blank.
+- Matched the debugging activity's “Coba Lagi” dimensions to its “Lanjut” action.
+- Rendered flowchart condition tiles as compact text when they contain comparison operators, preventing symbols from overflowing their cards.
+- Replaced the Grade 1–2 character-movement activity that mentioned an unseen fish and repeated identical steps with a clear bilingual movement-command question.
+- Clarified the Grade 3–4 robot-ball sequence with an explicit start point, distance, distinct outward/return steps, and a specific explanation.
+- Replaced the Grade 1–2 Creative Coding unit-card emoji with matching existing artwork for stage coloring, drawing, animation, music, and interactive stories.
+- Clarified the Grade 1–2 rolling-ball animation ordering activity with an explicit left-to-right direction and explanation.
+- Reworked the Grade 3–4 bouncing-ball ordering activity to specify its start, right edge, direction change, and return path.
+- Added the missing red/do, yellow/re, and green/mi rule to the Grade 3–4 sound lesson and matching activity.
+- Replaced the duplicate Grade 3–4 sound quiz question about matching a green button to mi with a question about ordering notes from low to high.
+- Replaced the duplicate Grade 3–4 interactive-quiz score-count question with a question about helpful feedback after an incorrect answer.
+- Replaced the Grade 5–6 data-and-lists quiz item that repeated the activity's fruit-count exercise with a question about sorting values.
+- Replaced the Grade 5–6 number-guessing quiz question that repeated the activity's higher/lower hint with a distinct question about why the secret number is hidden.
+- Localized the Grade 5–6 number-guessing bug-finding code lines so English lessons no longer display Indonesian pseudocode.
+- Replaced the Grade 5–6 showcase quiz question that repeated the activity about slide content with a distinct question about testing a project before presenting.
+- Audited all 49 learning units and 240 quiz questions for repeated prompts, and distinguished the two pattern questions with the same generic stem.
+- Synchronized the active lesson language with the URL selection and localized raw activity labels and code examples that previously mixed Indonesian and English.
+- Matched each connected pair in matching activities with the same distinct color, retaining checkmarks for an additional visual cue.
+- Kept all matching choices white until selection; then highlighted the selected item and its completed pair in the same assigned color.
 
 If a document conflicts with the existing UI code, the current UI code is the latest decision. Do not revert it to an older design. Explain the conflict and ask before changing visual direction.

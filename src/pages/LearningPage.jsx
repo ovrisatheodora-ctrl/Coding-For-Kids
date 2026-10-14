@@ -147,7 +147,7 @@ function LearningPage({ t, lang, isGame = false }) {
                 <FeedbackStep
                   labels={learning}
                   correctCount={earnedQuestionIds.length}
-                  questionCount={unit.questions.length}
+                  questionCount={unit.questions.filter((question) => !question.practice).length}
                   onContinue={() => goToStep(4)}
                 />
               )}

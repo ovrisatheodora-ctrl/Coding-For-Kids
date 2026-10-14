@@ -163,16 +163,21 @@
 
 .learning-unit-stars {
   display: flex;
-  gap: 2px;
+  align-items: center;
+  gap: 4px;
+  margin-top: 0;
 }
 
 .learning-unit-stars svg {
-  width: 18px;
-  height: 18px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
   fill: var(--banana);
   stroke: var(--outline);
   stroke-linejoin: round;
-  stroke-width: 1.6;
+  stroke-width: 1.25;
+  paint-order: stroke fill;
 }
 
 .learning-unit-stars svg.is-off {

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import correctIcon from '../assets/icon-benar.webp';
-import wrongIcon from '../assets/icon-salah.webp';
 import './Feedback.css';
 
 function Feedback({ tipe, pesan, xp, bintang, petunjuk, labelPetunjuk }) {
@@ -10,15 +8,6 @@ function Feedback({ tipe, pesan, xp, bintang, petunjuk, labelPetunjuk }) {
     <div className="feedback-slot">
       {tipe && (
         <div className={`feedback-banner feedback-banner--${tipe}`} role="status" aria-live="polite">
-          <img
-            className="feedback-banner__icon"
-            src={tipe === 'benar' ? correctIcon : wrongIcon}
-            alt=""
-            aria-hidden="true"
-            onError={(event) => {
-              event.currentTarget.hidden = true;
-            }}
-          />
           <span className="feedback-banner__message">{pesan}</span>
           {xp > 0 && <span className="feedback-banner__chip">+{xp} XP</span>}
           {bintang > 0 && <span className="feedback-banner__chip">+{bintang} ★</span>}

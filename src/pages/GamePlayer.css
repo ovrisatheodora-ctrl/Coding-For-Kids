@@ -1,7 +1,7 @@
 .game-player-page {
   position: relative;
   isolation: isolate;
-  min-height: 100vh;
+  min-height: calc(100dvh - 96px);
   padding: 112px 24px 72px;
   font-family: var(--font-body);
   background: transparent;
@@ -71,7 +71,7 @@
   border-radius: 999px;
   background: var(--summer-sky);
   box-shadow: 0 3px 0 var(--outline);
-  font-size: 0.875rem;
+  font-size: var(--font-size-chip);
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -125,15 +125,20 @@
   background: var(--summer-sky);
   box-shadow: 3px 3px 0 var(--outline);
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 3vw, 1.7rem);
+  font-size: var(--font-size-question-lg);
   font-weight: 900;
   line-height: 1.2;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .game-player-card > p {
   max-width: 620px;
+  font-size: var(--font-size-body);
   font-weight: 700;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .pattern-board {
@@ -175,22 +180,30 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
+}
+
+.pattern-choices {
+  width: min(100%, 520px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
+  align-items: stretch;
 }
 
 .pattern-choice,
 .robot-command-controls button {
-  min-width: 76px;
-  min-height: 56px;
-  padding: 8px 16px;
+  min-width: 44px;
+  min-height: 48px;
+  padding: 8px 10px;
   border: 2px solid var(--outline);
   border-radius: 14px;
   background: #fff;
   box-shadow: 3px 3px 0 var(--outline);
   font-family: var(--font-body);
-  font-size: 1.7rem;
+  font-size: var(--font-size-option);
   font-weight: 900;
   cursor: pointer;
+  min-width: 0;
 }
 
 .pattern-choice.is-selected {
@@ -231,7 +244,7 @@
 }
 
 .robot-command-controls button {
-  min-height: 44px;
+  min-height: 56px;
   font-size: 0.82rem;
 }
 
@@ -300,6 +313,32 @@
 .game-player-actions .btn:disabled {
   cursor: not-allowed;
   opacity: 0.55;
+}
+
+@media (min-width: 768px) and (max-width: 1194px) {
+  .game-player-page {
+    min-height: calc(100dvh - 86px);
+    padding-top: 96px;
+  }
+
+  .game-player-card {
+    gap: 18px;
+    padding: clamp(22px, 3vw, 34px);
+  }
+
+  .game-player-card h1 {
+    font-size: var(--font-size-question-lg);
+  }
+
+  .pattern-board {
+    width: min(100%, 520px);
+  }
+
+  .pattern-choice,
+  .robot-command-controls button {
+    min-height: 56px;
+    font-size: var(--font-size-option);
+  }
 }
 
 @media (max-width: 720px) {

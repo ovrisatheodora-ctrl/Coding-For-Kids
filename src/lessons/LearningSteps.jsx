@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import iosBook from '../assets/IOS BOOK.webp';
 import iosEyes from '../assets/IOS Eyes.webp';
 import iosLamp from '../assets/IOS Lamp.webp';
@@ -6,11 +6,28 @@ import iosLightning from '../assets/IOS Petir.webp';
 import iosStar from '../assets/IOS Star.webp';
 import iosChampion from '../assets/IOS Champion.webp';
 import iosBadgeChampion from '../assets/IOS Badge Champion.webp';
+import iosRobot from '../assets/IOS Robot.webp';
+import iosPuzzle from '../assets/IOS Puzzle.webp';
+import iosGame from '../assets/IOS Game.webp';
+import iosPhone from '../assets/IOS Phone.webp';
+import iosWriting from '../assets/IOS Writting.webp';
+import iosWorld from '../assets/IOS World.webp';
+import iosSparkle from '../assets/IOS Sprikle.webp';
 import ArrowLabel from '../components/ArrowLabel';
 import Feedback from '../components/Feedback';
+import { iosCreativeVisualKey } from './creative-coding-enhancements';
 
 function localized(value, lang) {
+  if (typeof value === 'string') return value;
   return value?.[lang] || value?.id || '';
+}
+
+function activityOptionLabel(option, lang) {
+  return typeof option === 'string' ? option : localized(option?.text || option, lang);
+}
+
+function activityOptionValue(option, lang) {
+  return typeof option === 'string' ? option : option?.id || localized(option?.text || option, lang);
 }
 
 function feedbackText(value) {
@@ -28,6 +45,26 @@ function activityHint(value, lang, fallback) {
   return hint && !/^(hampir|almost|belum tepat|not quite)/i.test(hint) ? hint : fallback;
 }
 
+function speakText(text, lang) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window) || !text) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang === 'id' ? 'id-ID' : 'en-US';
+  window.speechSynthesis.speak(utterance);
+}
+
+function shuffledEntries(items) {
+  const shuffled = items.map((item, originalIndex) => ({ item, originalIndex }));
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  if (shuffled.length > 1 && shuffled.every((entry, index) => entry.originalIndex === index)) {
+    [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+  }
+  return shuffled;
+}
+
 function shuffledOrder(items, correctOrder) {
   const shuffled = [...items];
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -39,6 +76,420 @@ function shuffledOrder(items, correctOrder) {
     [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
   }
   return shuffled;
+}
+
+const GRID_DIRECTIONS = {
+  up: { row: -1, column: 0, symbol: '⬆️' },
+  down: { row: 1, column: 0, symbol: '⬇️' },
+  left: { row: 0, column: -1, symbol: '⬅️' },
+  right: { row: 0, column: 1, symbol: '➡️' },
+};
+
+const IOS_VISUALS = {
+  robot: iosRobot,
+  puzzle: iosPuzzle,
+  game: iosGame,
+  lamp: iosLamp,
+  phone: iosPhone,
+  writing: iosWriting,
+  eyes: iosEyes,
+  world: iosWorld,
+  sparkle: iosSparkle,
+};
+
+function traceGridPath(activity, path) {
+  let [row, column] = activity.start;
+  const positions = [[row, column]];
+  let blocked = false;
+  path.forEach((direction) => {
+    const move = GRID_DIRECTIONS[direction];
+    row += move.row;
+    column += move.column;
+    const outsideGrid = row < 0 || column < 0 || row >= activity.grid || column >= activity.grid;
+    const onRock = activity.rocks.some(([rockRow, rockColumn]) => rockRow === row && rockColumn === column);
+    if (outsideGrid || onRock) blocked = true;
+    positions.push([row, column]);
+  });
+  return { row, column, positions, blocked };
+}
+
+function DirectionGrid({ activity, path, labels, className = '' }) {
+  const trace = traceGridPath(activity, path);
+  const [targetRow, targetColumn] = activity.target;
+  const [robotRow, robotColumn] = activity.start;
+  const cells = [];
+  for (let row = 0; row < activity.grid; row += 1) {
+    for (let column = 0; column < activity.grid; column += 1) {
+      const pathStep = trace.positions.findIndex(([pathRow, pathColumn], index) =>
+        index > 0 && pathRow === row && pathColumn === column);
+      const isRobot = row === trace.row && column === trace.column && !trace.blocked;
+      const isStart = row === robotRow && column === robotColumn;
+      const isTarget = row === targetRow && column === targetColumn;
+      const isRock = activity.rocks.some(([rockRow, rockColumn]) => rockRow === row && rockColumn === column);
+      cells.push(
+        <span
+          className={`learning-grid-path-cell${pathStep >= 0 ? ' is-on-path' : ''}`}
+          key={`${row}-${column}`}
+          aria-label={`${row + 1}, ${column + 1}`}
+        >
+          {isRock ? '🪨' : isRobot ? '🤖' : isTarget ? '⭐' : pathStep >= 0 ? GRID_DIRECTIONS[path[pathStep - 1]]?.symbol : isStart ? '🤖' : ''}
+        </span>,
+      );
+    }
+  }
+  return (
+    <div
+      className={`learning-direction-grid${className ? ` ${className}` : ''}${trace.blocked ? ' has-blocked-path' : ''}`}
+      style={{ '--grid-size': activity.grid }}
+      role="img"
+      aria-label={`${labels.robotAt} ${robotRow + 1}, ${robotColumn + 1}. ${labels.starAt} ${targetRow + 1}, ${targetColumn + 1}.`}
+    >
+      {cells}
+    </div>
+  );
+}
+
+function DirectionPathActivity({ activity, lang, labels, onContinue, taskPosition }) {
+  const [path, setPath] = useState([]);
+  const [wrongTries, setWrongTries] = useState(0);
+  const [result, setResult] = useState('');
+  const trace = traceGridPath(activity, path);
+  const isCorrect = result === 'correct';
+  const title = localized(activity.title, lang);
+
+  function addDirection(direction) {
+    if (isCorrect || path.length >= activity.maxSteps) return;
+    setPath((current) => [...current, direction]);
+    setResult('');
+  }
+
+  function checkPath() {
+    if (path.length === 0) return;
+    const reachedTarget = trace.row === activity.target[0] && trace.column === activity.target[1];
+    const correct = !trace.blocked && reachedTarget;
+    setResult(correct ? 'correct' : 'wrong');
+    if (correct) return;
+    setWrongTries((tries) => tries + 1);
+  }
+
+  return (
+    <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
+      <div className="learning-step-kicker" aria-hidden="true">🧩</div>
+      {taskPosition && <p className="learning-activity-count">{labels.activityTaskCount(...taskPosition)}</p>}
+      <div className="learning-prompt-heading">
+        <h1 id="learning-step-title" className="learning-step-title">{title}</h1>
+        <button className="learning-speak-button" type="button" onClick={() => speakText(title, lang)} aria-label={labels.readAloud} title={labels.readAloud}>
+          <span aria-hidden="true">🔊</span>
+        </button>
+      </div>
+      <DirectionGrid activity={activity} path={path} labels={labels} />
+      <p className="learning-direction-step-count">{labels.directionStepCount(path.length, activity.maxSteps)}</p>
+      <div className="learning-direction-controls" aria-label={labels.directionControls}>
+        {Object.entries(GRID_DIRECTIONS).map(([direction, move]) => (
+          <button
+            className="learning-direction-button"
+            type="button"
+            key={direction}
+            onClick={() => addDirection(direction)}
+            disabled={isCorrect || path.length >= activity.maxSteps}
+            aria-label={labels.directionNames[direction]}
+          >
+            {move.symbol}
+          </button>
+        ))}
+        <button
+          className="learning-direction-button learning-direction-button--undo"
+          type="button"
+          onClick={() => {
+            setPath((current) => current.slice(0, -1));
+            setResult('');
+          }}
+          disabled={isCorrect || path.length === 0}
+          aria-label={labels.undoDirection}
+        >
+          ↩️
+        </button>
+      </div>
+      <div className="learning-direction-path" aria-live="polite">
+        {path.map((direction, index) => <span key={`${direction}-${index}`}>{GRID_DIRECTIONS[direction].symbol}</span>)}
+      </div>
+      <Feedback
+        key={`path-${result}-${wrongTries}`}
+        tipe={result ? (isCorrect ? 'benar' : 'salah') : undefined}
+        pesan={isCorrect ? labels.feedbackCorrect : labels.feedbackWrong}
+        petunjuk={result === 'wrong' && wrongTries >= 2
+          ? localized(activity.firstStepHint, lang) || labels.directionFirstStep(activity.solution[0] && labels.directionNames[activity.solution[0]])
+          : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
+      {isCorrect ? (
+        <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+      ) : (
+        <button className="btn btn-primary learning-activity-action" type="button" onClick={checkPath} disabled={path.length === 0}>
+          {labels.check}
+        </button>
+      )}
+    </section>
+  );
+}
+
+function LoopActivity({ activity, lang, labels, onContinue, taskPosition }) {
+  const options = Array.isArray(activity.options) ? activity.options : [];
+  const [shuffledOptions] = useState(() => activity.shuffleOptions ? shuffledEntries(options) : options.map((item, originalIndex) => ({ item, originalIndex })));
+  const [choice, setChoice] = useState(null);
+  const [result, setResult] = useState('');
+  const [wrongTries, setWrongTries] = useState(0);
+  const [loopCount, setLoopCount] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const totalIterations = activity.iterations || 0;
+  const isCorrect = result === 'correct';
+  const title = localized(activity.title, lang);
+
+  useEffect(() => {
+    if (!isPlaying || totalIterations <= 0) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setLoopCount((count) => {
+        const nextCount = count + 1;
+        if (nextCount >= totalIterations) {
+          setIsPlaying(false);
+          return totalIterations;
+        }
+        return nextCount;
+      });
+    }, 500);
+
+    return () => window.clearTimeout(timer);
+  }, [isPlaying, totalIterations]);
+
+  function checkAnswer() {
+    const selected = shuffledOptions[choice];
+    const correct = selected && (selected.item.id === activity.answer || selected.originalIndex === activity.answer);
+    setResult(correct ? 'correct' : 'wrong');
+    if (!correct) setWrongTries((tries) => tries + 1);
+  }
+
+  return (
+    <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
+      <div className="learning-step-kicker" aria-hidden="true">🔁</div>
+      {taskPosition && <p className="learning-activity-count">{labels.activityTaskCount(...taskPosition)}</p>}
+      <div className="learning-prompt-heading">
+        <h1 id="learning-step-title" className="learning-step-title">{title}</h1>
+        <button className="learning-speak-button" type="button" onClick={() => speakText(`${title} ${localized(activity.code, lang)}`, lang)} aria-label={labels.readAloud} title={labels.readAloud}>
+          <span aria-hidden="true">🔊</span>
+        </button>
+      </div>
+      {activity.code && <p className="learning-loop-code">{localized(activity.code, lang)}</p>}
+      {totalIterations > 0 && (
+        <div className="learning-loop-demo" aria-live="polite">
+          <span className={`learning-loop-action${isPlaying ? ' is-looping' : ''}`} key={loopCount}>
+            {activity.actionEmoji || '👏'}
+          </span>
+          <span className="learning-loop-counter">{loopCount > 0 ? loopCount : '🔁'} / {totalIterations}</span>
+          <button
+            className="learning-speak-button learning-loop-run-button"
+            type="button"
+            onClick={() => { setLoopCount(0); setIsPlaying(true); }}
+            disabled={isPlaying}
+          >
+            {labels.runLoop}
+          </button>
+        </div>
+      )}
+      <div className="learning-choice-grid">
+        {shuffledOptions.map(({ item, originalIndex }, index) => (
+          <button
+            className={`learning-choice${choice === index ? ' is-selected' : ''}`}
+            type="button"
+            key={item.id || originalIndex}
+            onClick={() => { setChoice(index); setResult(''); }}
+            aria-pressed={choice === index}
+          >
+            {activityOptionLabel(item, lang)}
+          </button>
+        ))}
+      </div>
+      <Feedback
+        key={`loop-${result}-${wrongTries}`}
+        tipe={result ? (isCorrect ? 'benar' : 'salah') : undefined}
+        pesan={isCorrect ? labels.feedbackCorrect : labels.feedbackWrong}
+        petunjuk={result === 'wrong' && wrongTries >= 2 ? activityHint(activity.hint, lang, labels.activityHint) : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
+      {isCorrect ? (
+        <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+      ) : (
+        <button className="btn btn-primary learning-activity-action" type="button" onClick={checkAnswer} disabled={choice === null}>{labels.check}</button>
+      )}
+    </section>
+  );
+}
+
+function MatchingActivity({ activity, lang, labels, onContinue, taskPosition }) {
+  const [value, setValue] = useState({});
+  const [result, setResult] = useState('');
+  const [wrongTries, setWrongTries] = useState(0);
+  const [rightOptions] = useState(() => activity.shuffleOptions
+    ? shuffledEntries(activity.right).map(({ item }) => item)
+    : activity.right);
+  const matchingQuestion = { ...activity, right: rightOptions };
+  const isCorrect = result === 'correct';
+  const title = localized(activity.title, lang);
+
+  function checkAnswer() {
+    const correct = matchesAnswer(activity, value);
+    setResult(correct ? 'correct' : 'wrong');
+    if (!correct) setWrongTries((tries) => tries + 1);
+  }
+
+  return (
+    <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
+      <div className="learning-step-kicker" aria-hidden="true">🧩</div>
+      {taskPosition && <p className="learning-activity-count">{labels.activityTaskCount(...taskPosition)}</p>}
+      <div className="learning-prompt-heading">
+        <h1 id="learning-step-title" className="learning-step-title">{title}</h1>
+        <button className="learning-speak-button" type="button" onClick={() => speakText(title, lang)} aria-label={labels.readAloud} title={labels.readAloud}>
+          <span aria-hidden="true">🔊</span>
+        </button>
+      </div>
+      <QuestionInput
+        question={matchingQuestion}
+        lang={lang}
+        value={value}
+        setValue={(nextValue) => {
+          setValue(nextValue);
+          setResult('');
+        }}
+        labels={labels}
+      />
+      <Feedback
+        key={`matching-${result}-${wrongTries}`}
+        tipe={result ? (isCorrect ? 'benar' : 'salah') : undefined}
+        pesan={isCorrect ? labels.feedbackCorrect : labels.feedbackWrong}
+        petunjuk={result === 'wrong' && wrongTries >= 2 ? activityHint(activity.hint, lang, labels.activityHint) : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
+      {isCorrect ? (
+        <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+      ) : (
+        <button className="btn btn-primary learning-activity-action" type="button" onClick={checkAnswer} disabled={Object.keys(value).length !== activity.left.length}>
+          {labels.check}
+        </button>
+      )}
+    </section>
+  );
+}
+
+function FindBugActivity({ activity, lang, labels, onContinue, taskPosition }) {
+  const [selectedBug, setSelectedBug] = useState(null);
+  const [wrongTries, setWrongTries] = useState(0);
+  const [phase, setPhase] = useState('find');
+  const [result, setResult] = useState('');
+  const [repairChoice, setRepairChoice] = useState(null);
+  const repairOptions = activity.repairOptions || [];
+  const [shuffledRepairs] = useState(() => activity.shuffleOptions
+    ? shuffledEntries(repairOptions)
+    : repairOptions.map((item, originalIndex) => ({ item, originalIndex })));
+  const isFixed = phase === 'fixed';
+  const title = localized(activity.title, lang);
+
+  function selectItem(index) {
+    if (phase !== 'find') return;
+    if (index === activity.bugIndex) {
+      setSelectedBug(index);
+      setPhase(repairOptions.length ? 'repair-choice' : 'repair');
+      setResult('found');
+    } else {
+      setWrongTries((tries) => tries + 1);
+      setResult('wrong');
+    }
+  }
+
+  function chooseRepair(entry, index) {
+    const correct = entry.item.id === activity.repairAnswer || entry.originalIndex === activity.repairAnswer;
+    setRepairChoice(index);
+    if (correct) {
+      setPhase('repair');
+      setResult('found');
+      return;
+    }
+    setWrongTries((tries) => tries + 1);
+    setResult('wrong');
+  }
+
+  function restartTask() {
+    setSelectedBug(null);
+    setRepairChoice(null);
+    setWrongTries(0);
+    setPhase('find');
+    setResult('');
+  }
+
+  return (
+    <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
+      <div className="learning-step-kicker" aria-hidden="true">🐞</div>
+      {taskPosition && <p className="learning-activity-count">{labels.activityTaskCount(...taskPosition)}</p>}
+      <div className="learning-prompt-heading">
+        <h1 id="learning-step-title" className="learning-step-title">{title}</h1>
+        <button className="learning-speak-button" type="button" onClick={() => speakText(title, lang)} aria-label={labels.readAloud} title={labels.readAloud}>
+          <span aria-hidden="true">🔊</span>
+        </button>
+      </div>
+      {activity.code && <p className="learning-loop-code">{localized(activity.code, lang)}</p>}
+      <p className="learning-bug-instruction">{labels.tapTheBug}</p>
+      <div className="learning-bug-sequence" role="group" aria-label={title}>
+        {activity.items.map((item, index) => (
+          <button
+            className={`learning-bug-step${selectedBug === index ? ' is-bug-selected' : ''}${isFixed && selectedBug === index ? ' is-bug-fixed' : ''}`}
+            type="button"
+            key={item.id}
+            onClick={() => phase === 'find' && selectItem(index)}
+            disabled={phase !== 'find'}
+            aria-pressed={selectedBug === index}
+          >
+            <span className="learning-bug-step-emoji" aria-hidden="true">
+              {isFixed && selectedBug === index ? '✅' : item.emoji}
+            </span>
+            <span>{localized(item.label, lang)}</span>
+            {selectedBug === index && phase === 'repair' && <span className="learning-bug-marker" aria-hidden="true">🐞</span>}
+          </button>
+        ))}
+      </div>
+      {phase === 'repair-choice' && (
+        <div className="learning-bug-repair-choices">
+          <p>{localized(activity.reason, lang)}</p>
+          <div className="learning-choice-grid">
+            {shuffledRepairs.map((entry, index) => (
+              <button
+                className={`learning-choice${repairChoice === index ? ' is-selected' : ''}`}
+                type="button"
+                key={entry.item.id || entry.originalIndex}
+                onClick={() => chooseRepair(entry, index)}
+                aria-pressed={repairChoice === index}
+              >
+                {activityOptionLabel(entry.item, lang)}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <Feedback
+        key={`bug-${result}-${wrongTries}`}
+        tipe={result === 'wrong' ? 'salah' : result ? 'benar' : undefined}
+        pesan={result === 'wrong' ? labels.feedbackWrong : result === 'found' ? labels.bugFound : isFixed ? labels.bugFixed : undefined}
+        petunjuk={result === 'wrong' && wrongTries >= 2 ? activityHint(activity.hint, lang, labels.bugHint) : undefined}
+        labelPetunjuk={labels.feedbackHintButton}
+      />
+      {phase === 'find' ? null : phase === 'repair-choice' ? null : phase === 'repair' ? (
+        <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={() => { setPhase('fixed'); setResult('fixed'); }}><ArrowLabel>{labels.fixBug}</ArrowLabel></button>
+      ) : (
+        <div className="learning-bug-actions">
+          <button className="btn learning-bug-retry" type="button" onClick={restartTask}>{labels.tryAgain}</button>
+          <button className="btn btn-primary learning-activity-action learning-activity-continue" type="button" onClick={onContinue}><ArrowLabel>{labels.continue}</ArrowLabel></button>
+        </div>
+      )}
+    </section>
+  );
 }
 
 export function ProgressBar({ steps, currentStep, label, onStepChange }) {
@@ -96,25 +547,22 @@ export function LessonIntroStep({ unit, lang, labels, goToStep }) {
             </span>
           </aside>
         )}
-        <div className="learning-intro-points">
-          <h2>
-            <img src={iosStar} alt="" aria-hidden="true" />
-            {labels.keyPointsLabel}
-          </h2>
-          <ul>
-            {keyPoints.length ? keyPoints.map((block) => (
+        {keyPoints.length > 0 && (
+          <div className="learning-intro-points">
+            <h2>
+              <img src={iosStar} alt="" aria-hidden="true" />
+              {labels.keyPointsLabel}
+            </h2>
+            <ul>
+              {keyPoints.map((block) => (
               <li key={block.key}>
                 <span aria-hidden="true">✓</span>
                 {localize(block.text)}
               </li>
-            )) : (
-              <li>
-                <span aria-hidden="true">✓</span>
-                {labels.keyPointsFallback}
-              </li>
-            )}
-          </ul>
-        </div>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section className="learning-intro-panel learning-intro-panel--visual" aria-label={labels.exampleLabel}>
@@ -140,7 +588,15 @@ export function LessonIntroStep({ unit, lang, labels, goToStep }) {
                     className={unit.id === 'basic-g12-ulangi-blok' && index === 3 ? 'learning-intro-step-symbol--compact' : undefined}
                     aria-hidden="true"
                   >
-                    {item.symbol || '✨'}
+                      {item.iosVisualKey ? (
+                        <img
+                          className="learning-intro-step-art"
+                          src={IOS_VISUALS[item.iosVisualKey] || IOS_VISUALS.sparkle}
+                          alt=""
+                        />
+                      ) : unit.lessonId === 'creative-coding' ? (
+                        <img className="learning-intro-step-art" src={IOS_VISUALS[iosCreativeVisualKey(index)]} alt="" />
+                      ) : item.symbol || '✨'}
                   </span>
                 </span>
                 <span>{localize(item.label)}</span>
@@ -152,6 +608,11 @@ export function LessonIntroStep({ unit, lang, labels, goToStep }) {
         )}
         {example.caption && (
           <p className="learning-intro-example-caption">{localize(example.caption)}</p>
+        )}
+        {unit.safetyReminder && (
+          <aside className="learning-intro-safety-reminder" role="note">
+            {localize(unit.safetyReminder)}
+          </aside>
         )}
       </section>
 
@@ -170,17 +631,68 @@ export function LessonIntroStep({ unit, lang, labels, goToStep }) {
 }
 
 export function ActivityStep({ activity, lang, labels, onContinue }) {
-  const orderedItems = Array.isArray(activity?.items) ? activity.items : [];
-  const correctOrder = Array.isArray(activity?.answer) ? activity.answer : [];
-  const slotCount = Math.max(correctOrder.length, 1);
+  const tasks = Array.isArray(activity?.tasks) && activity.tasks.length > 0
+    ? activity.tasks
+    : [activity];
+  const [taskIndex, setTaskIndex] = useState(0);
+  const currentTask = tasks[taskIndex] || tasks[0];
+
+  return (
+    <ActivityTaskStep
+      key={currentTask.id || taskIndex}
+      activity={currentTask}
+      lang={lang}
+      labels={labels}
+      taskPosition={tasks.length > 1 ? [taskIndex + 1, tasks.length] : null}
+      onContinue={() => {
+        if (taskIndex < tasks.length - 1) setTaskIndex((index) => index + 1);
+        else onContinue?.();
+      }}
+    />
+  );
+}
+
+function ActivityTaskStep({ activity, lang, labels, onContinue, taskPosition }) {
+  const orderedItems = Array.isArray(activity?.items)
+    ? activity.items.map((item) => {
+        if (typeof item === 'string') {
+          return {
+            id: item,
+            emoji: '',
+            symbol: '',
+            label: { id: item, en: item },
+            text: { id: item, en: item },
+          };
+        }
+
+        return {
+          ...item,
+          label: item.label || item.text || { id: String(item.id ?? ''), en: String(item.id ?? '') },
+          text: item.text || item.label || { id: String(item.id ?? ''), en: String(item.id ?? '') },
+        };
+      })
+    : [];
+  const normalizedAnswer = Array.isArray(activity?.answer)
+    ? activity.answer
+    : typeof activity?.answer === 'string'
+      ? [activity.answer]
+      : [];
+  const orderItemIds = orderedItems.map((item) => item.id).filter(Boolean);
+  const correctOrder = normalizedAnswer.length > 0 ? normalizedAnswer : orderItemIds;
+  const slotCount = Math.max(correctOrder.length || orderItemIds.length || orderedItems.length, 1);
   const [slots, setSlots] = useState(() => Array(slotCount).fill(null));
-  const [pool, setPool] = useState(() => shuffledOrder(orderedItems.map((item) => item.id), correctOrder));
+  const [pool, setPool] = useState(() => shuffledOrder(orderItemIds, correctOrder));
   const [selectedItem, setSelectedItem] = useState(null);
   const [orderResult, setOrderResult] = useState('');
   const [wrongTries, setWrongTries] = useState(0);
   const [locked, setLocked] = useState(false);
   const [choice, setChoice] = useState(null);
   const [result, setResult] = useState('');
+  const [shuffledChoiceEntries] = useState(() =>
+    activity?.shuffleOptions && Array.isArray(activity?.options)
+      ? shuffledEntries(activity.options)
+      : (activity?.options || []).map((item, originalIndex) => ({ item, originalIndex })),
+  );
   const normalizedActivity = activity?.type === 'order'
     ? activity
     : {
@@ -191,6 +703,19 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
         options: Array.isArray(activity?.opts) ? activity.opts : Array.isArray(activity?.options) ? activity.options : [],
         answer: activity?.answer ?? activity?.ok ?? 0,
       };
+
+  if (normalizedActivity.type === 'direction-grid') {
+    return <DirectionPathActivity activity={normalizedActivity} lang={lang} labels={labels} onContinue={onContinue} taskPosition={taskPosition} />;
+  }
+  if (normalizedActivity.type === 'matching') {
+    return <MatchingActivity activity={normalizedActivity} lang={lang} labels={labels} onContinue={onContinue} taskPosition={taskPosition} />;
+  }
+  if (normalizedActivity.type === 'loop') {
+    return <LoopActivity activity={normalizedActivity} lang={lang} labels={labels} onContinue={onContinue} taskPosition={taskPosition} />;
+  }
+  if (normalizedActivity.type === 'find-bug') {
+    return <FindBugActivity activity={normalizedActivity} lang={lang} labels={labels} onContinue={onContinue} taskPosition={taskPosition} />;
+  }
 
   if (normalizedActivity.type === 'order') {
     function moveItem(itemId, target) {
@@ -265,7 +790,7 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
           onDragEnd={(event) => event.currentTarget.classList.remove('is-dragging')}
         >
           <span className="learning-order-option-emoji" aria-hidden="true">{item.emoji || item.symbol || '✨'}</span>
-          <span className="learning-order-option-label">{localized(item.label, lang) || item.id}</span>
+          <span className="learning-order-option-label">{localized(item.label || item.text, lang) || item.id}</span>
         </button>
       );
     }
@@ -273,6 +798,11 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
     return (
       <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
         <div className="learning-step-kicker">🧩</div>
+        {taskPosition && (
+          <p className="learning-activity-count">
+            {labels.activityTaskCount(taskPosition[0], taskPosition[1])}
+          </p>
+        )}
         <h1 id="learning-step-title" className="learning-step-title">{localized(normalizedActivity.title, lang)}</h1>
         <div className="learning-order-board" aria-label={labels.orderActivityBoardLabel}>
           <div className="learning-order-slots">
@@ -321,7 +851,9 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
           key={`order-${orderResult}-${wrongTries}`}
           tipe={orderResult === 'correct' ? 'benar' : orderResult ? 'salah' : undefined}
           pesan={orderResult === 'correct' ? labels.feedbackCorrect : orderResult === 'incomplete' ? labels.fillOrderSlots : labels.feedbackWrong}
-          petunjuk={orderResult === 'wrong' && wrongTries >= 2 ? labels.orderActivityHint : undefined}
+          petunjuk={orderResult === 'wrong' && wrongTries >= 2
+            ? activityHint(normalizedActivity.hint, lang, labels.orderActivityHint)
+            : undefined}
           labelPetunjuk={labels.feedbackHintButton}
         />
         {locked ? (
@@ -338,18 +870,17 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
   const isCorrect = result === 'correct';
 
   function checkChoice() {
+    const selectedEntry = shuffledChoiceEntries[choice];
     const answerIndex = Number.isInteger(normalizedActivity.answer)
       ? normalizedActivity.answer
       : Number.isInteger(normalizedActivity.ok)
         ? normalizedActivity.ok
         : null;
-    const selectedOption = normalizedActivity.options[choice];
-    const selectedValue = typeof selectedOption === 'string'
-      ? selectedOption
-      : selectedOption?.[lang] || selectedOption?.id;
+    const selectedOption = selectedEntry?.item;
+    const selectedValue = activityOptionValue(selectedOption, lang);
     const isAnswerCorrect = answerIndex === null
       ? selectedValue === normalizedActivity.answer
-      : choice === answerIndex;
+      : selectedEntry?.originalIndex === answerIndex;
     setResult(isAnswerCorrect ? 'correct' : 'wrong');
     if (!isAnswerCorrect) setWrongTries((tries) => tries + 1);
   }
@@ -357,25 +888,47 @@ export function ActivityStep({ activity, lang, labels, onContinue }) {
   return (
     <section className="learning-card learning-activity-card" aria-labelledby="learning-step-title">
       <div className="learning-step-kicker">🧩</div>
+      {taskPosition && (
+        <p className="learning-activity-count">
+          {labels.activityTaskCount(taskPosition[0], taskPosition[1])}
+        </p>
+      )}
       <h1 id="learning-step-title" className="learning-step-title">{localized(normalizedActivity.title, lang)}</h1>
-      <div className="learning-activity-sequence" aria-label={labels.completePattern}>
-        {normalizedActivity.sequence.map((item, index) => (
-          <span className="learning-activity-tile" key={`${item}-${index}`} aria-hidden="true">{item}</span>
-        ))}
+      <div className="learning-activity-sequence" aria-label={labels.activitySequenceLabel}>
+        {normalizedActivity.sequence.map((item, index) => {
+          const sequenceLabel = typeof item === 'string' ? item : localized(item, lang);
+          const emojiCount = [...sequenceLabel.matchAll(/\p{Extended_Pictographic}/gu)].length;
+          const tileClass = emojiCount > 1
+            ? ' learning-activity-tile--emoji-pair'
+            : /^[\d\s]+$/u.test(sequenceLabel)
+              ? ' learning-activity-tile--number'
+              : /[\p{L}\p{N}<>!=≤≥…]/u.test(sequenceLabel)
+                ? ' learning-activity-tile--text'
+                : '';
+          return (
+            <span
+              className={`learning-activity-tile${tileClass}`}
+              key={`${sequenceLabel}-${index}`}
+              aria-hidden="true"
+            >
+              {sequenceLabel}
+            </span>
+          );
+        })}
       </div>
       <div className="learning-choice-grid">
-        {normalizedActivity.options.map((option, index) => (
+        {shuffledChoiceEntries.map(({ item: option, originalIndex }, index) => (
           <button
             className={`learning-choice learning-choice--large${choice === index ? ' is-selected' : ''}`}
             type="button"
-            key={typeof option === 'string' ? option : option.id || index}
+            key={typeof option === 'string' ? option : option.id || originalIndex}
             onClick={() => {
               setChoice(index);
               setResult('');
             }}
             aria-pressed={choice === index}
           >
-            {typeof option === 'string' ? option : localized(option, lang)}
+            {activityOptionLabel(option, lang)}
           </button>
         ))}
       </div>
@@ -429,12 +982,37 @@ function QuestionInput({ question, lang, value, setValue, labels }) {
     );
   }
 
+  if (question.type === 'path-choice') {
+    return (
+      <div className="learning-choice-grid learning-path-choice-grid">
+        {question.options.map((option) => (
+          <button
+            className={`learning-path-choice${value === option.id ? ' is-selected' : ''}`}
+            type="button"
+            key={option.id}
+            onClick={() => setValue(option.id)}
+            aria-label={localized(option.text, lang)}
+            aria-pressed={value === option.id}
+          >
+            <DirectionGrid
+              activity={option.grid}
+              path={option.path}
+              labels={labels}
+              className="learning-direction-grid--choice"
+            />
+            <span>{localized(option.text, lang)}</span>
+          </button>
+        ))}
+      </div>
+    );
+  }
+
   if (question.type === 'true-false') {
     return (
-      <div className="learning-choice-grid learning-choice-grid--two">
+      <div className="learning-choice-grid learning-choice-grid--two learning-choice-grid--true-false">
         {[true, false].map((answer) => (
           <button
-            className={`learning-choice learning-choice--large${value === answer ? ' is-selected' : ''}`}
+            className={`learning-choice learning-choice--true-false${value === answer ? ' is-selected' : ''}`}
             type="button"
             key={String(answer)}
             onClick={() => setValue(answer)}
@@ -508,37 +1086,48 @@ function QuestionInput({ question, lang, value, setValue, labels }) {
         <p className="learning-match-instructions">{labels.matchInstructions}</p>
         <div className="learning-match-columns">
           <div className="learning-match-column">
-            {question.left.map((item) => (
-              <button
-                type="button"
-                className={`learning-match-item${selectedLeft === item.id ? ' is-selected' : ''}${matches[item.id] ? ' is-connected' : ''}`}
-                key={item.id}
-                onClick={() => setSelectedLeft(item.id)}
-                aria-pressed={selectedLeft === item.id}
-              >
-                {localized(item.text, lang)}
-                {matches[item.id] && <span className="learning-match-connected">✓</span>}
-              </button>
-            ))}
+            {question.left.map((item, index) => {
+              const isConnected = Boolean(matches[item.id]);
+              const isSelected = selectedLeft === item.id;
+              const pairClass = isConnected || isSelected ? ` is-match-color-${index % 6}` : '';
+              return (
+                <button
+                  type="button"
+                  className={`learning-match-item${isSelected ? ' is-selected' : ''}${isConnected ? ' is-connected' : ''}${pairClass}`}
+                  key={item.id}
+                  onClick={() => setSelectedLeft(item.id)}
+                  aria-pressed={selectedLeft === item.id}
+                >
+                  {localized(item.text, lang)}
+                  {isConnected && <span className="learning-match-connected">✓</span>}
+                </button>
+              );
+            })}
           </div>
           <div className="learning-match-column">
-            {question.right.map((item) => (
-              <button
-                type="button"
-                className={`learning-match-item${Object.values(matches).includes(item.id) ? ' is-connected' : ''}`}
-                key={item.id}
-                aria-pressed={Object.values(matches).includes(item.id)}
-                onClick={() => {
-                  if (!selectedLeft) return;
-                  setValue({ ...matches, [selectedLeft]: item.id });
-                  setSelectedLeft('');
-                }}
-                aria-label={`${labels.matchTo}: ${localized(item.text, lang)}`}
-              >
-                {localized(item.text, lang)}
-                {Object.values(matches).includes(item.id) && <span className="learning-match-connected">✓</span>}
-              </button>
-            ))}
+            {question.right.map((item) => {
+              const connectedLeftId = Object.keys(matches).find((leftId) => matches[leftId] === item.id);
+              const pairIndex = connectedLeftId
+                ? question.left.findIndex((leftItem) => leftItem.id === connectedLeftId)
+                : -1;
+              return (
+                <button
+                  type="button"
+                  className={`learning-match-item${pairIndex >= 0 ? ` is-connected is-match-color-${pairIndex % 6}` : ''}`}
+                  key={item.id}
+                  aria-pressed={pairIndex >= 0}
+                  onClick={() => {
+                    if (!selectedLeft) return;
+                    setValue({ ...matches, [selectedLeft]: item.id });
+                    setSelectedLeft('');
+                  }}
+                  aria-label={`${labels.matchTo}: ${localized(item.text, lang)}`}
+                >
+                  {localized(item.text, lang)}
+                  {pairIndex >= 0 && <span className="learning-match-connected">✓</span>}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -615,14 +1204,24 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
   const [value, setValue] = useState('');
   const [wrongTries, setWrongTries] = useState(0);
   const [outcome, setOutcome] = useState('');
-
-  const question = normalizeQuizQuestion(questions[questionIndex], questionIndex);
+  const [optionOrders] = useState(() => questions.map((entry, index) => {
+    const normalized = normalizeQuizQuestion(entry, index);
+    if (!Array.isArray(normalized.options)) return [];
+    return normalized.shuffleOptions
+      ? shuffledEntries(normalized.options)
+      : normalized.options.map((item, originalIndex) => ({ item, originalIndex }));
+  }));
+  const baseQuestion = normalizeQuizQuestion(questions[questionIndex], questionIndex);
+  const question = {
+    ...baseQuestion,
+    options: (optionOrders[questionIndex] || []).map(({ item }) => item),
+  };
   const revealed = outcome === 'revealed';
 
   function checkAnswer() {
     if (matchesAnswer(question, value)) {
       setOutcome('correct');
-      onCorrect(question.id);
+      if (!question.practice) onCorrect(question.id);
       return;
     }
     const nextWrongTries = wrongTries + 1;
@@ -643,8 +1242,16 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
 
   return (
     <section className="learning-card learning-quiz-card" aria-labelledby="learning-step-title">
-      <div className="learning-quiz-count">{labels.questionCount(questionIndex + 1, questions.length)}</div>
-      <h1 id="learning-step-title" className="learning-step-title">{localized(question.prompt, lang)}</h1>
+      <div className="learning-quiz-count">
+        {labels.questionCount(questionIndex + 1, questions.length)}
+        {question.practice && <span className="learning-practice-label">{labels.practiceQuestion}</span>}
+      </div>
+      <div className="learning-prompt-heading">
+        <h1 id="learning-step-title" className="learning-step-title">{localized(question.prompt, lang)}</h1>
+        <button className="learning-speak-button" type="button" onClick={() => speakText(localized(question.prompt, lang), lang)} aria-label={labels.readAloud} title={labels.readAloud}>
+          <span aria-hidden="true">🔊</span>
+        </button>
+      </div>
       {outcome !== 'correct' && !revealed && (
         <QuestionInput
           question={question}
@@ -658,8 +1265,8 @@ export function QuizStep({ questions, lang, labels, onCorrect, onComplete }) {
         key={`${question.id}-${wrongTries}-${outcome}`}
         tipe={outcome ? (outcome === 'correct' ? 'benar' : 'salah') : undefined}
         pesan={outcome === 'correct' ? labels.feedbackCorrect : labels.feedbackWrong}
-        xp={outcome === 'correct' ? 10 : undefined}
-        bintang={outcome === 'correct' ? 1 : undefined}
+        xp={outcome === 'correct' && !question.practice ? 10 : undefined}
+        bintang={outcome === 'correct' && !question.practice ? 1 : undefined}
         petunjuk={wrongTries >= 2 && outcome !== 'correct'
           ? feedbackText(localizedMessage(question, 'hint', lang)) || labels.quizHint
           : undefined}

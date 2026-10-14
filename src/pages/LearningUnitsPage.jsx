@@ -40,6 +40,11 @@ import dataListsG56Asset from '../assets/Card data.webp';
 import profileWebsiteG56Asset from '../assets/Card My profile.webp';
 import numberGuessingG56Asset from '../assets/Card Number.webp';
 import showcasePresentationG56Asset from '../assets/Card Show case.webp';
+import colorStageG12Asset from '../assets/Card Color the.webp';
+import drawingG12Asset from '../assets/Card Drawing with.webp';
+import animationG12Asset from '../assets/Card Animation.webp';
+import musicG12Asset from '../assets/Card Sound and.webp';
+import storyG12Asset from '../assets/Card Interacv.webp';
 import cardPalette from '../data/cardPalette';
 import './LearningUnitsPage.css';
 
@@ -74,11 +79,11 @@ const SUBTOPIC_STYLE = {
   'basic-g56-kondisi-dan-operator': { iconAsset: conditionsG56Asset, iconScale: 1.3, color: 'var(--sour-apple)', difficulty: 'easy' },
   'basic-g56-perulangan-for-while': { iconAsset: loopsG34Asset, iconScale: 1.35, color: 'var(--banana)', difficulty: 'easy' },
   'basic-g56-fungsi': { iconAsset: functionsG56Asset, iconScale: 1.3, iconOffsetX: -4, color: '#FFC9B8', difficulty: 'easy' },
-  'creative-g12-warnai-panggung': { icon: '🎭', color: 'var(--blossom)', difficulty: 'easy' },
-  'creative-g12-menggambar-kode': { icon: '✏️', color: 'var(--summer-sky)', difficulty: 'easy' },
-  'creative-g12-animasi': { icon: '🎞️', color: 'var(--sour-apple)', difficulty: 'medium' },
-  'creative-g12-bunyi-musik': { icon: '🎵', color: 'var(--summer-sky)', difficulty: 'easy' },
-  'creative-g12-cerita-interaktif': { icon: '📖', color: 'var(--blossom)', difficulty: 'medium' },
+  'creative-g12-warnai-panggung': { iconAsset: colorStageG12Asset, iconScale: 1.1, color: 'var(--blossom)', difficulty: 'easy' },
+  'creative-g12-menggambar-kode': { iconAsset: drawingG12Asset, iconScale: 1.1, color: 'var(--summer-sky)', difficulty: 'easy' },
+  'creative-g12-animasi': { iconAsset: animationG12Asset, iconScale: 1.05, color: 'var(--sour-apple)', difficulty: 'medium' },
+  'creative-g12-bunyi-musik': { iconAsset: musicG12Asset, iconScale: 1.1, color: 'var(--summer-sky)', difficulty: 'easy' },
+  'creative-g12-cerita-interaktif': { iconAsset: storyG12Asset, iconScale: 1.1, color: 'var(--blossom)', difficulty: 'medium' },
   'creative-g34-animasi-dan-gerak': { iconAsset: animationMotionG34Asset, iconScale: 1.15, color: 'var(--blossom)', difficulty: 'easy' },
   'creative-g34-menggambar-dengan-kode': { iconAsset: drawingWithCodeG34Asset, iconScale: 1.15, color: 'var(--summer-sky)', difficulty: 'easy' },
   'creative-g34-suara-dan-interaksi': { iconAsset: soundInteractionG34Asset, iconScale: 1.15, iconOffsetY: -2, color: 'var(--sour-apple)', difficulty: 'easy' },
@@ -164,7 +169,7 @@ function LearningUnitsPage({ t, lang }) {
                     <span className="learning-unit-stars" aria-label={`${starCount} ${lang === 'en' ? 'of 3 stars' : 'dari 3 bintang'}`}>
                       {[0, 1, 2].map((star) => (
                         <svg key={star} className={star < starCount ? '' : 'is-off'} viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z" />
+                          <path d="M12 2 14.9 8.6 22 9.2 16.6 14 18.2 21 12 17.3 5.8 21 7.4 14 2 9.2 9.1 8.6 12 2Z" />
                         </svg>
                       ))}
                     </span>
