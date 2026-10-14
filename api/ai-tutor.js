@@ -1,7 +1,66 @@
 // api/ai-tutor.js — Vercel Serverless Function
 // AI Tutor endpoint. API keys live ONLY in Vercel environment variables.
 // This function is never called from client-side with keys exposed.
+import { Buffer } from 'node:buffer';
+import { createHash } from 'node:crypto';
+import { isIP } from 'node:net';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 import process from 'node:process';
+
+let aiTutorRateLimiters;
+
+async function checkAiTutorRateLimit(req) {
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!redisUrl || !redisToken) {
+    console.error('AI Tutor rate limit unavailable.', 'missing_config');
+    return 503;
+  }
+
+  const forwardedFor = req.headers?.['x-forwarded-for'];
+  const forwardedHeader = Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor;
+  const forwardedIp = typeof forwardedHeader === 'string'
+    ? forwardedHeader.split(',')[0].trim()
+    : '';
+  const clientIp = process.env.NODE_ENV === 'development'
+    ? req.socket?.remoteAddress || forwardedIp
+    : forwardedIp;
+  if (!clientIp || isIP(clientIp) === 0) {
+    console.error('AI Tutor rate limit unavailable.', 'client_ip_unavailable');
+    return 503;
+  }
+
+  try {
+    if (!aiTutorRateLimiters) {
+      const redis = new Redis({ url: redisUrl, token: redisToken });
+      aiTutorRateLimiters = {
+        perIp: new Ratelimit({
+          redis,
+          limiter: Ratelimit.slidingWindow(10, '1 m'),
+          analytics: false,
+          prefix: 'ai-tutor:ip',
+        }),
+        global: new Ratelimit({
+          redis,
+          limiter: Ratelimit.slidingWindow(1000, '1 d'),
+          analytics: false,
+          prefix: 'ai-tutor:global',
+        }),
+      };
+    }
+
+    const ipKey = createHash('sha256').update(clientIp).digest('hex');
+    const ipResult = await aiTutorRateLimiters.perIp.limit(ipKey);
+    if (!ipResult.success) return 429;
+
+    const globalResult = await aiTutorRateLimiters.global.limit('all');
+    return globalResult.success ? 0 : 429;
+  } catch {
+    console.error('AI Tutor rate limit unavailable.', 'store_unavailable');
+    return 503;
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,6 +74,9 @@ export default async function handler(req, res) {
   const body = req.body;
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return res.status(400).json({ error: 'Invalid request body' });
+  }
+  if (Buffer.byteLength(JSON.stringify(body)) > 32 * 1024) {
+    return res.status(413).json({ error: 'Request body too large' });
   }
 
   const { message, hintLevel = 1, context = null, lang = 'id' } = body;
@@ -41,6 +103,13 @@ export default async function handler(req, res) {
     if (contextText.length > 2000) {
       return res.status(400).json({ error: 'Context is too long' });
     }
+  }
+
+  const rateLimitStatus = await checkAiTutorRateLimit(req);
+  if (rateLimitStatus !== 0) {
+    return res.status(rateLimitStatus).json({
+      error: rateLimitStatus === 429 ? 'Too many requests' : 'AI Tutor is temporarily unavailable',
+    });
   }
 
   // Build child-safe system prompt
