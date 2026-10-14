@@ -58,6 +58,10 @@ function aiTutorDevPlugin() {
           process.env[name] = env[name]
         }
       }
+      if (config.command === 'serve' && !config.isProduction) {
+        process.env.NODE_ENV = 'development'
+        process.env.AI_TUTOR_DEV_RATE_LIMIT = 'memory'
+      }
       const envStatus = (name) => process.env[name] ? 'set' : 'missing'
       console.info(
         '[ai-tutor-dev] env status: GEMINI_API_KEY=%s GEMINI_MODEL=%s AI_TUTOR_ENABLED=%s AI_TUTOR_DEV_RATE_LIMIT=%s',
