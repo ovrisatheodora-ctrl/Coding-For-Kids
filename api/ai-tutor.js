@@ -8,6 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   if (process.env.AI_TUTOR_ENABLED !== 'true') {
+    console.error('AI Tutor request failed.', 'disabled', 0);
     return res.status(503).json({ error: 'AI Tutor is unavailable' });
   }
 
@@ -64,11 +65,15 @@ Current hint level: ${hintLevel}
 Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
   `.trim();
 
+  let failureCategory = 'upstream_error';
+  let upstreamStatus = 0;
+
   try {
     // Gemini API via Google AI
     const apiKey = process.env.GEMINI_API_KEY;
     const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
     if (!apiKey) {
+      failureCategory = 'missing_key';
       throw new Error('GEMINI_API_KEY not configured');
     }
 
@@ -103,6 +108,8 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
     );
 
     if (!response.ok) {
+      upstreamStatus = response.status;
+      failureCategory = response.status === 404 ? 'bad_model' : 'upstream_status';
       throw new Error(`API responded with ${response.status}`);
     }
 
@@ -115,7 +122,7 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
 
     return res.status(200).json({ reply });
   } catch {
-    console.error('AI Tutor request failed.');
+    console.error('AI Tutor request failed.', failureCategory, upstreamStatus);
     // Fallback static hints when API fails
     const fallbacks = {
       1: {

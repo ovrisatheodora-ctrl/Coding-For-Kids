@@ -53,6 +53,13 @@ function aiTutorDevPlugin() {
           process.env[name] = env[name]
         }
       }
+      const envStatus = (name) => process.env[name] ? 'set' : 'missing'
+      console.info(
+        '[ai-tutor-dev] env status: GEMINI_API_KEY=%s GEMINI_MODEL=%s AI_TUTOR_ENABLED=%s',
+        envStatus('GEMINI_API_KEY'),
+        envStatus('GEMINI_MODEL'),
+        envStatus('AI_TUTOR_ENABLED'),
+      )
     },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
