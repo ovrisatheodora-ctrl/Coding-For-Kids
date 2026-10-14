@@ -142,10 +142,6 @@ export default defineConfig({
           if (id.includes('node_modules/react-router')) {
             return 'router';
           }
-          // Motion (Framer Motion) — used only in Testimonials & LessonsSection
-          if (id.includes('node_modules/motion')) {
-            return 'motion';
-          }
           // GSAP — keep isolated so it doesn't inflate the main bundle
           if (id.includes('node_modules/gsap')) {
             return 'gsap';
