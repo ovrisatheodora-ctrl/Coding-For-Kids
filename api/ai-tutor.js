@@ -9,11 +9,37 @@ import { Redis } from '@upstash/redis';
 import process from 'node:process';
 
 let aiTutorRateLimiters;
+const devIpRequestTimes = new Map();
+let devGlobalRequestTimes = [];
+
+function checkDevMemoryRateLimit(clientIp) {
+  const now = Date.now();
+  const minuteCutoff = now - 60_000;
+  const dayCutoff = now - 24 * 60 * 60 * 1000;
+  const ipKey = createHash('sha256').update(clientIp).digest('hex');
+
+  for (const [key, timestamps] of devIpRequestTimes) {
+    const recent = timestamps.filter((timestamp) => timestamp > minuteCutoff);
+    if (recent.length) devIpRequestTimes.set(key, recent);
+    else devIpRequestTimes.delete(key);
+  }
+  devGlobalRequestTimes = devGlobalRequestTimes.filter((timestamp) => timestamp > dayCutoff);
+
+  const ipRequests = devIpRequestTimes.get(ipKey) || [];
+  if (ipRequests.length >= 10 || devGlobalRequestTimes.length >= 1000) return 429;
+
+  ipRequests.push(now);
+  devIpRequestTimes.set(ipKey, ipRequests);
+  devGlobalRequestTimes.push(now);
+  return 0;
+}
 
 async function checkAiTutorRateLimit(req) {
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
   const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!redisUrl || !redisToken) {
+  const useDevMemoryLimiter = process.env.NODE_ENV === 'development'
+    && process.env.AI_TUTOR_DEV_RATE_LIMIT === 'memory';
+  if (!useDevMemoryLimiter && (!redisUrl || !redisToken)) {
     console.error('AI Tutor rate limit unavailable.', 'missing_config');
     return 503;
   }
@@ -30,6 +56,8 @@ async function checkAiTutorRateLimit(req) {
     console.error('AI Tutor rate limit unavailable.', 'client_ip_unavailable');
     return 503;
   }
+
+  if (useDevMemoryLimiter) return checkDevMemoryRateLimit(clientIp);
 
   try {
     if (!aiTutorRateLimiters) {

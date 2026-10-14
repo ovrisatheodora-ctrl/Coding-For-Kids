@@ -48,17 +48,23 @@ function aiTutorDevPlugin() {
     apply: 'serve',
     configResolved(config) {
       const env = loadEnv(config.mode, config.envDir, '')
-      for (const name of ['GEMINI_API_KEY', 'GEMINI_MODEL', 'AI_TUTOR_ENABLED']) {
+      for (const name of [
+        'GEMINI_API_KEY',
+        'GEMINI_MODEL',
+        'AI_TUTOR_ENABLED',
+        'AI_TUTOR_DEV_RATE_LIMIT',
+      ]) {
         if (process.env[name] === undefined && env[name] !== undefined) {
           process.env[name] = env[name]
         }
       }
       const envStatus = (name) => process.env[name] ? 'set' : 'missing'
       console.info(
-        '[ai-tutor-dev] env status: GEMINI_API_KEY=%s GEMINI_MODEL=%s AI_TUTOR_ENABLED=%s',
+        '[ai-tutor-dev] env status: GEMINI_API_KEY=%s GEMINI_MODEL=%s AI_TUTOR_ENABLED=%s AI_TUTOR_DEV_RATE_LIMIT=%s',
         envStatus('GEMINI_API_KEY'),
         envStatus('GEMINI_MODEL'),
         envStatus('AI_TUTOR_ENABLED'),
+        envStatus('AI_TUTOR_DEV_RATE_LIMIT'),
       )
     },
     configureServer(server) {
