@@ -114,8 +114,8 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
         : '💡 Try thinking about it again! I know you can do it!');
 
     return res.status(200).json({ reply });
-  } catch (err) {
-    console.error('AI Tutor request failed:', err);
+  } catch {
+    console.error('AI Tutor request failed.');
     // Fallback static hints when API fails
     const fallbacks = {
       1: {
