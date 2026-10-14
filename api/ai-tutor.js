@@ -7,6 +7,9 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+  if (process.env.AI_TUTOR_ENABLED !== 'true') {
+    return res.status(503).json({ error: 'AI Tutor is unavailable' });
+  }
 
   const body = req.body;
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
