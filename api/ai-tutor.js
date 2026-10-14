@@ -8,10 +8,35 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { message, hintLevel = 1, context = null, lang = 'id' } = req.body || {};
+  const body = req.body;
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
 
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
+  const { message, hintLevel = 1, context = null, lang = 'id' } = body;
+  if (typeof message !== 'string' || !message.trim() || message.length > 2000) {
+    return res.status(400).json({ error: 'Invalid message' });
+  }
+  if (!Number.isInteger(hintLevel) || hintLevel < 1 || hintLevel > 4) {
+    return res.status(400).json({ error: 'Invalid hint level' });
+  }
+  if (lang !== 'id' && lang !== 'en') {
+    return res.status(400).json({ error: 'Invalid language' });
+  }
+
+  let contextText = 'Homepage general help';
+  if (context !== null) {
+    if (typeof context !== 'object' || Array.isArray(context)) {
+      return res.status(400).json({ error: 'Invalid context' });
+    }
+    try {
+      contextText = JSON.stringify(context);
+    } catch {
+      return res.status(400).json({ error: 'Invalid context' });
+    }
+    if (contextText.length > 2000) {
+      return res.status(400).json({ error: 'Context is too long' });
+    }
   }
 
   // Build child-safe system prompt
@@ -33,7 +58,7 @@ Hint levels:
 4 = Give the full solution with a clear explanation.
 
 Current hint level: ${hintLevel}
-Context: ${context ? JSON.stringify(context) : 'Homepage general help'}
+Context: ${contextText}
 Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
   `.trim();
 
