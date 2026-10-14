@@ -158,7 +158,7 @@ Language: ${lang === 'id' ? 'Bahasa Indonesia' : 'English'}
   try {
     // Gemini API via Google AI
     const apiKey = process.env.GEMINI_API_KEY;
-    const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    const model = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
     if (!apiKey) {
       failureCategory = 'missing_key';
       throw new Error('GEMINI_API_KEY not configured');
