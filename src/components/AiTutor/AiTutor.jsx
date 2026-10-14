@@ -202,7 +202,13 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
 
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
+      const replyText = typeof data?.reply === 'string' ? data.reply.trim() : '';
+
+      if (!replyText) {
+        throw new Error('Empty reply');
+      }
+
+      setMessages((prev) => [...prev, { role: 'assistant', text: replyText }]);
     } catch {
       const fallbackText =
         STATIC_HINTS[hintLevel]?.[nextLang] ||

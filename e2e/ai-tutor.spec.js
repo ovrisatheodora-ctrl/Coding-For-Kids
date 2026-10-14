@@ -102,7 +102,7 @@ test('AI Tutor cooldown blocks another send until the controlled time advances',
   await expect.poll(() => requestCount).toBe(2)
 })
 
-test('AI Tutor renders an empty reply as a blank assistant message', async ({ page }) => {
+test('AI Tutor falls back to the static hint when the reply is empty', async ({ page }) => {
   await openAiTutor(page)
   await mockReply(page, 200, { reply: '' })
   const pageErrors = []
@@ -110,21 +110,24 @@ test('AI Tutor renders an empty reply as a blank assistant message', async ({ pa
 
   await page.getByLabel(inputLabel).fill('Pertanyaan dengan balasan kosong')
   await page.getByRole('button', { name: 'Kirim' }).click()
+
   await expect(page.getByRole('log')).toContainText('Pertanyaan dengan balasan kosong')
-  await expect.poll(() => page.getByRole('log').locator('p').count()).toBe(4)
+  await expect(page.getByRole('log')).toContainText(staticHint)
+  await expect(page.getByRole('main')).toHaveCount(1)
   expect(pageErrors).toEqual([])
 })
 
-test('AI Tutor exposes the current error when the reply field is missing', async ({ page }) => {
+test('AI Tutor falls back to the static hint when the reply field is missing', async ({ page }) => {
   await openAiTutor(page)
   await mockReply(page, 200, {})
   const pageErrors = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
 
-  await page.getByLabel(inputLabel).fill('Pertanyaan dengan balasan tidak valid')
+  await page.getByLabel(inputLabel).fill('Question with missing response')
   await page.getByRole('button', { name: 'Kirim' }).click()
 
-  await expect.poll(() => pageErrors.length).toBeGreaterThan(0)
-  expect(pageErrors.join('\n')).toContain("Cannot read properties of undefined (reading 'split')")
-  await expect(page.getByRole('main')).toHaveCount(0)
+  await expect(page.getByRole('log')).toContainText('Question with missing response')
+  await expect(page.getByRole('log')).toContainText('💡 Think about it: what\'s the very first step you need to take? Read the question carefully again!')
+  await expect(page.getByRole('main')).toHaveCount(1)
+  expect(pageErrors).toEqual([])
 })
