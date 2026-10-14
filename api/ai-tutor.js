@@ -4,90 +4,76 @@
 import { Buffer } from 'node:buffer';
 import { createHash } from 'node:crypto';
 import { isIP } from 'node:net';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
 import process from 'node:process';
 
-let aiTutorRateLimiters;
-const devIpRequestTimes = new Map();
-let devGlobalRequestTimes = [];
+const MAX_REQUESTS_PER_MINUTE = 10;
+const MAX_REQUESTS_PER_DAY = 100;
+const MAX_TRACKED_IPS = 5000;
+const MINUTE_MS = 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const requestsByIp = new Map();
+let lastRateLimitCleanup = 0;
 
-function checkDevMemoryRateLimit(clientIp) {
+function normalizeIp(value) {
+  if (typeof value !== 'string') return null;
+  const ip = value.trim().replace(/^::ffff:/i, '');
+  return isIP(ip) ? ip.toLowerCase() : null;
+}
+
+function getClientIp(req) {
+  const isDevMemoryMode = process.env.NODE_ENV === 'development'
+    && process.env.AI_TUTOR_DEV_RATE_LIMIT === 'memory';
+  if (isDevMemoryMode) return normalizeIp(req.socket?.remoteAddress);
+
+  const configuredProxyIp = normalizeIp(process.env.AI_TUTOR_TRUSTED_PROXY_IP);
+  const connectingPeerIp = normalizeIp(req.socket?.remoteAddress);
+  if (!configuredProxyIp || connectingPeerIp !== configuredProxyIp) return null;
+
+  const forwardedFor = req.headers?.['x-forwarded-for'];
+  if (typeof forwardedFor !== 'string' || forwardedFor.includes(',')) return null;
+  return normalizeIp(forwardedFor);
+}
+
+function checkMemoryRateLimit(clientIp) {
   const now = Date.now();
-  const minuteCutoff = now - 60_000;
-  const dayCutoff = now - 24 * 60 * 60 * 1000;
+  const minuteCutoff = now - MINUTE_MS;
+  const dayCutoff = now - DAY_MS;
   const ipKey = createHash('sha256').update(clientIp).digest('hex');
 
-  for (const [key, timestamps] of devIpRequestTimes) {
-    const recent = timestamps.filter((timestamp) => timestamp > minuteCutoff);
-    if (recent.length) devIpRequestTimes.set(key, recent);
-    else devIpRequestTimes.delete(key);
+  if (now - lastRateLimitCleanup >= MINUTE_MS) {
+    for (const [key, state] of requestsByIp) {
+      state.minute = state.minute.filter((timestamp) => timestamp > minuteCutoff);
+      state.day = state.day.filter((timestamp) => timestamp > dayCutoff);
+      if (!state.day.length) requestsByIp.delete(key);
+    }
+    lastRateLimitCleanup = now;
   }
-  devGlobalRequestTimes = devGlobalRequestTimes.filter((timestamp) => timestamp > dayCutoff);
 
-  const ipRequests = devIpRequestTimes.get(ipKey) || [];
-  if (ipRequests.length >= 10 || devGlobalRequestTimes.length >= 1000) return 429;
+  let state = requestsByIp.get(ipKey);
+  if (!state) {
+    if (requestsByIp.size >= MAX_TRACKED_IPS) return 503;
+    state = { minute: [], day: [] };
+  }
+  state.minute = state.minute.filter((timestamp) => timestamp > minuteCutoff);
+  state.day = state.day.filter((timestamp) => timestamp > dayCutoff);
+  if (state.minute.length >= MAX_REQUESTS_PER_MINUTE
+    || state.day.length >= MAX_REQUESTS_PER_DAY) return 429;
 
-  ipRequests.push(now);
-  devIpRequestTimes.set(ipKey, ipRequests);
-  devGlobalRequestTimes.push(now);
+  state.minute.push(now);
+  state.day.push(now);
+  requestsByIp.set(ipKey, state);
   return 0;
 }
 
-async function checkAiTutorRateLimit(req) {
-  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-  const useDevMemoryLimiter = process.env.NODE_ENV === 'development'
-    && process.env.AI_TUTOR_DEV_RATE_LIMIT === 'memory';
-  if (!useDevMemoryLimiter && (!redisUrl || !redisToken)) {
-    console.error('AI Tutor rate limit unavailable.', 'missing_config');
+function checkAiTutorRateLimit(req) {
+  const clientIp = getClientIp(req);
+  if (!clientIp) {
+    console.error('AI Tutor rate limit unavailable.', 'invalid_proxy_or_client_ip');
     return 503;
   }
-
-  const forwardedFor = req.headers?.['x-forwarded-for'];
-  const forwardedHeader = Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor;
-  const forwardedIp = typeof forwardedHeader === 'string'
-    ? forwardedHeader.split(',')[0].trim()
-    : '';
-  const clientIp = process.env.NODE_ENV === 'development'
-    ? req.socket?.remoteAddress || forwardedIp
-    : forwardedIp;
-  if (!clientIp || isIP(clientIp) === 0) {
-    console.error('AI Tutor rate limit unavailable.', 'client_ip_unavailable');
-    return 503;
-  }
-
-  if (useDevMemoryLimiter) return checkDevMemoryRateLimit(clientIp);
-
-  try {
-    if (!aiTutorRateLimiters) {
-      const redis = new Redis({ url: redisUrl, token: redisToken });
-      aiTutorRateLimiters = {
-        perIp: new Ratelimit({
-          redis,
-          limiter: Ratelimit.slidingWindow(10, '1 m'),
-          analytics: false,
-          prefix: 'ai-tutor:ip',
-        }),
-        global: new Ratelimit({
-          redis,
-          limiter: Ratelimit.slidingWindow(1000, '1 d'),
-          analytics: false,
-          prefix: 'ai-tutor:global',
-        }),
-      };
-    }
-
-    const ipKey = createHash('sha256').update(clientIp).digest('hex');
-    const ipResult = await aiTutorRateLimiters.perIp.limit(ipKey);
-    if (!ipResult.success) return 429;
-
-    const globalResult = await aiTutorRateLimiters.global.limit('all');
-    return globalResult.success ? 0 : 429;
-  } catch {
-    console.error('AI Tutor rate limit unavailable.', 'store_unavailable');
-    return 503;
-  }
+  const status = checkMemoryRateLimit(clientIp);
+  if (status === 503) console.error('AI Tutor rate limit unavailable.', 'capacity');
+  return status;
 }
 
 export default async function handler(req, res) {
@@ -133,7 +119,7 @@ export default async function handler(req, res) {
     }
   }
 
-  const rateLimitStatus = await checkAiTutorRateLimit(req);
+  const rateLimitStatus = checkAiTutorRateLimit(req);
   if (rateLimitStatus !== 0) {
     return res.status(rateLimitStatus).json({
       error: rateLimitStatus === 429 ? 'Too many requests' : 'AI Tutor is temporarily unavailable',
