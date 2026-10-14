@@ -68,23 +68,29 @@ test('unknown lesson shows its not-found state without a page error', async ({ p
   expect(pageErrors).toEqual([])
 })
 
-test('unknown unit shows the app not-found page without a page error', async ({ page }) => {
+test('unknown learning unit shows the coming-soon page without a page error', async ({ page }) => {
   const pageErrors = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
 
   await page.goto('/lessons/logic-algorithms/learn?grade=1-2&lang=id&unit=unknown-unit-id')
 
-  await expect(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
+  // Unknown learning unit IDs intentionally show the coming-soon state.
+  await expect(page.getByRole('main')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Petualangan belajar lain segera hadir!', exact: true })).toBeVisible()
+  await expect(page.getByText('Pelajaran ini sedang disiapkan.', { exact: false })).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 
-test('unknown game shows the app not-found page without a page error', async ({ page }) => {
+test('unknown game shows the game catalog without a page error', async ({ page }) => {
   const pageErrors = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
 
   await page.goto('/games/unknown-game-id')
 
-  await expect(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
+  // Unknown game IDs intentionally show the game catalog.
+  await expect(page.getByRole('main')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'PETUALANGAN CODING', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'LOGIKA & ALGORITMA', exact: true })).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 
