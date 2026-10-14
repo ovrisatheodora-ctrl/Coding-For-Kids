@@ -1,9 +1,107 @@
+import { Buffer } from 'node:buffer'
+import process from 'node:process'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import aiTutorHandler from './api/ai-tutor.js'
+import { defineConfig, loadEnv } from 'vite'
+
+function sendJson(res, statusCode, payload) {
+  res.statusCode = statusCode
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  res.end(JSON.stringify(payload))
+}
+
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = []
+    let size = 0
+    let tooLarge = false
+
+    req.setEncoding('utf8')
+    req.on('data', (chunk) => {
+      if (tooLarge) return
+      size += Buffer.byteLength(chunk)
+      if (size > 32 * 1024) {
+        tooLarge = true
+        chunks.length = 0
+        return
+      }
+      chunks.push(chunk)
+    })
+    req.on('end', () => {
+      if (tooLarge) {
+        reject(413)
+        return
+      }
+      try {
+        resolve(JSON.parse(chunks.join('')))
+      } catch {
+        reject(400)
+      }
+    })
+    req.on('error', () => reject(400))
+  })
+}
+
+function aiTutorDevPlugin() {
+  return {
+    name: 'ai-tutor-dev-api',
+    apply: 'serve',
+    configResolved(config) {
+      const env = loadEnv(config.mode, config.envDir, '')
+      for (const name of ['GEMINI_API_KEY', 'GEMINI_MODEL', 'AI_TUTOR_ENABLED']) {
+        if (process.env[name] === undefined && env[name] !== undefined) {
+          process.env[name] = env[name]
+        }
+      }
+    },
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const pathname = new URL(req.url || '/', 'http://localhost').pathname
+        if (pathname !== '/api/ai-tutor') {
+          next()
+          return
+        }
+
+        void (async () => {
+          if (req.method === 'POST') {
+            try {
+              req.body = await readJsonBody(req)
+            } catch (statusCode) {
+              sendJson(res, statusCode, {
+                error: statusCode === 413 ? 'Request body too large' : 'Invalid JSON body',
+              })
+              return
+            }
+          }
+
+          const apiResponse = {
+            status(statusCode) {
+              res.statusCode = statusCode
+              return this
+            },
+            json(payload) {
+              res.setHeader('Content-Type', 'application/json; charset=utf-8')
+              res.end(JSON.stringify(payload))
+              return this
+            },
+          }
+
+          try {
+            await aiTutorHandler(req, apiResponse)
+          } catch {
+            if (!res.headersSent) {
+              sendJson(res, 500, { error: 'Internal server error' })
+            }
+          }
+        })()
+      })
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), aiTutorDevPlugin()],
 
   build: {
     // Target modern browsers for smaller, faster output
