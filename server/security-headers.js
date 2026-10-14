@@ -11,7 +11,7 @@ const CONTENT_SECURITY_POLICY = [
   "style-src-elem 'self' 'unsafe-inline'",
   "style-src-attr 'unsafe-inline'",
   "img-src 'self' data:",
-  "font-src 'self'",
+  "font-src 'self' data:",
   "connect-src 'self'",
 ].join('; ');
 

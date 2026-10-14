@@ -74,7 +74,7 @@ test('unknown unit shows the app not-found page without a page error', async ({ 
 
   await page.goto('/lessons/logic-algorithms/learn?grade=1-2&lang=id&unit=unknown-unit-id')
 
-  await expect.soft(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 
@@ -84,7 +84,7 @@ test('unknown game shows the app not-found page without a page error', async ({ 
 
   await page.goto('/games/unknown-game-id')
 
-  await expect.soft(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Oops! Page Not Found' })).toBeVisible()
   expect(pageErrors).toEqual([])
 })
 
