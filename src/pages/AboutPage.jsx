@@ -169,6 +169,10 @@ function AboutPage({ t }) {
             ))}
           </div>
         </section>
+        <section className="about-section about-parent-note" aria-labelledby="about-parent-note-title">
+          <h2 id="about-parent-note-title">{t.about.parentPrivacyTitle}</h2>
+          <p>{t.about.parentPrivacyNote}</p>
+        </section>
       </div>
     </main>
   );

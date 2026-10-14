@@ -233,6 +233,18 @@
   align-items: flex-start;
 }
 
+.ai-tutor-privacy-notice {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--summer-sky);
+  color: var(--outline);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
 .ai-msg--user {
   flex-direction: row-reverse;
 }

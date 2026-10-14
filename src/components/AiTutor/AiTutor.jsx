@@ -4,6 +4,7 @@ import aiMascot176 from '../../assets/optimized/ai-mascot-176w.webp';
 import './AiTutor.css';
 
 const FAB_EDGE_GAP = 12;
+const MESSAGE_COOLDOWN_MS = 3000;
 
 function clampFabPosition(x, y, width, height, fabSize) {
   return {
@@ -64,10 +65,13 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
   const [input, setInput] = useState('');
   const [hintLevel, setHintLevel] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
   const [conversationLang, setConversationLang] = useState(lang === 'en' ? 'en' : 'id');
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const cooldownActiveRef = useRef(false);
+  const cooldownTimerRef = useRef(null);
   const fabRef = useRef(null);
   const panelRef = useRef(null);
   const dragRef = useRef(null);
@@ -78,6 +82,8 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
   const positionRef = useRef(null);
   const [panelPosition, setPanelPosition] = useState(null);
   const [isDraggingFab, setIsDraggingFab] = useState(false);
+
+  useEffect(() => () => window.clearTimeout(cooldownTimerRef.current), []);
 
   const handlePanelWheel = (event) => {
     const messagesContainer = messagesContainerRef.current;
@@ -167,8 +173,14 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
 
   const sendMessage = async () => {
     const text = input.trim();
-    if (!text || loading) return;
+    if (!text || loading || cooldownActiveRef.current) return;
 
+    cooldownActiveRef.current = true;
+    setCooldown(true);
+    cooldownTimerRef.current = window.setTimeout(() => {
+      cooldownActiveRef.current = false;
+      setCooldown(false);
+    }, MESSAGE_COOLDOWN_MS);
     const nextLang = detectReplyLanguage(text, conversationLang);
     setConversationLang(nextLang);
     setInput('');
@@ -416,6 +428,8 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
             </button>
           </div>
 
+          <p className="ai-tutor-privacy-notice">{ai.privacyNotice}</p>
+
           {/* Messages */}
           <div
             ref={messagesContainerRef}
@@ -479,6 +493,7 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
                 type="text"
                 className="ai-tutor-input"
                 placeholder={ai.placeholder}
+                maxLength={300}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
@@ -487,7 +502,7 @@ function AiTutor({ t, currentContext = null, lang = 'id', compact = false }) {
               <button
                 type="submit"
                 className="ai-send-btn"
-                disabled={loading || !input.trim()}
+                disabled={loading || cooldown || !input.trim()}
                 aria-label={ai.sendBtn}
                 title={ai.sendBtn}
               >

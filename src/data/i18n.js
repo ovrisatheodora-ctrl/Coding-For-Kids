@@ -237,6 +237,7 @@ const i18n = {
       title: 'Asisten Coding',
       subtitle: 'Aku di sini untuk membantumu berpikir!',
       placeholder: 'Ketik pertanyaanmu di sini...',
+      privacyNotice: 'Jaga rahasiamu ya! Jangan tulis nama, alamat, atau nomor telepon di sini.',
       sendBtn: 'Kirim',
       levels: [
         { label: '💡 Petunjuk Kecil', level: 1 },
@@ -396,6 +397,8 @@ const i18n = {
       ],
       badgesTitle: 'Koleksi Badge',
       badgesCaption: 'Kumpulkan semua badgenya!',
+      parentPrivacyTitle: 'Catatan untuk orang tua',
+      parentPrivacyNote: 'Untuk orang tua: Pertanyaan yang dikirim ke Asisten AI diproses oleh Google Gemini. Upstash menerima hash alamat IP untuk membatasi penggunaan. Dampingi anak dan ingatkan mereka agar tidak membagikan data pribadi.',
     },
     // Badges
     badges: [
@@ -636,6 +639,7 @@ const i18n = {
       title: 'Coding Assistant',
       subtitle: "I'm here to help you think!",
       placeholder: 'Type your question here...',
+      privacyNotice: "Keep your info private! Please don't type your name, address, or phone number here.",
       sendBtn: 'Send',
       levels: [
         { label: '💡 Small Clue', level: 1 },
@@ -794,6 +798,8 @@ const i18n = {
       ],
       badgesTitle: 'Badge Collection',
       badgesCaption: 'Collect them all!',
+      parentPrivacyTitle: 'A note for parents',
+      parentPrivacyNote: 'For parents: Questions sent to the AI Assistant are processed by Google Gemini. Upstash receives a hashed IP address to limit usage. Please supervise children and remind them not to share personal information.',
     },
     badges: [
       { id: 'pattern-finder', icon: '⭐', name: 'Pattern Finder', desc: 'Find 5 patterns!' },
