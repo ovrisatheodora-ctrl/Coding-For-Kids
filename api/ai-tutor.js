@@ -34,6 +34,28 @@ function getClientIp(req) {
   return normalizeIp(forwardedFor);
 }
 
+function isPrivateOrInternalIp(value) {
+  const ip = normalizeIp(value);
+  if (!ip) return false;
+  if (isIP(ip) === 4) {
+    const [first, second] = ip.split('.').map(Number);
+    return first === 10
+      || first === 127
+      || (first === 172 && second >= 16 && second <= 31)
+      || (first === 192 && second === 168);
+  }
+  return ip === '::1' || ip.startsWith('fc') || ip.startsWith('fd');
+}
+
+function countForwardedForEntries(headers) {
+  const header = headers?.['x-forwarded-for'];
+  const values = Array.isArray(header) ? header : [header];
+  return values.reduce((count, value) => {
+    if (typeof value !== 'string') return count;
+    return count + value.split(',').filter((entry) => entry.trim().length > 0).length;
+  }, 0);
+}
+
 function checkMemoryRateLimit(clientIp) {
   const now = Date.now();
   const minuteCutoff = now - MINUTE_MS;
@@ -68,6 +90,18 @@ function checkMemoryRateLimit(clientIp) {
 function checkAiTutorRateLimit(req) {
   const clientIp = getClientIp(req);
   if (!clientIp) {
+    if (process.env.NODE_ENV === 'production') {
+      const peerIp = normalizeIp(req.socket?.remoteAddress);
+      const peer = isPrivateOrInternalIp(peerIp) ? peerIp : 'public';
+      const forwardedForEntries = countForwardedForEntries(req.headers);
+      const trustedProxyIsSet = process.env.AI_TUTOR_TRUSTED_PROXY_IP !== undefined;
+      console.error(
+        'AI Tutor rate limit diagnostic.',
+        `peer=${peer}`,
+        `x_forwarded_for_entries=${forwardedForEntries}`,
+        `trusted_proxy_ip_set=${trustedProxyIsSet ? 'true' : 'false'}`,
+      );
+    }
     console.error('AI Tutor rate limit unavailable.', 'invalid_proxy_or_client_ip');
     return 503;
   }
