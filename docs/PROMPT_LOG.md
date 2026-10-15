@@ -1676,129 +1676,129 @@ Prompt: BASIC CODING: Soal Learn Kelas 1–6. Add the supplied Grade 1–2 topic
 #331 — 2026-10-13 13:01 WIB
 Prompt: CREATIVE CODING AND PROJECTS: Soal Learn Kelas 1–6. Add the supplied Grade 1–2 creative topics (stage, drawing, animation, sound, interactive stories), Grade 3–4 topics (motion, drawing, sound interactions, quiz, maze, gallery), and Grade 5–6 topics (HTML/CSS, events, lists, profile, number guessing, presentation). Use two material points, two or three interactive activities, five shuffled quiz questions, friendly feedback, rewards, and IOS visuals. Teach project planning, assembly, and debugging rather than requiring a full project build; include online privacy reminders for profile/gallery work.
 
-#332 — 2026-10-13 13:12 WIB
-Prompt: ketika sedang mengerjaka tugas trus user tbtb ganti lagguage tidak perlu mengulang dari awwal
+#332 — 2026-10-13 13:12 WIB**  
+Prompt: When the user is working on an activity and suddenly changes the language, they should not have to restart from the beginning. Preserve their current progress when switching languages.
 
-#333 — 2026-10-13 13:19 WIB
-Prompt: teks harus center lalu yang bacakan soal ganti jadi emoji aja
+#333 — 2026-10-13 13:19 WIB**  
+Prompt: Center-align the text, and replace the question read-aloud button with an emoji.
 
-#334 — 2026-10-13 13:32 WIB
-Prompt: terapkan ke semuanya (terutama button jawaban di kecilkan)
+#334 — 2026-10-13 13:32 WIB**  
+Prompt: Apply this change throughout the entire website, especially making the answer buttons smaller.
 
-#335 — 2026-10-13 13:32 WIB
-Prompt: ini apa ik? hilangin aja
+#335 — 2026-10-13 13:32 WIB**  
+Prompt: What is this? Please remove it.
 
-#336 — 2026-10-13 13:32 WIB
-Prompt: card pilihan jawaban kurang besar ukurannya
+#336 — 2026-10-13 13:32 WIB**  
+Prompt: The answer choice cards need to be larger.
 
-#337 — 2026-10-13 13:32 WIB
-Prompt: rata sama soalnya
+#337 — 2026-10-13 13:32 WIB**  
+Prompt: Align them with the question.
 
-#338 — 2026-10-13 13:32 WIB
-Prompt: sejajah dengan soal dan responsive di hp
+#338 — 2026-10-13 13:32 WIB**  
+Prompt: Align them horizontally with the question and make the layout responsive on mobile devices.
 
-#339 — 2026-10-13 13:38 WIB
-Prompt: naikin disini
+#339 — 2026-10-13 13:38 WIB**  
+Prompt: Move this element higher.
 Reference: Screenshot marks a higher position for the question read-aloud button.
 
-#340 — 2026-10-13 13:40 WIB
-Prompt: nah ini tapi belum responsive di hp
-Reference: Mobile screenshot shows question text wrapping too narrowly beside the read-aloud button.
+#340 — 2026-10-13 13:40 WIB**  
+Prompt: This looks better, but it is still not responsive on mobile devices.
+Reference: Mobile screenshot shows the question text wrapping too narrowly beside the read-aloud button.
 
-#341 — 2026-10-13 16:09 WIB
-Prompt: benerin yg ini
-Reference: Screenshot circles the “Jalankan” button in the mobile loop activity.
+#341 — 2026-10-13 16:09 WIB**  
+Prompt: Fix this issue.
+Reference: Screenshot highlights the "Run" button in the mobile loop activity.
 
-#342 — 2026-10-13 16:09 WIB
-Prompt: di mobile belum responsive
-Reference: Mobile screenshot shows the “Jalankan” label overflowing its button.
+#342 — 2026-10-13 16:09 WIB**  
+Prompt: The layout is still not responsive on mobile devices.
+Reference: Mobile screenshot shows the "Run" label overflowing its button.
 
-#343 — 2026-10-13 16:14 WIB
-Prompt: button coba lagi ukurannya samaian kaya lanjut
-Reference: Screenshot highlights the “Coba Lagi” action.
+#343 — 2026-10-13 16:14 WIB**  
+Prompt: Make the "Try Again" button the same size as the "Next" button.
+Reference: Screenshot highlights the "Try Again" action.
 
-#344 — 2026-10-13 16:28 WIB
-Prompt: perbaiki
+#344 — 2026-10-13 16:28 WIB**  
+Prompt: Fix this issue.
 Reference: Screenshot shows a flowchart condition tile overflowing into the area below the activity card.
 
-#345 — 2026-10-13 16:33 WIB
-Prompt: perbaiki card nya yang kotak 1 itu
+#345 — 2026-10-13 16:33 WIB**  
+Prompt: Fix the first square tile in this card.
 Reference: Flowchart activity screenshot; the first numeric tile appears oversized.
 
-#346 — 2026-10-13 16:37 WIB
-Prompt: [Image reference: Sorting/searching activity shows “1 … 8 … 16” overflowing its first tile.]
+#346 — 2026-10-13 16:37 WIB**  
+Prompt: Fix the layout of these tiles.
+Reference: Sorting/searching activity shows "1 … 8 … 16" overflowing its first tile.
 
-#347 — 2026-10-13 16:39 WIB
-Prompt: perbaiki emoji
-Reference: Screenshot shows the gamepad emoji wrapping out of the cat activity tile.
+#347 — 2026-10-13 16:39 WIB**  
+Prompt: Fix the emoji display.
+Reference: Screenshot shows the gamepad emoji overflowing the cat activity tile.
 
-#348 — 2026-10-13 16:46 WIB
-Prompt: assetnya di gesr ke kanan agar center
-Reference: Screenshot shows the IOS example assets visually left of center in their colored tiles.
+#348 — 2026-10-13 16:46 WIB**  
+Prompt: Move the asset to the right so that it is centered.
+Reference: Screenshot shows the iOS-style example assets positioned too far to the left inside their colored tiles.
 
-#349 — 2026-10-13 16:50 WIB
-Prompt: hapus ini
+#349 — 2026-10-13 16:50 WIB**  
+Prompt: Remove this element.
 Reference: Screenshot crosses out the decorative icon in the feedback banner.
 
-#350 — 2026-10-13 16:52 WIB
-Prompt: ini gimana ya kok piliha jawabannya engga ada
-Reference: Screenshot shows blank answer options in the Grade 1–2 character movement activity.
+#350 — 2026-10-13 16:52 WIB**  
+Prompt: Why are the answer choices missing from this activity?
+Reference: Screenshot shows blank answer options in the Grades 1–2 character movement activity.
 
-#351 — 2026-10-13 16:54 WIB
-Prompt: menuju ikan?
-Reference: Screenshot shows the movement activity has no visible fish or path.
+#351 — 2026-10-13 16:54 WIB**  
+Prompt: Where is the fish the character is supposed to reach?
+Reference: Screenshot shows the movement activity with no visible fish or path.
 
-#352 — 2026-10-13 16:58 WIB
-Prompt: ini soalnya gimana ya aku bsa tau nya gimana
-Reference: Screenshot shows the Grade 3–4 robot-ball ordering task with no stated start point or return goal.
+#352 — 2026-10-13 16:58 WIB**  
+Prompt: How am I supposed to solve this question? The instructions are unclear.
+Reference: Screenshot shows the Grades 3–4 robot-and-ball sequencing task without a clearly stated starting point or return goal.
 
-#353 — 2026-10-13 17:08 WIB
-Prompt: ini ko belum ada asset logonya
-Reference: Screenshot shows emoji icons on the Grade 1–2 Creative Coding unit cards.
+#353 — 2026-10-13 17:08 WIB**  
+Prompt: The logo asset is missing. Please add it.
+Reference: Screenshot shows emoji icons on the Grades 1–2 Creative Coding unit cards.
 
-#354 — 2026-10-13 17:12 WIB
-Prompt: membingungkan
-Reference: Screenshot shows the rolling-ball animation ordering activity without a stated direction or starting position.
+#354 — 2026-10-13 17:12 WIB**  
+Prompt: This activity is confusing. Please make the instructions clearer.
+Reference: Screenshot shows the rolling-ball sequencing activity without a clearly stated direction or starting position.
 
-#355 — 2026-10-13 17:15 WIB
-Prompt: cukup membingungkan
-Reference: Screenshot shows the Grade 3–4 bouncing-ball ordering task without a clear start, edge, or return path.
+#355 — 2026-10-13 17:15 WIB**  
+Prompt: This activity is still quite confusing. Please clarify the instructions and expected outcome.
+Reference: Screenshot shows the Grades 3–4 bouncing-ball sequencing task without a clearly defined starting point, edge, or return path.
 
-#356 — 2026-10-13 17:23 WIB
-Prompt: soal membingungkan
-Reference: Screenshot shows the Grade 3–4 sound activity asks to match colored buttons to notes without giving the color-to-note rule.
+#356 — 2026-10-13 17:23 WIB**  
+Prompt: The question is confusing. Please explain the rules more clearly.
+Reference: Screenshot shows the Grades 3–4 sound activity asking users to match colored buttons to musical notes without specifying the color-to-note mapping.
 
-#357 — 2026-10-13 17:26 WIB
-Prompt: soal ini double
-Reference: Screenshot shows quiz question 2 repeats the green-button-to-mi mapping from the preceding activity.
+#357 — 2026-10-13 17:26 WIB**  
+Prompt: This question is duplicated. Please replace it with a different question that tests the same concept.
+Reference: Quiz question 2 repeats the green-button-to-Mi mapping from the preceding activity.
 
-#358 — 2026-10-13 17:30 WIB
-Prompt: ini juga ke double
-Reference: Screenshot shows quiz question 3 repeats the score-count activity from the interactive-quiz lesson.
+#358 — 2026-10-13 17:30 WIB**  
+Prompt: This question is also duplicated. Please replace it with a different question.
+Reference: Quiz question 3 repeats the score-counting activity from the interactive quiz lesson.
 
-#359 — 2026-10-13 17:39 WIB
-Prompt: ini juga ke double
-Reference: Screenshot shows Grade 5–6 Data and Lists quiz question 4 repeats the activity asking to count a list after adding a banana.
+#359 — 2026-10-13 17:39 WIB**  
+Prompt: This question is duplicated as well. Please replace it with a new question.
+Reference: Grades 5–6 Data and Lists quiz question 4 repeats the activity of counting a list after adding a banana.
 
-#360 — 2026-10-13 17:43 WIB
-Prompt: bagian soal seperti ini tolong ketika krusor click dengan pasangannya tolong warnanya sama, karena ini cukup membingungkan
-Reference: Screenshot shows matching activity with all completed items turning the same green, making pair relationships unclear.
+#360 — 2026-10-13 17:43 WIB**  
+Prompt: In matching activities like this, make each selected item and its corresponding match use the same color. The current design is confusing.
+Reference: Screenshot shows all completed matching items turning the same green, making individual pair relationships unclear.
 
-#361 — 2026-10-13 17:46 WIB
-Prompt: ketika belum di click warna semua pilihan white, ketika user uda click jawabannya baru match ke warna masing masing
-Reference: Matching activity should start with white choices and reveal pair colors only after interaction.
+#361 — 2026-10-13 17:46 WIB**  
+Prompt: Before the user selects anything, all answer choices should have a white background. Once the user selects an answer, reveal the corresponding matching colors for each pair.
 
-#362 — 2026-10-13 17:51 WIB
-Prompt: soal dobel
-Reference: Grade 5–6 Number Guessing Game quiz repeats the activity's secret-number-7, guess-5 higher/lower hint question.
+#362 — 2026-10-13 17:51 WIB**  
+Prompt: This question is duplicated. Please replace it with a different question.
+Reference: The Grades 5–6 Number Guessing Game quiz repeats the activity involving a secret number of 7, a guess of 5, and a higher/lower hint.
 
-#363 — 2026-10-13 17:54 WIB
-Prompt: bahasanya engga konsisten antara english dan indo
-Reference: English number-guessing bug-finding activity displayed Indonesian pseudocode lines.
+#363 — 2026-10-13 17:54 WIB**  
+Prompt: The language is inconsistent between English and Indonesian. Make the entire activity consistent in English.
+Reference: The English number-guessing bug-finding activity contains pseudocode written in Indonesian.
 
-#364 — 2026-10-13 17:55 WIB
-Prompt: soal double
-Reference: Grade 5–6 Showcase quiz question 2 repeats the activity asking what a slide should contain.
+#364 — 2026-10-13 17:55 WIB**  
+Prompt: This question is duplicated. Please replace it with a different question.
+Reference: Showcase quiz question 2 for Grades 5–6 repeats the activity asking what a slide should contain.
 
 #365 — 2026-10-13 17:57 WIB
 Prompt: finishing pastikan semua soal tidak terjadi double, perbaiki dan chceck
@@ -1810,3 +1810,9 @@ Reference: Ensure lesson activities and questions follow the selected English or
 
 #367 - 2026-10-15 07:39 WIB
 Prompt: Activate the existing Block Builder game slot with accessible, bilingual, lazy-loaded block gameplay and tests.
+
+#368 - 2026-10-15 08:02 WIB
+Prompt: Resize the robot and star assets so they fit side by side inside the goal cell.
+
+#369 - 2026-10-15 08:04 WIB
+Prompt: Keep both assets large before finish and shrink them only when they share the goal cell.

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import robotAsset from '../assets/IOS Robot.webp';
+import starAsset from '../assets/IOS Star.webp';
 import Feedback from '../components/Feedback';
 import { BLOCK_BUILDER_LEVELS } from './blockBuilderLevels';
 import { countProgramBlocks, simulateBlockProgram } from './blockBuilderEngine';
@@ -20,6 +21,7 @@ function BlockBuilderGame({ text, onComplete }) {
   const [levelIndex, setLevelIndex] = useState(0);
   const [program, setProgram] = useState([]);
   const [position, setPosition] = useState(null);
+  const [robotDirection, setRobotDirection] = useState(BLOCK_BUILDER_LEVELS.levels[0].direction);
   const [activePath, setActivePath] = useState('');
   const [running, setRunning] = useState(false);
   const [solved, setSolved] = useState(false);
@@ -110,6 +112,7 @@ function BlockBuilderGame({ text, onComplete }) {
   function resetLevel() {
     setProgram([]);
     setPosition(null);
+    setRobotDirection(level.direction);
     setActivePath('');
     setSolved(false);
     setFeedback(null);
@@ -125,6 +128,7 @@ function BlockBuilderGame({ text, onComplete }) {
     if (!program.length || running || solved) return;
     setRunning(true);
     setFeedback(null);
+    setRobotDirection(level.direction);
     const result = simulateBlockProgram(
       level,
       program,
@@ -136,6 +140,7 @@ function BlockBuilderGame({ text, onComplete }) {
     for (const frame of result.frames) {
       if (frame.path) setActivePath(pathKey(frame.path));
       setPosition([frame.x, frame.y]);
+      setRobotDirection(frame.direction ?? level.direction);
       if (!reduceMotion) {
         await new Promise((resolve) => window.setTimeout(resolve, 350));
       }
@@ -164,9 +169,11 @@ function BlockBuilderGame({ text, onComplete }) {
 
   function nextLevel() {
     if (!solved || levelIndex >= BLOCK_BUILDER_LEVELS.levels.length - 1) return;
-    setLevelIndex((index) => index + 1);
+    const nextLevelIndex = levelIndex + 1;
+    setLevelIndex(nextLevelIndex);
     setProgram([]);
     setPosition(null);
+    setRobotDirection(BLOCK_BUILDER_LEVELS.levels[nextLevelIndex].direction);
     setActivePath('');
     setSolved(false);
     setFeedback(null);
@@ -175,6 +182,7 @@ function BlockBuilderGame({ text, onComplete }) {
   function restartGame() {
     setLevelIndex(0);
     setLevelStars([]);
+    setRobotDirection(BLOCK_BUILDER_LEVELS.levels[0].direction);
     resetLevel();
   }
 
@@ -238,6 +246,8 @@ function BlockBuilderGame({ text, onComplete }) {
     );
   }
 
+  const currentPosition = position || level.start;
+
   return (
     <section className="game-player-card block-builder-card" aria-labelledby="game-player-title">
       <div className="block-builder-heading">
@@ -249,12 +259,23 @@ function BlockBuilderGame({ text, onComplete }) {
         <div className="block-builder-board" role="img" aria-label={text.blockBuilderBoardLabel(levelIndex + 1)}>
           {Array.from({ length: BLOCK_BUILDER_LEVELS.boardSize ** 2 }, (_, cellIndex) => {
             const cell = [cellIndex % BLOCK_BUILDER_LEVELS.boardSize, Math.floor(cellIndex / BLOCK_BUILDER_LEVELS.boardSize)];
-            const isCharacter = sameCell(position || level.start, cell);
+            const isCharacter = sameCell(currentPosition, cell);
             const isGoal = sameCell(level.goal, cell);
+            const showTogether = isCharacter && isGoal;
+            const robotRotation = (robotDirection - 1) * 90;
             return (
               <div className={`block-builder-cell${isGoal ? ' is-goal' : ''}`} key={cellIndex}>
-                {isCharacter && <img className="block-builder-character" src={robotAsset} alt="" aria-hidden="true" />}
-                {isGoal && <span className="block-builder-star" aria-hidden="true">★</span>}
+                {showTogether ? (
+                  <div className="block-builder-goal-scene">
+                    <img className="block-builder-character" src={robotAsset} alt="" aria-hidden="true" style={{ transform: `rotate(${robotRotation}deg)` }} />
+                    <img className="block-builder-star" src={starAsset} alt="" aria-hidden="true" />
+                  </div>
+                ) : (
+                  <>
+                    {isCharacter && <img className="block-builder-character" src={robotAsset} alt="" aria-hidden="true" style={{ transform: `rotate(${robotRotation}deg)` }} />}
+                    {isGoal && <img className="block-builder-star" src={starAsset} alt="" aria-hidden="true" />}
+                  </>
+                )}
               </div>
             );
           })}
