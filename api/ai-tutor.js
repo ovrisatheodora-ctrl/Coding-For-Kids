@@ -3,7 +3,7 @@
 // This function is never called from client-side with keys exposed.
 import { Buffer } from 'node:buffer';
 import { createHash } from 'node:crypto';
-import { isIP } from 'node:net';
+import { BlockList, isIP } from 'node:net';
 import process from 'node:process';
 
 const MAX_REQUESTS_PER_MINUTE = 10;
@@ -25,13 +25,43 @@ function getClientIp(req) {
     && process.env.AI_TUTOR_DEV_RATE_LIMIT === 'memory';
   if (isDevMemoryMode) return normalizeIp(req.socket?.remoteAddress);
 
-  const configuredProxyIp = normalizeIp(process.env.AI_TUTOR_TRUSTED_PROXY_IP);
   const connectingPeerIp = normalizeIp(req.socket?.remoteAddress);
-  if (!configuredProxyIp || connectingPeerIp !== configuredProxyIp) return null;
+  if (!isTrustedProxy(connectingPeerIp, process.env.AI_TUTOR_TRUSTED_PROXY_IP)) return null;
 
   const forwardedFor = req.headers?.['x-forwarded-for'];
   if (typeof forwardedFor !== 'string' || forwardedFor.includes(',')) return null;
   return normalizeIp(forwardedFor);
+}
+
+function isTrustedProxy(connectingPeerIp, configuredProxyIps) {
+  if (!connectingPeerIp || typeof configuredProxyIps !== 'string') return false;
+
+  const blockList = new BlockList();
+  const entries = configuredProxyIps.split(',');
+  for (const entry of entries) {
+    const proxyEntry = entry.trim();
+    if (!proxyEntry) return false;
+
+    const slashIndex = proxyEntry.indexOf('/');
+    if (slashIndex === -1) {
+      const proxyIp = normalizeIp(proxyEntry);
+      if (!proxyIp) return false;
+      blockList.addAddress(proxyIp, isIP(proxyIp) === 4 ? 'ipv4' : 'ipv6');
+      continue;
+    }
+
+    if (proxyEntry.indexOf('/', slashIndex + 1) !== -1) return false;
+    const address = proxyEntry.slice(0, slashIndex).trim().toLowerCase();
+    const prefixText = proxyEntry.slice(slashIndex + 1);
+    const version = isIP(address);
+    if (!version || !/^\d+$/.test(prefixText)) return false;
+
+    const prefix = Number(prefixText);
+    if (prefix > (version === 4 ? 32 : 128)) return false;
+    blockList.addSubnet(address, prefix, version === 4 ? 'ipv4' : 'ipv6');
+  }
+
+  return blockList.check(connectingPeerIp, isIP(connectingPeerIp) === 4 ? 'ipv4' : 'ipv6');
 }
 
 function isPrivateOrInternalIp(value) {
