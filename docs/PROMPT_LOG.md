@@ -1632,37 +1632,36 @@ Reference: Screenshot showing the crossed-out reward illustration and the checke
 Prompt: Move this asset further upward.  
 Reference: Screenshot pointing to the iOS Champion icon beside the reward title.
 
-#320 — 2026-10-12 23:47 WIB
-Prompt: buat bintang seperti ini
-Reference: Screenshot of three yellow, thinly outlined five-point stars on a sour-apple card.
+#320 — 2026-10-12 23:47 WIB  
+Prompt: Make the stars look like this.  
+Reference: Screenshot showing three small, yellow, thinly outlined five-point stars on a sour-apple-colored card.
 
-#321 — 2026-10-12 23:49 WIB
-Prompt: bintangnya kecilin
+#321 — 2026-10-12 23:49 WIB  
+Prompt: Make the stars smaller.
 
-#322 — 2026-10-13 11:40 WIB
-Prompt: perbaiki
-Reference: The drag-and-drop order activity is not working on the Arrange the workflow lesson for Logic & Algorithms; the item tiles should be draggable and sortable into the correct sequence.
+#322 — 2026-10-13 11:40 WIB  
+Prompt: Fix the drag-and-drop functionality.  
+Reference: The drag-and-drop ordering activity is not working in the “Arrange the Workflow” lesson under Logic & Algorithms. The item tiles should be draggable and sortable into the correct sequence.
 
-#323 — 2026-10-13 11:48 WIB
-Prompt: ganti soalnya suah dipahami
-Reference: Screenshot of the Grade 5–6 Sorting and Searching activity where the answer “2” was unclear; rewrite the prompt so it explicitly asks for the second number after sorting the values from smallest to largest.
+#323 — 2026-10-13 11:48 WIB  
+Prompt: Rewrite the question to make it easier to understand.  
+Reference: Screenshot of the Grade 5–6 Sorting and Searching activity where the answer “2” is unclear. Rewrite the prompt to explicitly ask for the second number after sorting the values from smallest to largest.
 
-#324 — 2026-10-13 11:51 WIB
-Prompt: benar salaahnya jangan ke gedean cadr nya
-Reference: Screenshot of the true/false quiz showing oversized “Benar” and “Salah” option cards; reduce the card size.
+#324 — 2026-10-13 11:51 WIB  
+Prompt: Reduce the size of the “True” and “False” answer cards.  
+Reference: Screenshot of the true/false quiz showing oversized “Benar” and “Salah” option cards. Reduce their size.
 
-#325 — 2026-10-13 11:57 WIB
-Prompt: perbaiki
-Reference: Screenshot of the Grade 5–6 debugging and decomposition activities showing long text overflowing sequence tiles and overlapping the answer choices.
+#325 — 2026-10-13 11:57 WIB  
+Prompt: Fix the layout issues.  
+Reference: Screenshot of the Grade 5–6 debugging and decomposition activities showing long text overflowing the sequence tiles and overlapping the answer choices.
 
-#326 — 2026-10-13 12:00 WIB
-Prompt: soal membingungkan
-esuaikan dengan bahsanya
-Reference: Screenshot of the Grade 5–6 AND logic activity showing ambiguous choices and Indonesian text while English is selected.
+#326 — 2026-10-13 12:00 WIB  
+Prompt: The question is confusing. Make sure the wording matches the selected language.  
+Reference: Screenshot of the Grade 5–6 AND logic activity showing ambiguous answer choices and Indonesian text while English is selected.
 
-#327 — 2026-10-13 12:04 WIB
-Prompt: saoal membingungkan
-Reference: Screenshot of Grade 3–4 Command Blocks showing an “Arrange” question implemented as a single-choice activity, with Indonesian block labels while English is selected.
+#327 — 2026-10-13 12:04 WIB  
+Prompt: The question is confusing. Please fix it.  
+Reference: Screenshot of the Grade 3–4 Command Blocks activity showing an “Arrange” question implemented as a single-choice activity, with Indonesian block labels while English is selected.
 
 #328 — 2026-10-13 12:10 WIB
 Prompt: LOGIC AND ALGORITHMS Grade 1-2 (Learn) step order: add the four Bimo ordering activities and five sequence quiz questions provided by the user.
