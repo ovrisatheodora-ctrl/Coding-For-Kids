@@ -28,9 +28,18 @@ function getClientIp(req) {
   const connectingPeerIp = normalizeIp(req.socket?.remoteAddress);
   if (!isTrustedProxy(connectingPeerIp, process.env.AI_TUTOR_TRUSTED_PROXY_IP)) return null;
 
+  const extraHopsSetting = process.env.AI_TUTOR_XFF_EXTRA_HOPS;
+  const extraHops = extraHopsSetting === undefined ? 0 : Number(extraHopsSetting);
+  if (!Number.isInteger(extraHops)
+    || extraHops < 0
+    || extraHops > 3
+    || (extraHopsSetting !== undefined && !/^(0|[1-3])$/.test(extraHopsSetting))) return null;
+
   const forwardedFor = req.headers?.['x-forwarded-for'];
-  if (typeof forwardedFor !== 'string' || forwardedFor.includes(',')) return null;
-  return normalizeIp(forwardedFor);
+  if (typeof forwardedFor !== 'string') return null;
+  const forwardedIps = forwardedFor.split(',').map(normalizeIp);
+  if (forwardedIps.length !== extraHops + 1 || forwardedIps.some((ip) => !ip)) return null;
+  return forwardedIps[0];
 }
 
 function isTrustedProxy(connectingPeerIp, configuredProxyIps) {
