@@ -18,7 +18,7 @@ Status: Complete
 - [x] Match the About page to the supplied introduction, learning steps, feature cards, and badge collection reference.
 - [x] Verify the production build and targeted lint after the curriculum and About page updates.
 
-Scope note: Pattern Adventure and Robot Delivery are the only playable games; the remaining game content and AI Tutor backend remain outside Phase 3.
+Scope note: Pattern Adventure, Robot Delivery, and Block Builder are the playable games; the remaining game content and AI Tutor backend remain outside Phase 3.
 
 Recent UX polish:
 - Combined each selected subtopic's localized material and visual example into a responsive two-panel first learning stage, followed by a five-stage stepper.
@@ -31,6 +31,7 @@ Recent UX polish:
 - Kept the learning page typography on the shared Nunito font and removed the redundant bottom Back button, leaving the Continue action centered beneath the lesson card.
 - Disabled forward lesson-step navigation until the current interactive activity or quiz has been completed, and kept each stage's own gated Continue control as the only way forward.
 - Connected the two available game cards directly to playable five-level Pattern Adventure and Robot Delivery experiences; level progression stays locked until the player completes the current challenge.
+- Activated Block Builder in its existing Grade 1–2 Basic Coding card slot with five data-driven levels, accessible block controls, repeat blocks, and lazy-loaded gameplay.
 - Matched Coming Soon cards in the Lessons game list to the muted, locked-card treatment in the global Games catalog.
 - Adjusted the floating AI tutor panel to anchor to the left side of the mascot and clamp within the visible viewport so it never appears cropped or off-screen.
 - Kept the lesson selection flow smooth with staged reveal transitions and safe viewport-aware positioning.

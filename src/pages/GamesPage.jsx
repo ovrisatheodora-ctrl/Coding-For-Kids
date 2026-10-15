@@ -44,7 +44,7 @@ const CATEGORIES = [
     { id: 'bug-hunter', grade: '5-6', difficulty: 'hard', icon: { asset: bugHunterAsset }, artOffsetX: 3, playable: false },
   ] },
   { id: 'coding', color: '#CCF6FF', icon: { asset: grade34Asset }, games: [
-    { id: 'block-builder', grade: '1-2', difficulty: 'easy', icon: { asset: blockBuilderAsset }, playable: false },
+    { id: 'block-builder', grade: '1-2', difficulty: 'easy', icon: { asset: blockBuilderAsset }, playable: true },
     { id: 'cat-maze', grade: '1-2', difficulty: 'easy', icon: { asset: catMazeAsset }, playable: false },
     { id: 'variable-vault', grade: '3-4', difficulty: 'medium', icon: { asset: variableVaultAsset }, playable: false },
     { id: 'event-arcade', grade: '3-4', difficulty: 'medium', icon: { asset: eventArcadeAsset }, playable: false },

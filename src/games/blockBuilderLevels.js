@@ -1,0 +1,81 @@
+export const BLOCK_BUILDER_LEVELS = {
+  boardSize: 4,
+  maxExecutionSteps: 200,
+  levels: [
+    {
+      start: [0, 0],
+      direction: 1,
+      goal: [2, 0],
+      blockLimit: 4,
+      optimalBlockCount: 2,
+      allowedBlocks: ['forward', 'left', 'right'],
+      optimalProgram: [{ type: 'forward' }, { type: 'forward' }],
+    },
+    {
+      start: [0, 0],
+      direction: 1,
+      goal: [2, 1],
+      blockLimit: 6,
+      optimalBlockCount: 4,
+      allowedBlocks: ['forward', 'left', 'right'],
+      optimalProgram: [
+        { type: 'forward' },
+        { type: 'forward' },
+        { type: 'right' },
+        { type: 'forward' },
+      ],
+    },
+    {
+      start: [0, 0],
+      direction: 1,
+      goal: [3, 2],
+      blockLimit: 8,
+      optimalBlockCount: 6,
+      allowedBlocks: ['forward', 'left', 'right'],
+      optimalProgram: [
+        { type: 'forward' },
+        { type: 'forward' },
+        { type: 'forward' },
+        { type: 'right' },
+        { type: 'forward' },
+        { type: 'forward' },
+      ],
+    },
+    {
+      start: [0, 0],
+      direction: 2,
+      goal: [0, 3],
+      blockLimit: 4,
+      optimalBlockCount: 2,
+      allowedBlocks: ['forward', 'left', 'right', 'repeat'],
+      optimalProgram: [
+        {
+          type: 'repeat',
+          count: 3,
+          children: [{ type: 'forward' }],
+        },
+      ],
+    },
+    {
+      start: [0, 0],
+      direction: 1,
+      goal: [3, 3],
+      blockLimit: 7,
+      optimalBlockCount: 5,
+      allowedBlocks: ['forward', 'left', 'right', 'repeat'],
+      optimalProgram: [
+        {
+          type: 'repeat',
+          count: 3,
+          children: [{ type: 'forward' }],
+        },
+        { type: 'right' },
+        {
+          type: 'repeat',
+          count: 3,
+          children: [{ type: 'forward' }],
+        },
+      ],
+    },
+  ],
+};

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { addStar, addXP, completeGame, getProgress } from '../data/progress';
 import iosLightning from '../assets/IOS Petir.webp';
@@ -15,6 +15,8 @@ const PATTERN_LEVELS = [
   { sequence: ['⭐', '⭐', '🌙', '⭐', '⭐', '?'], answer: '🌙', options: ['☀️', '🌙', '⭐'] },
   { sequence: ['🟣', '🟡', '🟡', '🟣', '🟡', '🟡', '?'], answer: '🟣', options: ['🟣', '🟡', '🔵'] },
 ];
+
+const BlockBuilderGame = lazy(() => import('../games/BlockBuilderGame'));
 
 const ROBOT_LEVELS = [
   { start: [0, 2], direction: 1, package: [2, 2], destination: [4, 2], obstacles: [[1, 1], [3, 3]] },
@@ -51,6 +53,7 @@ function GamePlayer({ t, lang }) {
   const [rewarded, setRewarded] = useState(false);
   const [progress, setProgress] = useState(getProgress);
   const isPatternGame = gameId === 'pattern-adventure';
+  const isBlockBuilderGame = gameId === 'block-builder';
   const levels = isPatternGame ? PATTERN_LEVELS : ROBOT_LEVELS;
   const level = levels[levelIndex];
   const lessonId = searchParams.get('fromLesson');
@@ -83,6 +86,16 @@ function GamePlayer({ t, lang }) {
       xp: xpEarned,
       bintang: starsEarned,
     });
+  }
+
+  function finishBlockBuilder(starsEarned) {
+    const alreadyCompleted = getProgress().completedGames.includes(gameId);
+    completeGame(gameId);
+    if (!alreadyCompleted) {
+      addXP(50);
+      for (let index = 0; index < starsEarned; index += 1) addStar();
+    }
+    setProgress(getProgress());
   }
 
   function recordWrongAnswer() {
@@ -212,7 +225,14 @@ function GamePlayer({ t, lang }) {
           </div>
         </div>
 
-        {isPatternGame ? (
+        {isBlockBuilderGame ? (
+          <Suspense fallback={<section className="game-player-card" role="status">{text.blockBuilderLoading}</section>}>
+            <BlockBuilderGame
+              text={text}
+              onComplete={finishBlockBuilder}
+            />
+          </Suspense>
+        ) : isPatternGame ? (
           <section className="game-player-card" aria-labelledby="game-player-title">
             <h1 id="game-player-title">{text.patternGoal}</h1>
             <p>{text.patternInstructions}</p>

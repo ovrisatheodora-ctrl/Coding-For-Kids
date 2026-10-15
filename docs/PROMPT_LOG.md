@@ -1807,3 +1807,6 @@ Reference: Final audit requested to remove duplicate questions and verify the fu
 #366 — 2026-10-14 00:01 WIB
 Prompt: make sure langguage selaras yaa dengan soal dan pemilihan user menggunakan inggris atau indoensia
 Reference: Ensure lesson activities and questions follow the selected English or Indonesian language.
+
+#367 - 2026-10-15 07:39 WIB
+Prompt: Activate the existing Block Builder game slot with accessible, bilingual, lazy-loaded block gameplay and tests.
